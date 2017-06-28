@@ -1,6 +1,7 @@
 import * as  React from "react";
 import * as  ReactDOM from "react-dom";
 import {TestButton} from "./test/TestButton1";
+import {SaveSchemObjectTestButton} from "./test/SaveSchemObjectTestButton";
 //import {Router, Route, Link} from "react-router"
 //import {App, expressApp, setApp} from "./App";
 //..import {appState} from "./AppState";
@@ -30,4 +31,4 @@ import {TestButton} from "./test/TestButton1";
 //ReactDOM.render(<div ref={(e:any)=>setApp(e)}/>, document.body);
 
 
-ReactDOM.render(<div>ПРИВЕТ !!! 77<TestButton/></div>, document.getElementById("content"));
+ReactDOM.render(<div>ПРИВЕТ !!! 77<TestButton/><SaveSchemObjectTestButton/></div>, document.getElementById("content"));
