@@ -10,6 +10,8 @@ export class SchemaObject<T extends ISchemaObject> {
     }
 
     async load() {
+        if (!this.props || !this.props.id)
+            throw   "SchemaObject.load(): не заполнен props.id";
         this.props = (await loadSchemaObjectApiRequest({id: this.props.id})).object as any;
     }
 

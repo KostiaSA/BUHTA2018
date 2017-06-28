@@ -20,10 +20,10 @@ export class LoadSchemObjectTestButton extends React.Component<any, any> {
 
         let org = new SchemaTable();
         org.props = {} as any;
-        org.props.id = "23423fsfd--";
+        org.props.id = "23423fsfd";
         org.load();
         org.load().then((eee: any) => {
-            console.log("Организация load Ok",org.props.description);
+            console.log("Организация load Ok",org.props);
         });
     };
 

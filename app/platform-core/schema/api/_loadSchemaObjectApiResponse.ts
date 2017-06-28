@@ -15,7 +15,7 @@ export async function _loadSchemaObjectApiResponse(req: _ILoadSchemaObjectApiReq
         let instance = await schemaObjectModel.findByPrimary(req.id);
         if (instance) {
             let row = instance.get();
-            return Promise.resolve({object: JSON.parse(row.get().jsonData) as any})
+            return Promise.resolve({object: JSON.parse(row.jsonData) as any})
         }
         else
             return Promise.resolve({error: "Ошибка загрузки SchemaObject ([" + req.id + "]): запись не найдена"} as any);
