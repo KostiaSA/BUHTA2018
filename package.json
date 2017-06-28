@@ -1,11 +1,11 @@
 {
-  "name": "rally-server",
+  "name": "buhta2017-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "run": "tsc && node server.js",
-    "build": "tsc && webpack"
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
