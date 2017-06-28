@@ -1,5 +1,6 @@
 import {ISchemaObject} from "./ISchemaObject";
 import {saveSchemaObjectApiRequest} from "./api/saveSchemaObjectApiRequest";
+import {loadSchemaObjectApiRequest} from "./api/loadSchemaObjectApiRequest";
 
 export class SchemaObject<T extends ISchemaObject> {
     props: T;
@@ -9,7 +10,7 @@ export class SchemaObject<T extends ISchemaObject> {
     }
 
     async load() {
-        //this.props= await saveSchemaObjectApiRequest({object: })
+        this.props = (await loadSchemaObjectApiRequest({id: this.props.id})).object as any;
     }
 
 }
