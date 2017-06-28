@@ -6,14 +6,15 @@ import * as cookieParser from "cookie-parser";
 import * as bodyParser from "body-parser";
 import {_config} from "../../../_config";
 import {_bindApi} from "./_bindApi";
+import {_serverStartup} from "../_serverStartup";
 
 const expressApp = express();
 
-_startServer().then(()=>{
+_startServer().then(() => {
     console.log("Сервер стартовал.")
 });
 
-async function _startServer(){
+async function _startServer() {
     expressApp.use(bodyParser.json());
     expressApp.use(bodyParser.urlencoded({extended: false}));
     expressApp.use(cookieParser());
@@ -76,6 +77,8 @@ async function _startServer(){
         console.log("Cannot start server, port most likely in use");
         console.log(err);
     });
+
+    await _serverStartup();
 
 }
 

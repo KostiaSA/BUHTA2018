@@ -22,7 +22,7 @@ async function generateRequestFile() {
         let reguestInterfaceName = "";
         let responseInterfaceName = "";
         for (let line of replaceAll(responseCode, "++++++++++", "").split("\n")) {
-            console.log("===LINE===", line);
+            //console.log("===LINE===", line);
             if (line.indexOf("export interface") > -1) {
                 mode = 1;
                 if (line.indexOf("ApiRequest") > -1) {
@@ -39,7 +39,7 @@ async function generateRequestFile() {
             else if (mode > 0 && line.indexOf("export function") > -1) {
                 break;
             }
-            else if (mode > 0) {
+            else if (mode > 0 || line.indexOf("emit-to-request-code")>-1) {
                 apiInterfaces.push(line);
             }
         }
@@ -49,7 +49,7 @@ async function generateRequestFile() {
         if (responseInterfaceName === "")
             throw "ошибка в " + responseFile + ": не найден Response интерфейс";
 
-        console.log("=========", apiInterfaces);
+        //console.log("=========", apiInterfaces);
 
         let requestFuncName = path.basename(responseFile).replace(/\.[^/.]+$/, "").replace("_", "").replace("ApiResponse", "ApiRequest");
         let requestFile = path.join(path.dirname(responseFile), requestFuncName + ".ts");

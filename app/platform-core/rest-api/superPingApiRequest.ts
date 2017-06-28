@@ -1,5 +1,5 @@
 
-import {isString} from "util";
+import {isString} from "util"; 
 
 export interface ISuperPingApiRequest {
     super_login: string; // это логин
@@ -11,7 +11,7 @@ export interface ISuperPingApiResponse {
 }
 
 
-export function _superPingApiRequest(req: ISuperPingApiRequest): Promise<ISuperPingApiResponse> {
+export function superPingApiRequest(req: ISuperPingApiRequest): Promise<ISuperPingApiResponse> {
     return new Promise<ISuperPingApiResponse>(
         (resolve: (obj: ISuperPingApiResponse) => void, reject: (error: string) => void) => {
 
@@ -43,4 +43,4 @@ export function _superPingApiRequest(req: ISuperPingApiRequest): Promise<ISuperP
 
         });
 
-}
+}        
