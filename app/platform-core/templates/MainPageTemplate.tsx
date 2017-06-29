@@ -1,29 +1,26 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import {pingApiRequest} from "../rest-api/pingApiRequest";
-import {superPingApiRequest} from "../rest-api/superPingApiRequest";
+import {PageTemplate} from "../components/PageTemplate";
+import {SchemaPage} from "../schema/SchemaPage";
 
 
 export interface IPageTemplateProps {
 
 }
 
-export class MainPageTemplate extends React.Component<IPageTemplateProps, any> {
-    constructor(props: any, context: any) {
-        super(props, context);
+export class MainPageTemplate extends PageTemplate {
+
+    static pageTemplateId: string = "platform-core/templates/MainPageTemplate";
+    static pageTemplateName: string = "шаблон главной страницы";
+
+    async loadData() {
+        await super.loadData();
     }
 
-    static templateId:string="platform-core/templates/MainPageTemplate";
-    static templateName:string="шаблон главной страницы";
 
-    componentDidMount() {
-    };
-
-    render() {
-
+    renderPage(): JSX.Element {
         return (
-            <div>это главная страница<br/>{this.props.children}</div>
-        );
+            <div>это главная страница {this.props.schemaPageId}<br/>{this.props.children}</div>
+        )
     }
 
 }

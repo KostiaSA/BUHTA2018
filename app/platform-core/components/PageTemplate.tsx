@@ -2,10 +2,11 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
+import {SchemaPage} from "../schema/SchemaPage";
 
 
 export interface IPageTemplateProps {
-
+    schemaPageId: string;
 }
 
 export class PageTemplate extends React.Component<IPageTemplateProps, any> {
@@ -13,13 +14,32 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
         super(props, context);
         this.props = props;
         this.context = context;
-        console.log("PageTemplate:::"+PageTemplate.templateId);
+        console.log("PageTemplate:::" + PageTemplate.pageTemplateId);
     }
 
-    static templateId:string="platform-core/components/PageTemplate";
-    static templateName:string="базовый шаблон страницы";
+    static pageTemplateId: string = "platform-core/components/PageTemplate";
+    static pageTemplateName: string = "базовый шаблон страницы";
+
+    schemaPage: SchemaPage;
+    loadDataError: string;
+
+    async loadData() {
+        if (!this.schemaPage) {
+            this.schemaPage = new SchemaPage();
+            await this.schemaPage.load(this.props.schemaPageId);
+        }
+    }
 
     componentDidMount() {
+        this.loadData()
+            .then(() => {
+                this.forceUpdate();
+            })
+            .catch((err: any) => {
+                this.loadDataError = err.toString();
+                this.forceUpdate();
+            });
+
     };
 
     handleClick = () => {
@@ -32,11 +52,17 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
         console.log("click1");
     };
 
-    render() {
+    renderPage(): JSX.Element {
+        return <div>page {this.props.schemaPageId}</div>
+    }
 
-        return (
-            <div>это page template<br/>{this.props.children}</div>
-        );
+    render() {
+        if (this.loadDataError)
+            return <div style={{color: "red"}}>ОШИБКА: {this.loadDataError}</div>;
+        else if (this.schemaPage)
+            return this.renderPage();
+        else
+            return <div>загрузка...</div>;
     }
 
 }
