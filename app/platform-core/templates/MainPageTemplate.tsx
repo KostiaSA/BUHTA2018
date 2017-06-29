@@ -2,6 +2,7 @@ import * as React from "react";
 import {PageTemplate} from "../components/PageTemplate";
 import {SchemaPage} from "../schema/SchemaPage";
 import {MenuWidget} from "../widgets/MenuWidget";
+import {Button} from "antd";
 
 
 export interface IPageTemplateProps {
@@ -20,6 +21,7 @@ export class MainPageTemplate extends PageTemplate {
                 ЭТО главная страница {this.schemaPage.props.id}
                 <MenuWidget menuId={this.schemaPage.props.mainMenuId!}/>
                 <br/>
+                <Button type="primary" >Primary</Button>
                 {this.props.children}
             </div>
         )

@@ -57,6 +57,7 @@ module.exports = {
     externals: {
         "react": "React",
         "react-dom": "ReactDOM",
+        "antd": "antd",
         // "onsenui": "ons",
         // "react-onsenui": "Ons",
         //"lodash": "_",
