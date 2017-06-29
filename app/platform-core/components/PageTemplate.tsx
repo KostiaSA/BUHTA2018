@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
 import {SchemaPage} from "../schema/SchemaPage";
+import {isUndefined} from "util";
 
 
 export interface IPageTemplateProps {
@@ -23,14 +24,47 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
     schemaPage: SchemaPage;
     loadDataError: string;
 
-    async loadData() {
+    async loadData(){
         if (!this.schemaPage) {
             this.schemaPage = new SchemaPage();
             await this.schemaPage.load(this.props.schemaPageId);
         }
     }
 
+    // async loadData(): Promise<boolean> {
+    //     console.log("page T load data");
+    //     if (!this.schemaPage) {
+    //         this.schemaPage = new SchemaPage();
+    //         await this.schemaPage.load(this.props.schemaPageId);
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+
+    // componentWillReceiveProps(nextProps: IPageTemplateProps) {
+    //     console.log("page T componentWillReceiveProps",this.props.schemaPageId);
+    //     if (nextProps.schemaPageId !== this.props.schemaPageId) {
+    //         this.schemaPage = undefined as any;
+    //     }
+    // }
+    //
+    // componentWillUpdate() {
+    //     console.log("page T componentWillReceiveProps");
+    //     this.loadData()
+    //         .then((needForceUpdate) => {
+    //             if (needForceUpdate)
+    //                 this.forceUpdate();
+    //         })
+    //         .catch((err: any) => {
+    //             this.loadDataError = err.toString();
+    //             this.forceUpdate();
+    //         });
+    // }
+    //
+
     componentDidMount() {
+        //console.log("page T didMount");
         this.loadData()
             .then(() => {
                 this.forceUpdate();
@@ -40,7 +74,8 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
                 this.forceUpdate();
             });
 
-    };
+    }
+    ;
 
     handleClick = () => {
         pingApiRequest({login: "111"}).then((eee: any) => {

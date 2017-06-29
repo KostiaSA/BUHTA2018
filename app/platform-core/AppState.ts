@@ -59,7 +59,7 @@ export class AppState {
             throw err;
         }
         else
-            this.actions[(actionClass as any).templateId] = actionClass;
+            this.actions[(actionClass as any).actionId] = actionClass;
     }
 
     getRegisteredAction(actionId: string): Function {

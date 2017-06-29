@@ -10,10 +10,17 @@ export async function createTestSchemaObjects() {
 
     // ------------------ mainmenu ------------------
     let menuItem1: ISchemaMenuItem = {
-        label:"Открой меня",
-        action:{
-            actionId: "platform-core/action/OpenSchemaPageAction",
+        label: "Открой 2A2B0CFFC047",
+        action: {
+            actionId: "platform-core/actions/OpenSchemaPageAction",
             pageId: "2A2B0CFFC047"
+        } as IOpenSchemaPageAction
+    };
+    let menuItem2: ISchemaMenuItem = {
+        label: "Закрой 31CA8AEB0552",
+        action: {
+            actionId: "platform-core/actions/OpenSchemaPageAction",
+            pageId: "31CA8AEB0552"
         } as IOpenSchemaPageAction
     };
 
@@ -22,8 +29,8 @@ export async function createTestSchemaObjects() {
         type: "SchemaMenu",
         name: "тестовое главное меню",
         description: "---",
-        template:"platform-core/templates/MainMenuTemplate",
-        items: [menuItem1]
+        template: "platform-core/templates/MainMenuTemplate",
+        items: [menuItem1, menuItem2]
     };
 
     let result = await _saveSchemaObjectApiResponse({object: mainmenu});
@@ -34,9 +41,10 @@ export async function createTestSchemaObjects() {
         id: "2A2B0CFFC047",
         type: "SchemaPage",
         name: "стартовая страница",
+        title: "стартовая страница N2A2B0CFFC047",
         description: "",
         template: "platform-core/templates/MainPageTemplate",
-        mainMenuId:mainmenu.id
+        mainMenuId: mainmenu.id
     }
 
     result = await _saveSchemaObjectApiResponse({object: startPage});
@@ -54,6 +62,20 @@ export async function createTestSchemaObjects() {
     console.log(result.error || "создана '" + app.name + "'");
 
 
+
+    // ------------------ Page 2 ------------------
+    let page2: ISchemaPage = {
+        id: "31CA8AEB0552",
+        type: "SchemaPage",
+        name: "страница 2",
+        title: "страница N31CA8AEB0552",
+        description: "",
+        template: "platform-core/templates/MainPageTemplate",
+        mainMenuId: mainmenu.id
+    }
+
+    result = await _saveSchemaObjectApiResponse({object: page2});
+    console.log(result.error || "создана '" + page2.name + "'");
 
 }
 

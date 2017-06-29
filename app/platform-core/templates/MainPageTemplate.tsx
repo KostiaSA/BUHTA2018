@@ -13,14 +13,11 @@ export class MainPageTemplate extends PageTemplate {
     static pageTemplateId: string = "platform-core/templates/MainPageTemplate";
     static pageTemplateName: string = "шаблон главной страницы";
 
-    async loadData() {
-        await super.loadData();
-    }
-
     renderPage(): JSX.Element {
         return (
             <div>
-                это главная страница {this.props.schemaPageId}
+                { this.schemaPage.props.title ? <h1>{this.schemaPage.props.title}</h1> : null}
+                ЭТО главная страница {this.schemaPage.props.id}
                 <MenuWidget menuId={this.schemaPage.props.mainMenuId!}/>
                 <br/>
                 {this.props.children}
