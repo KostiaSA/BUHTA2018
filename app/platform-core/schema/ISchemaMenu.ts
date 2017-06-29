@@ -3,6 +3,7 @@ import {SchemaObject} from "./SchemaObject";
 import {IAction} from "../actions/IAction";
 
 export interface ISchemaMenu extends ISchemaObject {
+    template: string;
     items: ISchemaMenuItem[];
 }
 

@@ -8,15 +8,38 @@ import {IOpenSchemaPageAction} from "../app/platform-core/actions/IOpenSchemaPag
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
 
+    // ------------------ mainmenu ------------------
+    let menuItem1: ISchemaMenuItem = {
+        label:"Открой меня",
+        action:{
+            actionId: "platform-core/action/OpenSchemaPageAction",
+            pageId: "2A2B0CFFC047"
+        } as IOpenSchemaPageAction
+    };
+
+    let mainmenu: ISchemaMenu = {
+        id: "EC69BFBB1D35",
+        type: "SchemaMenu",
+        name: "тестовое главное меню",
+        description: "---",
+        template:"platform-core/templates/MainMenuTemplate",
+        items: [menuItem1]
+    };
+
+    let result = await _saveSchemaObjectApiResponse({object: mainmenu});
+    console.log(result.error || "создана '" + mainmenu.name + "'");
+
+    // ------------------ startPage ------------------
     let startPage: ISchemaPage = {
         id: "2A2B0CFFC047",
         type: "SchemaPage",
         name: "стартовая страница",
         description: "",
-        template: "platform-core/templates/MainPageTemplate"
+        template: "platform-core/templates/MainPageTemplate",
+        mainMenuId:mainmenu.id
     }
 
-    let result = await _saveSchemaObjectApiResponse({object: startPage});
+    result = await _saveSchemaObjectApiResponse({object: startPage});
     console.log(result.error || "создана '" + startPage.name + "'");
 
     let app: ISchemaApp = {
@@ -31,27 +54,6 @@ export async function createTestSchemaObjects() {
     console.log(result.error || "создана '" + app.name + "'");
 
 
-    // ------------------ mainmenu ------------------
-
-
-    let menuItem1: ISchemaMenuItem = {
-        label:"Открой меня",
-        action:{
-            actionId: "platform-core/action/OpenSchemaPageAction",
-            pageId: "2A2B0CFFC047"
-        } as IOpenSchemaPageAction
-    };
-
-    let mainmenu: ISchemaMenu = {
-        id: "EC69BFBB1D35",
-        type: "SchemaMenu",
-        name: "тестовое главное меню",
-        description: "---",
-        items: [menuItem1]
-    };
-
-    result = await _saveSchemaObjectApiResponse({object: mainmenu});
-    console.log(result.error || "создана '" + mainmenu.name + "'");
 
 }
 
