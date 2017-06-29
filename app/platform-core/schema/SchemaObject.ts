@@ -3,16 +3,17 @@ import {saveSchemaObjectApiRequest} from "./api/saveSchemaObjectApiRequest";
 import {loadSchemaObjectApiRequest} from "./api/loadSchemaObjectApiRequest";
 
 export class SchemaObject<T extends ISchemaObject> {
-    props: T;
+    props: T = {} as any;
 
     async save() {
         return saveSchemaObjectApiRequest({object: this.props})
     }
 
-    async load() {
-        if (!this.props || !this.props.id)
-            throw   "SchemaObject.load(): не заполнен props.id";
-        this.props = (await loadSchemaObjectApiRequest({id: this.props.id})).object as any;
+    async load(id: string) {
+        this.props.id = id;
+        // if (!this.props || !this.props.id)
+        //     throw   "SchemaObject.load(): не заполнен props.id";
+        this.props = (await loadSchemaObjectApiRequest({id: id})).object as any;
     }
 
 }

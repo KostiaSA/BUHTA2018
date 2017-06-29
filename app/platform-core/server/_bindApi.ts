@@ -9,12 +9,12 @@ export async function _bindApi(expressApp:any) {
 
     for (let file of files) {
         let apiPath = "/"+file.replace(_config.projectRootPath + "/app", "api").replace(/\.[^/.]+$/, "").replace("_","");
-        console.log(apiPath);
+        console.log("bind API: "+apiPath);
         let module = require(file);
         let responseFuncName=path.basename(file).replace(/\.[^/.]+$/, "");
 
         expressApp.post(apiPath, (req: express.Request, res: express.Response, next: Function) => {
-            console.log(apiPath, req.body);
+            console.log("POST: "+apiPath, req.body);
 
             module[responseFuncName](req.body).then((result: any) => {
                 res.send(result);

@@ -1,7 +1,7 @@
 
 import {isString} from "util"; 
 
-import {ISchemaObject} from "../ISchemaObject";  // emit-to-request-code
+import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
 export interface ILoadSchemaObjectApiRequest {
     id: string
 }

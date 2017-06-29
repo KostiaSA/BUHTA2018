@@ -2,21 +2,23 @@
 import {isString} from "util"; 
 
 import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
-export interface ISaveSchemaObjectApiRequest {
-    object: ISchemaObject;
+import {WhereOptions} from "sequelize";  // emit-to-request-code
+export interface IFindSchemaObjectsApiRequest {
+    where: WhereOptions;
 }
 
-export interface ISaveSchemaObjectApiResponse {
+export interface IFindSchemaObjectsApiResponse {
+    objects: ISchemaObject[];
     error?: string;
 }
 
 
-export function saveSchemaObjectApiRequest(req: ISaveSchemaObjectApiRequest): Promise<ISaveSchemaObjectApiResponse> {
-    return new Promise<ISaveSchemaObjectApiResponse>(
-        (resolve: (obj: ISaveSchemaObjectApiResponse) => void, reject: (error: string) => void) => {
+export function findSchemaObjectsApiRequest(req: IFindSchemaObjectsApiRequest): Promise<IFindSchemaObjectsApiResponse> {
+    return new Promise<IFindSchemaObjectsApiResponse>(
+        (resolve: (obj: IFindSchemaObjectsApiResponse) => void, reject: (error: string) => void) => {
 
             var xhr = new XMLHttpRequest();
-            let url = "/api/platform-core/schema/api/saveSchemaObjectApiResponse";
+            let url = "/api/platform-core/schema/api/findSchemaObjectsApiResponse";
             xhr.open("POST", url, true);
             xhr.setRequestHeader('Content-type', "application/json;charset=UTF-8");
 
@@ -26,7 +28,7 @@ export function saveSchemaObjectApiRequest(req: ISaveSchemaObjectApiRequest): Pr
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as ISaveSchemaObjectApiResponse;
+                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as IFindSchemaObjectsApiResponse;
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {

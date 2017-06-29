@@ -39,6 +39,9 @@ async function generateRequestFile() {
             else if (mode > 0 && line.indexOf("export function") > -1) {
                 break;
             }
+            else if (mode > 0 && line.indexOf("export async function") > -1) {
+                break;
+            }
             else if (mode > 0 || line.indexOf("emit-to-request-code")>-1) {
                 apiInterfaces.push(line);
             }
