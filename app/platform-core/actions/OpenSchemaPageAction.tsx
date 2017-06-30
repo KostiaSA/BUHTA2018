@@ -16,7 +16,8 @@ export class OpenSchemaPageAction extends Action<IOpenSchemaPageAction> {
     async doAction(){
         console.log("doAction9-open:"+this.props.pageId);
         let page=await createSchemaPage(this.props.pageId);
-        page.show();
+        window.location.href = page.props.url;
+        //page.show();
     }
 
 }

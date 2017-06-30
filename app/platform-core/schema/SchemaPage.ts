@@ -6,14 +6,14 @@ import {appState} from "../AppState";
 import {IPageTemplateProps} from "../components/PageTemplate";
 
 export class SchemaPage extends SchemaObject<ISchemaPage> {
-    show() {
-        let pageTemplateClass = appState.getRegisteredPageTemplate(this.props.template);
-        if (document.getElementById('content'))
-            ReactDOM.unmountComponentAtNode(document.getElementById('content')!);
-        ReactDOM.render(React.createElement(pageTemplateClass as any, {schemaPageId: this.props.id} as IPageTemplateProps), document.getElementById("content"));
-        if (this.props.url)
-            window.history.pushState("", "", this.props.url);
-    }
+    // show() {
+    //     let pageTemplateClass = appState.getRegisteredPageTemplate(this.props.template);
+    //     if (document.getElementById('content'))
+    //         ReactDOM.unmountComponentAtNode(document.getElementById('content')!);
+    //     ReactDOM.render(React.createElement(pageTemplateClass as any, {schemaPageId: this.props.id} as IPageTemplateProps), document.getElementById("content"));
+    //     if (this.props.url)
+    //         window.history.pushState("", "", this.props.url);
+    // }
 
 }
 

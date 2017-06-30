@@ -76,9 +76,10 @@ export async function createTestSchemaObjects() {
         id: "31CA8AEB0552",
         type: "SchemaPage",
         name: "страница 2",
-        title: "страница N31CA8AEB0552",
+        title: "страница 2 N31CA8AEB0552",
         description: "",
         template: "platform-core/templates/MainPageTemplate",
+        url:"/page2",
         mainMenuId: mainmenu.id
     }
 

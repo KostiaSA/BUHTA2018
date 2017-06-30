@@ -7,8 +7,9 @@ export function _createIndexHtml(schemaPageId:string): string {
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link rel="stylesheet" type="text/css" href="/platform-core/static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/platform-core/static/css/ag-grid.css">
     <link rel="stylesheet" type="text/css" href="/platform-core/static/css/antd.css">
+    <link rel="stylesheet" type="text/css" href="/platform-core/static/css/index.css">
     <title>buhta 2017</title>
 </head>
 <body>
@@ -19,6 +20,7 @@ export function _createIndexHtml(schemaPageId:string): string {
 <script src="/platform-core/static/js/react.js"></script>
 <script src="/platform-core/static/js/react-dom.js"></script>
 <script src="/platform-core/static/js/antd-with-locales.min.js"></script>
+<script src="/platform-core/static/js/ag-grid.min.js"></script>
 <script src="/platform-core/static/app_bundle.js"></script>
 </body>
 </html>`;

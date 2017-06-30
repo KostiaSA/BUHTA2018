@@ -18,8 +18,9 @@ export class SchemaAppDesignerPageTemplate extends PageTemplate {
                 { this.schemaPage.props.title ? <h1>{this.schemaPage.props.title}</h1> : null}
                 ЭТО дизайер SchemaApp {this.schemaPage.props.id}
                 <br/>
-                <Button type="primary" >Сохранить</Button>
+                <Button type="primary" >Сохранить1</Button>
                 {this.props.children}
+                <a href="/">на главную {(new Date()).toString()}</a>
             </div>
         )
     }
