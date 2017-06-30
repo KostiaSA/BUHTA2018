@@ -11,6 +11,8 @@ export class SchemaPage extends SchemaObject<ISchemaPage> {
         if (document.getElementById('content'))
             ReactDOM.unmountComponentAtNode(document.getElementById('content')!);
         ReactDOM.render(React.createElement(pageTemplateClass as any, {schemaPageId: this.props.id} as IPageTemplateProps), document.getElementById("content"));
+        if (this.props.url)
+            window.history.pushState("", "", this.props.url);
     }
 
 }

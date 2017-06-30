@@ -11,14 +11,14 @@ async function start() {
     await require("./clientStartup").clientStartup();
     await require("../platform-admin/clientStartup").clientStartup();
 
-    let objects = (await findSchemaObjectsApiRequest({where: {type: "SchemaApp"}})).objects;
-    if (objects.length === 0)
-        throw "в конфигурации нет ни одного объекта 'SchemaApp'";
-
-    let schemaApp = objects[0] as ISchemaApp;
+    // let objects = (await findSchemaObjectsApiRequest({where: {type: "SchemaApp"}})).objects;
+    // if (objects.length === 0)
+    //     throw "в конфигурации нет ни одного объекта 'SchemaApp'";
+    //
+    // let schemaApp = objects[0] as ISchemaApp;
 
     let startPage = new SchemaPage();
-    await startPage.load(schemaApp.startPage);
+    await startPage.load((document as any).schemaPageId);
     let startPageTemplate = appState.getRegisteredPageTemplate(startPage.props.template);
 
     ReactDOM.render(React.createElement(startPageTemplate as any,{schemaPageId:startPage.props.id} as IPageTemplateProps), document.getElementById("content"));

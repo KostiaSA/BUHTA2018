@@ -7,6 +7,7 @@ import * as bodyParser from "body-parser";
 import {_config} from "../../../_config";
 import {_bindApi} from "./_bindApi";
 import {_serverStartup} from "../_serverStartup";
+import {_bindSchemaPages} from "./_bindSchemaPages";
 
 const expressApp = express();
 
@@ -18,37 +19,9 @@ async function _startServer() {
     expressApp.use(bodyParser.json());
     expressApp.use(bodyParser.urlencoded({extended: false}));
     expressApp.use(cookieParser());
-    expressApp.use(express.static("app")); //serve public files
-    console.log("staticPath: expressApp");
 
-//console.log(__dirname);
-// Register routes (as middleware layer through express.Router())
-//expressApp.use(exampleRoute);
 
     await _bindApi(expressApp);
-
-    // expressApp.post('/api', (req: express.Request, res: express.Response, next: Function) => {
-    //     console.log("api", req.body);
-    //     pingApiResponse(req.body).then((result: any) => {
-    //         res.send(result);
-    //     });
-    //
-    // });
-
-//expressApp.post('/api', commonApiResponse);
-
-
-// catch 404 and forward to error handler
-    expressApp.use((req: express.Request, res: express.Response, next: Function) => {
-//    console.error("not found: "+req.originalUrl);
-//    let err = new Error("not found: "+req.originalUrl);
-        let err = new Error("not found: " + req.originalUrl);
-        err.stack = undefined;
-        res.status(404);
-        //console.log("catching 404 error");
-        return next(err);
-    });
-
 
     expressApp.set("port", _config.port);
 
@@ -79,6 +52,17 @@ async function _startServer() {
     });
 
     await _serverStartup();
+
+    await _bindSchemaPages(expressApp);
+
+    expressApp.use(express.static("app")); //serve public files
+
+    expressApp.use((req: express.Request, res: express.Response, next: Function) => {
+        let err = new Error("not found: " + req.originalUrl);
+        err.stack = undefined;
+        res.status(404);
+        return next(err);
+    });
 
 }
 

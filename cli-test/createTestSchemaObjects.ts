@@ -23,6 +23,13 @@ export async function createTestSchemaObjects() {
             pageId: "31CA8AEB0552"
         } as IOpenSchemaPageAction
     };
+    let menuItem3: ISchemaMenuItem = {
+        label: "дизайнер APP",
+        action: {
+            actionId: "platform-core/actions/OpenSchemaPageAction",
+            pageId: "777A8AEB0552"
+        } as IOpenSchemaPageAction
+    };
 
     let mainmenu: ISchemaMenu = {
         id: "EC69BFBB1D35",
@@ -30,7 +37,7 @@ export async function createTestSchemaObjects() {
         name: "тестовое главное меню",
         description: "---",
         template: "platform-core/templates/MainMenuTemplate",
-        items: [menuItem1, menuItem2]
+        items: [menuItem1, menuItem2, menuItem3]
     };
 
     let result = await _saveSchemaObjectApiResponse({object: mainmenu});
@@ -44,7 +51,8 @@ export async function createTestSchemaObjects() {
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
         template: "platform-core/templates/MainPageTemplate",
-        mainMenuId: mainmenu.id
+        mainMenuId: mainmenu.id,
+        url:"/"
     }
 
     result = await _saveSchemaObjectApiResponse({object: startPage});
@@ -77,6 +85,20 @@ export async function createTestSchemaObjects() {
     result = await _saveSchemaObjectApiResponse({object: page2});
     console.log(result.error || "создана '" + page2.name + "'");
 
+    // ------------------ Дизайнер SchemaApp ------------------
+    let page3: ISchemaPage = {
+        id: "777A8AEB0552",
+        type: "SchemaPage",
+        name: "Дизайнер SchemaApp",
+        title: "страница 777A8AEB0552 Дизайнер SchemaApp",
+        description: "",
+        template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
+        url:"admin/schema-app-designer"
+        //mainMenuId: mainmenu.id
+    };
+
+    result = await _saveSchemaObjectApiResponse({object: page3});
+    console.log(result.error || "создана '" + page3.name + "'");
 }
 
 createTestSchemaObjects().then(() => {

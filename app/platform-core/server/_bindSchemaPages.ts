@@ -1,0 +1,30 @@
+import * as express from "express";
+import {_config} from "../../../_config";
+import {_getAllFilesFromDirectory} from "../utils/_getAllFilesFromDirectory";
+import {schemaObjectModel} from "../schema/_schemaObjectModel";
+import {ISchemaPage} from "../schema/ISchemaPage";
+import {_createIndexHtml} from "./_createIndexHtml";
+let path = require("path");
+
+export async function _bindSchemaPages(expressApp: any) {
+
+
+    let instance = await schemaObjectModel.findAll({where: {type: "SchemaPage"}});
+
+    for (let item of instance) {
+        let page = JSON.parse(item.get().jsonData) as ISchemaPage;
+        if (page.url) {
+            if (!page.url.startsWith("/"))
+                page.url = "/" + page.url;
+
+            console.log("bind SchemaPage " + page.title + ": " + page.url);
+            expressApp.get(page.url, (req: express.Request, res: express.Response, next: Function) => {
+                console.log("GET: " + page.url, req.body);
+                res.send(_createIndexHtml(page.id));
+            });
+
+        }
+    }
+
+    //console.log(files);
+}
