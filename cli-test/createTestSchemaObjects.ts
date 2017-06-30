@@ -50,7 +50,10 @@ export async function createTestSchemaObjects() {
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
-        template: "platform-core/templates/MainPageTemplate",
+//        template: "platform-core/templates/MainPageTemplate",
+        //template: "platform-admin/pages/SchemaObjectDesignerPageTemplate",
+        //template: "platform-admin/pages/AdminMainPageTemplate",
+        template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
         mainMenuId: mainmenu.id,
         url:"/"
     }

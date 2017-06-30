@@ -1,6 +1,9 @@
 import {MenuTemplate} from "./components/MenuTemplate";
 export class AppState {
 
+    globals: { [propName: string]: any } = {};
+
+
     // ------------------ pageTemplates ------------------
     pageTemplates: { [pageTemplateId: string]: Function; } = {};
 
