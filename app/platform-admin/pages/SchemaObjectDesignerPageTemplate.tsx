@@ -2,7 +2,9 @@ import * as React from "react";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {PageTemplate} from "../../platform-core/components/PageTemplate";
 import {AdminMainPageTemplate} from "./AdminMainPageTemplate";
-import {SchemaObject} from "../../platform-core/schema/SchemaObject";
+import {createSchemaObject, SchemaObject} from "../../platform-core/schema/SchemaObject";
+import {getParamFromUrl} from "../../platform-core/utils/getQueryParamFromUrl";
+import {ISchemaObjectProps} from "../../platform-core/schema/ISchemaObject";
 
 export interface ISchemaObjectDesignerPageTemplateProps {
 
@@ -14,17 +16,40 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
     static pageTemplateName: string = "шаблон страницы редактирования schemaobject";
 
 
-    designedObject: SchemaObject<any>;
+    orginalObjectPropsJson: string;
+    designedObject: SchemaObject<ISchemaObjectProps>;
+
+    needSave(): boolean {
+        return this.orginalObjectPropsJson !== JSON.stringify(this.designedObject.props);
+    }
 
     renderTop(): JSX.Element {
         return (
-            <div>{super.renderTop()}дизайнер schema object НАЧАЛО</div>
+            <div>{super.renderTop()}дизайнер schema object НАЧАЛО:
+                <h2>{this.designedObject.props.name}</h2>
+            </div>
         );
     }
 
+    async saveDesignedObject() {
+        await this.designedObject.save();
+        this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
+        this.forceUpdate();
+        console.log("объект сохранен");
+    };
+
     renderBottom(): JSX.Element {
         return (
-            <div>дизайнер schema object КОНЕЦ{super.renderBottom()}</div>
+            <div>дизайнер schema object КОНЕЦ
+                <Button
+                    disabled={!this.needSave()}
+                    onClick={() => {
+                        this.saveDesignedObject()
+                    }}>
+                    Сохранить
+                </Button>
+                {super.renderBottom()}
+            </div>
         );
     }
 
@@ -32,10 +57,13 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
 
         await super.loadData();
         console.log("load schema objext");
-         // if (!this.designedObject) {
-         //     this.designedObject = new SchemaObject<>();
-         //     await this.schemaPage.load((document as any).schemaPageId);
-         // }
+        if (!this.designedObject) {
+            let designedObjectId = getParamFromUrl("objectid");
+            if (designedObjectId) {
+                this.designedObject = await createSchemaObject(designedObjectId);
+                this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
+            }
+        }
     }
 
 }
