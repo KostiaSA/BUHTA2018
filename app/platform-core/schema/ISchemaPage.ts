@@ -1,6 +1,6 @@
-import {ISchemaObject} from "./ISchemaObject";
+import {ISchemaObjectProps} from "./ISchemaObject";
 
-export interface ISchemaPage extends ISchemaObject {
+export interface ISchemaPageProps extends ISchemaObjectProps {
     url:string;
     template: string;
     title?:string;

@@ -1,5 +1,5 @@
-import {ISchemaObject} from "./ISchemaObject";
+import {ISchemaObjectProps} from "./ISchemaObject";
 
-export interface ISchemaApp extends ISchemaObject {
+export interface ISchemaAppProps extends ISchemaObjectProps {
     startPage: string;
 }

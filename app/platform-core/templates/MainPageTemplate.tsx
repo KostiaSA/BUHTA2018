@@ -14,7 +14,7 @@ export class MainPageTemplate extends PageTemplate {
     static pageTemplateId: string = "platform-core/templates/MainPageTemplate";
     static pageTemplateName: string = "шаблон главной страницы";
 
-    renderPage(): JSX.Element {
+    renderChildren(): JSX.Element {
         return (
             <div>
                 { this.schemaPage.props.title ? <h1>{this.schemaPage.props.title}</h1> : null}

@@ -18,10 +18,10 @@ export class LoadSchemObjectTestButton extends React.Component<any, any> {
 
     handleClick = () => {
 
-        let org = new SchemaTable();
-        org.load("23423fsfd").then((eee: any) => {
-            console.log("Организация load Ok",org.props);
-        });
+        // let org = new SchemaTable();
+        // org.load("23423fsfd").then((eee: any) => {
+        //     console.log("Организация load Ok",org.props);
+        // });
     };
 
     render() {

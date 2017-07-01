@@ -1,13 +1,13 @@
 
-import {isString} from "util"; 
+import {isString} from "util";
 
-import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
+import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 export interface ILoadSchemaObjectApiRequest {
     id: string
 }
 
 export interface ILoadSchemaObjectApiResponse {
-    object: ISchemaObject;
+    object: ISchemaObjectProps;
     error?: string;
 }
 
@@ -44,4 +44,4 @@ export function loadSchemaObjectApiRequest(req: ILoadSchemaObjectApiRequest): Pr
 
         });
 
-}        
+}

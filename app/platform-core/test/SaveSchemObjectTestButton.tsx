@@ -22,7 +22,7 @@ export class SaveSchemObjectTestButton extends React.Component<any, any> {
         org.props = {} as any;
         org.props.id = "23423fsfd";
         org.props.name = "Организация";
-        org.props.type = "SchemaTable";
+        org.props.className = "SchemaTable";
         org.props.description = "Справочник организаций";
         org.save().then((eee: any) => {
             console.log("Организация save Ok");

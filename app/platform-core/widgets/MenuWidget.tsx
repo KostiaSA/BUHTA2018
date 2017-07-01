@@ -1,7 +1,8 @@
 import * as React from "react";
 import {appState} from "../AppState";
-import {SchemaMenu} from "../schema/ISchemaMenu";
 import {IMenuTemplateProps} from "../components/MenuTemplate";
+import {SchemaMenu} from "../schema/SchemaMenu";
+import {createSchemaObject} from "../schema/SchemaObject";
 
 
 export interface IMenuWidgetProps {
@@ -15,8 +16,8 @@ export class MenuWidget extends React.Component<IMenuWidgetProps, any> {
 
     async loadData() {
         if (!this.schemaMenu) {
-            this.schemaMenu = new SchemaMenu();
-            await this.schemaMenu.load(this.props.menuId);
+            this.schemaMenu = await createSchemaObject<SchemaMenu>(this.props.menuId);
+            //await this.schemaMenu.load(this.props.menuId);
         }
     }
 
@@ -41,7 +42,7 @@ export class MenuWidget extends React.Component<IMenuWidgetProps, any> {
         }
         else if (this.schemaMenu) {
             let menuTemplate = appState.getRegisteredMenuTemplate(this.schemaMenu.props.template);
-            return React.createElement(menuTemplate as any, {schemaMenu:this.schemaMenu} as IMenuTemplateProps);
+            return React.createElement(menuTemplate, {schemaMenu:this.schemaMenu} as IMenuTemplateProps);
         }
         else {
             return <div>загрузка...</div>;

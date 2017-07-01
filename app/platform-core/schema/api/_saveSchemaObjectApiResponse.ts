@@ -1,9 +1,9 @@
-import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
+import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 
 import {schemaObjectModel} from "../_schemaObjectModel";
 
 export interface _ISaveSchemaObjectApiRequest {
-    object: ISchemaObject;
+    object: ISchemaObjectProps;
 }
 
 export interface _ISaveSchemaObjectApiResponse {
@@ -15,7 +15,7 @@ export async function _saveSchemaObjectApiResponse(req: _ISaveSchemaObjectApiReq
     let row = {
         id: req.object.id,
         name: req.object.name,
-        type: req.object.type,
+        className: req.object.className,
         description: req.object.description,
         jsonData: JSON.stringify(req.object)
     };

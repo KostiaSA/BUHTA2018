@@ -15,13 +15,12 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
     static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
     static pageTemplateName: string = "шаблон дизайера SchemaApp";
 
-    renderTop(): JSX.Element {
+    renderChildren(): JSX.Element {
         return (
 
                 <div>
-                    {super.renderTop()}
                     { this.schemaPage.props.title ? <h1>{this.schemaPage.props.title}</h1> : null}
-                    ЭТО дизайер SchemaApp {this.schemaPage.props.id}
+                    ЭТО дизайер SchemaApp @@{this.schemaPage.props.id}
                     <br/>
                     <Button type="primary">Сохранить1</Button>
                     {this.props.children}

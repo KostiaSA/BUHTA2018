@@ -3,11 +3,8 @@ import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
 import {SchemaPage} from "../schema/SchemaPage";
-import {isUndefined} from "util";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
-import isDivisibleBy = require("validator/lib/isDivisibleBy");
-import {appState} from "../AppState";
-import {PropTypes} from "react";
+import {createSchemaObject} from "../schema/SchemaObject";
 
 export interface IPageTemplateProps {
     //schemaPageId: string;
@@ -30,18 +27,18 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
 
     async loadData() {
         if (!this.schemaPage) {
-            this.schemaPage = new SchemaPage();
-            await this.schemaPage.load((document as any).schemaPageId);
+            this.schemaPage = await createSchemaObject<SchemaPage>((document as any).schemaPageId);
+            //await this.schemaPage.load((document as any).schemaPageId);
         }
     }
 
-    getChildContext() {
-        return {color: "purple"};
-    }
-
-    static childContextTypes = {
-        color: PropTypes.any
-    };
+    // getChildContext() {
+    //     return {color: "purple"};
+    // }
+    //
+    // static childContextTypes = {
+    //     color: PropTypes.any
+    // };
 
     // async loadData(): Promise<boolean> {
     //     console.log("page T load data");
@@ -99,11 +96,6 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
         console.log("click1");
     };
 
-    shouldComponentUpdate(): boolean {
-        return true;
-    }
-
-
     renderTop(): JSX.Element {
         return (
             <div>
@@ -120,26 +112,23 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
         );
     }
 
-    // renderChildren(): JSX.Element {
-    //     return (
-    //         <div>
-    //             {this.props.children}
-    //         </div>
-    //     );
-    // }
+    renderChildren(): JSX.Element {
+        return this.props.children as any;
+    }
 
     render() {
         console.log("render page template");
         if (this.loadDataError)
             return <div style={{color: "red"}}>ОШИБКА: {this.loadDataError}</div>;
         else if (this.schemaPage) {
-            appState.globals.XXX = this.schemaPage;
-            console.log("appState.globals.XXX = this.schemaPage;");
+            // appState.globals.XXX = this.schemaPage;
+            // console.log("appState.globals.XXX = this.schemaPage;");
             return (
                 <LocaleProvider locale={(window as any).antd.locales.ru_RU}>
                     <div>
                         <div>page template НАЧАЛО: {this.schemaPage.props.title}</div>
                         {this.renderTop()}
+                        {this.renderChildren()}
                         {this.renderBottom()}
                         <div>page template КОНЕЦ: {this.schemaPage.props.title}</div>
                     </div>

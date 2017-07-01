@@ -10,7 +10,7 @@ export interface _IConfig {
     projectRootPath:string;
 }
 
-let dirA: _IConfig = {
+let office: _IConfig = {
     sqlServerAddress: "ps-web",
     sqlServerInstance: "",
     sqlServerPort: 1433,
@@ -22,6 +22,18 @@ let dirA: _IConfig = {
     projectRootPath:"C:/----BUHTA----"
 };
 
+let home: _IConfig = {
+    sqlServerAddress: "localhost",
+    sqlServerInstance: "",
+    sqlServerPort: 1433,
+    sqlLogin: "sa",
+    sqlPassword: "sonyk",
+    sqlDatabase: "Buhta2018",
+    sqlDialect: "mssql",
+    port:3001,
+    projectRootPath:"C:/----BUHTA----"
+};
 
-export let _config :_IConfig = dirA;
+
+export let _config :_IConfig = home;
 //изменено 888-999

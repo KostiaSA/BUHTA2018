@@ -1,9 +1,12 @@
-import {ISchemaPage} from "../app/platform-core/schema/ISchemaPage";
+import {ISchemaPageProps} from "../app/platform-core/schema/ISchemaPage";
 import {_saveSchemaObjectApiResponse} from "../app/platform-core/schema/api/_saveSchemaObjectApiResponse";
 import {_sequelizeInit} from "../app/platform-core/server/_sequelize";
-import {ISchemaApp} from "../app/platform-core/schema/ISchemaApp";
-import {ISchemaMenu, ISchemaMenuItem} from "../app/platform-core/schema/ISchemaMenu";
+import {ISchemaAppProps} from "../app/platform-core/schema/ISchemaApp";
+import {ISchemaMenuProps, ISchemaMenuItem} from "../app/platform-core/schema/ISchemaMenu";
 import {IOpenSchemaPageAction} from "../app/platform-core/actions/IOpenSchemaPageAction";
+import {SchemaMenu} from "../app/platform-core/schema/SchemaMenu";
+import {SchemaPage} from "../app/platform-core/schema/SchemaPage";
+import {SchemaApp} from "../app/platform-core/schema/SchemaApp";
 
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
@@ -31,9 +34,9 @@ export async function createTestSchemaObjects() {
         } as IOpenSchemaPageAction
     };
 
-    let mainmenu: ISchemaMenu = {
+    let mainmenu: ISchemaMenuProps = {
         id: "EC69BFBB1D35",
-        type: "SchemaMenu",
+        className: SchemaMenu.className,
         name: "тестовое главное меню",
         description: "---",
         template: "platform-core/templates/MainMenuTemplate",
@@ -44,16 +47,16 @@ export async function createTestSchemaObjects() {
     console.log(result.error || "создана '" + mainmenu.name + "'");
 
     // ------------------ startPage ------------------
-    let startPage: ISchemaPage = {
+    let startPage: ISchemaPageProps = {
         id: "2A2B0CFFC047",
-        type: "SchemaPage",
+        className: SchemaPage.className,
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
-//        template: "platform-core/templates/MainPageTemplate",
+        template: "platform-core/templates/MainPageTemplate",
         //template: "platform-admin/pages/SchemaObjectDesignerPageTemplate",
         //template: "platform-admin/pages/AdminMainPageTemplate",
-        template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
+        //template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
         mainMenuId: mainmenu.id,
         url:"/"
     }
@@ -61,9 +64,10 @@ export async function createTestSchemaObjects() {
     result = await _saveSchemaObjectApiResponse({object: startPage});
     console.log(result.error || "создана '" + startPage.name + "'");
 
-    let app: ISchemaApp = {
+    // ------------------ SchemaApp ------------------
+    let app: ISchemaAppProps = {
         id: "4FD8AF410DDE",
-        type: "SchemaApp",
+        className: SchemaApp.className,
         name: "тестовое приложение",
         description: "",
         startPage: startPage.id
@@ -75,9 +79,9 @@ export async function createTestSchemaObjects() {
 
 
     // ------------------ Page 2 ------------------
-    let page2: ISchemaPage = {
+    let page2: ISchemaPageProps = {
         id: "31CA8AEB0552",
-        type: "SchemaPage",
+        className: SchemaPage.className,
         name: "страница 2",
         title: "страница 2 N31CA8AEB0552",
         description: "",
@@ -90,9 +94,9 @@ export async function createTestSchemaObjects() {
     console.log(result.error || "создана '" + page2.name + "'");
 
     // ------------------ Дизайнер SchemaApp ------------------
-    let page3: ISchemaPage = {
+    let page3: ISchemaPageProps = {
         id: "777A8AEB0552",
-        type: "SchemaPage",
+        className: SchemaPage.className,
         name: "Дизайнер SchemaApp",
         title: "страница 777A8AEB0552 Дизайнер SchemaApp",
         description: "",

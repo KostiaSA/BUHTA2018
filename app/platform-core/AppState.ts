@@ -1,23 +1,26 @@
 import {MenuTemplate} from "./components/MenuTemplate";
+import {SchemaObject} from "./schema/SchemaObject";
+import {PageTemplate} from "./components/PageTemplate";
+import {Action} from "./actions/Action";
 export class AppState {
 
     globals: { [propName: string]: any } = {};
 
 
     // ------------------ pageTemplates ------------------
-    pageTemplates: { [pageTemplateId: string]: Function; } = {};
+    pageTemplates: { [pageTemplateId: string]: typeof PageTemplate; } = {};
 
-    registerPageTemplate(pageTemplateClass: Function) {
-        if (!(pageTemplateClass as any).pageTemplateId) {
-            let err = "registerPageTemplate(): неверный класс шаблона страницы";
-            console.error(err);
-            throw err;
-        }
-        else
-            this.pageTemplates[(pageTemplateClass as any).pageTemplateId] = pageTemplateClass;
+    registerPageTemplate(pageTemplateClass: typeof PageTemplate) {
+        // if (!pageTemplateClass.pageTemplateId) {
+        //     let err = "registerPageTemplate(): неверный класс шаблона страницы";
+        //     console.error(err);
+        //     throw err;
+        // }
+        // else
+            this.pageTemplates[pageTemplateClass.pageTemplateId] = pageTemplateClass;
     }
 
-    getRegisteredPageTemplate(pageTemplateId: string): Function {
+    getRegisteredPageTemplate(pageTemplateId: string): typeof PageTemplate {
         let pageClass = this.pageTemplates[pageTemplateId];
         if (!pageClass) {
             let err = "registerPageTemplate(): не найден зарегистрированный шаблон страницы " + pageTemplateId;
@@ -29,43 +32,43 @@ export class AppState {
     }
 
     // ------------------ menuTemplates ------------------
-    menuTemplates: { [menuTemplateId: string]: Function; } = {};
+    menuTemplates: { [menuTemplateId: string]: typeof MenuTemplate; } = {};
 
-    registerMenuTemplate(menuTemplateClass: Function) {
-        if (!(menuTemplateClass as any).menuTemplateId) {
-            let err = "registerMenuTemplate(): неверный класс шаблона меню";
-            console.error(err);
-            throw err;
-        }
-        else
-            this.menuTemplates[(menuTemplateClass as any).menuTemplateId] = menuTemplateClass;
+    registerMenuTemplate(menuTemplateClass: typeof MenuTemplate) {
+        // if (!(menuTemplateClass as any).menuTemplateId) {
+        //     let err = "registerMenuTemplate(): неверный класс шаблона меню";
+        //     console.error(err);
+        //     throw err;
+        // }
+        // else
+            this.menuTemplates[menuTemplateClass.menuTemplateId] = menuTemplateClass;
     }
 
-    getRegisteredMenuTemplate(menuTemplateId: string): Function {
-        let pageClass = this.menuTemplates[menuTemplateId];
-        if (!pageClass) {
+    getRegisteredMenuTemplate(menuTemplateId: string): typeof MenuTemplate {
+        let menuClass = this.menuTemplates[menuTemplateId];
+        if (!menuClass) {
             let err = "registerMenuTemplate(): не найден зарегистрированный шаблон страницы " + menuTemplateId;
             console.error(err);
             throw err;
         }
         else
-            return pageClass;
+            return menuClass;
     }
 
     // ------------------ actions ------------------
-    actions: { [actionId: string]: Function; } = {};
+    actions: { [actionId: string]: typeof Action; } = {};
 
-    registerAction(actionClass: Function) {
-        if (!(actionClass as any).actionId) {
-            let err = "registerAction(): неверный класс action";
-            console.error(err);
-            throw err;
-        }
-        else
-            this.actions[(actionClass as any).actionId] = actionClass;
+    registerAction(actionClass: typeof Action) {
+        // if (!(actionClass as any).actionId) {
+        //     let err = "registerAction(): неверный класс action";
+        //     console.error(err);
+        //     throw err;
+        // }
+        // else
+            this.actions[actionClass.actionId] = actionClass;
     }
 
-    getRegisteredAction(actionId: string): Function {
+    getRegisteredAction(actionId: string): typeof Action {
         let actionClass = this.actions[actionId];
         if (!actionClass) {
             let err = "registerAction(): не найден зарегистрированный action " + actionId;
@@ -75,6 +78,31 @@ export class AppState {
         else
             return actionClass;
     }
+
+    // ------------------ schemaObjects ------------------
+    schemaObjects: { [schemaObjectClassName: string]: typeof SchemaObject; } = {};
+
+    registerSchemaObject(schemaObjectClassName: typeof SchemaObject) {
+        // if (!schemaObjectClassName.className) {
+        //     let err = "registerPageTemplate(): неверный класс объекта схемы";
+        //     console.error(err);
+        //     throw err;
+        // }
+        // else
+            this.schemaObjects[schemaObjectClassName.className] = schemaObjectClassName;
+    }
+
+    getRegisteredSchemaObject(schemaObjectClassName: string):  typeof SchemaObject {
+        let schemaObjectClass = this.schemaObjects[schemaObjectClassName];
+        if (!schemaObjectClass) {
+            let err = "registerSchemaObject(): не найден зарегистрированный класс объекта схемы" + schemaObjectClassName;
+            console.error(err);
+            throw err;
+        }
+        else
+            return schemaObjectClass;
+    }
+
 }
 
 export const appState = new AppState();

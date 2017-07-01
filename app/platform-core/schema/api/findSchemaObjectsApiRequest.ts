@@ -1,14 +1,14 @@
 
-import {isString} from "util"; 
+import {isString} from "util";
 
-import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
+import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 import {WhereOptions} from "sequelize";  // emit-to-request-code
 export interface IFindSchemaObjectsApiRequest {
     where: WhereOptions;
 }
 
 export interface IFindSchemaObjectsApiResponse {
-    objects: ISchemaObject[];
+    objects: ISchemaObjectProps[];
     error?: string;
 }
 
@@ -45,4 +45,4 @@ export function findSchemaObjectsApiRequest(req: IFindSchemaObjectsApiRequest): 
 
         });
 
-}        
+}

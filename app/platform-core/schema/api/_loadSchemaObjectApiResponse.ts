@@ -1,4 +1,4 @@
-import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
+import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 
 import {schemaObjectModel} from "../_schemaObjectModel";
 
@@ -7,7 +7,7 @@ export interface _ILoadSchemaObjectApiRequest {
 }
 
 export interface _ILoadSchemaObjectApiResponse {
-    object: ISchemaObject;
+    object: ISchemaObjectProps;
     error?: string;
 }
 

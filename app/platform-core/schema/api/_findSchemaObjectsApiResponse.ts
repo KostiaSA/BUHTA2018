@@ -1,4 +1,4 @@
-import {ISchemaObject} from "../ISchemaObject"; // emit-to-request-code
+import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 import {WhereOptions} from "sequelize";  // emit-to-request-code
 
 import {schemaObjectModel} from "../_schemaObjectModel";
@@ -8,7 +8,7 @@ export interface _IFindSchemaObjectsApiRequest {
 }
 
 export interface _IFindSchemaObjectsApiResponse {
-    objects: ISchemaObject[];
+    objects: ISchemaObjectProps[];
     error?: string;
 }
 

@@ -2,9 +2,11 @@ import * as  React from "react";
 import * as  ReactDOM from "react-dom";
 import {findSchemaObjectsApiRequest} from "./schema/api/findSchemaObjectsApiRequest";
 import {appState} from "./AppState";
-import {ISchemaApp} from "./schema/ISchemaApp";
+import {ISchemaAppProps} from "./schema/ISchemaApp";
 import {SchemaPage} from "./schema/SchemaPage";
 import {IPageTemplateProps} from "./components/PageTemplate";
+import {createSchemaObject} from "./schema/SchemaObject";
+import {ISchemaPageProps} from "./schema/ISchemaPage";
 
 
 async function start() {
@@ -15,13 +17,14 @@ async function start() {
     // if (objects.length === 0)
     //     throw "в конфигурации нет ни одного объекта 'SchemaApp'";
     //
-    // let schemaApp = objects[0] as ISchemaApp;
+    // let schemaApp = objects[0] as ISchemaAppProps;
 
-    let startPage = new SchemaPage();
-    await startPage.load((document as any).schemaPageId);
+    // let startPage = new SchemaPage();
+    // await startPage.load((document as any).schemaPageId);
+    let startPage=await createSchemaObject<SchemaPage>((document as any).schemaPageId);
     let startPageTemplate = appState.getRegisteredPageTemplate(startPage.props.template);
 
-    ReactDOM.render(React.createElement(startPageTemplate as any,{schemaPageId:startPage.props.id} as IPageTemplateProps), document.getElementById("content"));
+    ReactDOM.render(React.createElement(startPageTemplate,{schemaPageId:startPage.props.id} as IPageTemplateProps), document.getElementById("content"));
     //ReactDOM.render(<PageTemplate>ПРИВЕТ 90 !!!</PageTemplate>, document.getElementById("content"));
 
 }
@@ -29,7 +32,7 @@ async function start() {
 start()
     .then(() => {
 
-        // findSchemaObjectsApiRequest({where: {}}).then((result: ISchemaObject[]) => {
+        // findSchemaObjectsApiRequest({where: {}}).then((result: ISchemaObjectProps[]) => {
         // });
         //
         //

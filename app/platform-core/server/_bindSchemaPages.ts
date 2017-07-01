@@ -2,7 +2,7 @@ import * as express from "express";
 import {_config} from "../../../_config";
 import {_getAllFilesFromDirectory} from "../utils/_getAllFilesFromDirectory";
 import {schemaObjectModel} from "../schema/_schemaObjectModel";
-import {ISchemaPage} from "../schema/ISchemaPage";
+import {ISchemaPageProps} from "../schema/ISchemaPage";
 import {_createIndexHtml} from "./_createIndexHtml";
 let path = require("path");
 
@@ -12,7 +12,7 @@ export async function _bindSchemaPages(expressApp: any) {
     let instance = await schemaObjectModel.findAll({where: {type: "SchemaPage"}});
 
     for (let item of instance) {
-        let page = JSON.parse(item.get().jsonData) as ISchemaPage;
+        let page = JSON.parse(item.get().jsonData) as ISchemaPageProps;
         if (page.url) {
             if (!page.url.startsWith("/"))
                 page.url = "/" + page.url;

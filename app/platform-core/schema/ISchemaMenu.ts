@@ -1,8 +1,8 @@
-import {ISchemaObject} from "./ISchemaObject";
+import {ISchemaObjectProps} from "./ISchemaObject";
 import {SchemaObject} from "./SchemaObject";
 import {IAction} from "../actions/IAction";
 
-export interface ISchemaMenu extends ISchemaObject {
+export interface ISchemaMenuProps extends ISchemaObjectProps {
     template: string;
     items: ISchemaMenuItem[];
 }
@@ -15,6 +15,3 @@ export interface ISchemaMenuItem {
     items?: ISchemaMenuItem[];
 }
 
-export class SchemaMenu extends SchemaObject<ISchemaMenu> {
-
-}

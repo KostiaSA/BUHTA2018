@@ -14,22 +14,6 @@ export class AdminMainPageTemplate extends PageTemplate {
     static pageTemplateId: string = "platform-admin/pages/AdminMainPageTemplate";
     static pageTemplateName: string = "шаблон главной страницы админки";
 
-    static contextTypes = {
-        color: PropTypes.any
-    };
-
-    shouldComponentUpdate(): boolean {
-        return true;
-    }
-
-    // renderChildren(): JSX.Element {
-    //     return (
-    //         <div style={{background: this.context.color}}>
-    //             {super.renderChildren()}
-    //         </div>
-    //
-    //     )
-    // }
 
     renderTop(): JSX.Element {
         return (
