@@ -7,6 +7,13 @@ import {IOpenSchemaPageAction} from "../app/platform-core/actions/IOpenSchemaPag
 import {SchemaMenu} from "../app/platform-core/schema/SchemaMenu";
 import {SchemaPage} from "../app/platform-core/schema/SchemaPage";
 import {SchemaApp} from "../app/platform-core/schema/SchemaApp";
+import {
+    IOpenSchemaObjectDesignerActionProps,
+    OpenSchemaObjectDesignerAction
+} from "../app/platform-admin/actions/OpenSchemaObjectDesignerAction";
+import {OpenSchemaPageAction} from "../app/platform-core/actions/OpenSchemaPageAction";
+import {MainMenuTemplate} from "../app/platform-core/templates/MainMenuTemplate";
+import {MainPageTemplate} from "../app/platform-core/templates/MainPageTemplate";
 
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
@@ -15,23 +22,23 @@ export async function createTestSchemaObjects() {
     let menuItem1: ISchemaMenuItem = {
         label: "Открой 2A2B0CFFC047",
         action: {
-            actionId: "platform-core/actions/OpenSchemaPageAction",
+            actionId: OpenSchemaPageAction.actionId,
             pageId: "2A2B0CFFC047"
         } as IOpenSchemaPageAction
     };
     let menuItem2: ISchemaMenuItem = {
         label: "Закрой 31CA8AEB0552",
         action: {
-            actionId: "platform-core/actions/OpenSchemaPageAction",
+            actionId: OpenSchemaPageAction.actionId,
             pageId: "31CA8AEB0552"
         } as IOpenSchemaPageAction
     };
     let menuItem3: ISchemaMenuItem = {
-        label: "дизайнер APP",
+        label: "дизайнер APP да",
         action: {
-            actionId: "platform-core/actions/OpenSchemaPageAction",
-            pageId: "777A8AEB0552"
-        } as IOpenSchemaPageAction
+            actionId: OpenSchemaObjectDesignerAction.actionId,
+            objectId: "4FD8AF410DDE"
+        } as IOpenSchemaObjectDesignerActionProps
     };
 
     let mainmenu: ISchemaMenuProps = {
@@ -39,7 +46,7 @@ export async function createTestSchemaObjects() {
         className: SchemaMenu.className,
         name: "тестовое главное меню",
         description: "---",
-        template: "platform-core/templates/MainMenuTemplate",
+        template: MainMenuTemplate.menuTemplateId,// "platform-core/templates/MainMenuTemplate",
         items: [menuItem1, menuItem2, menuItem3]
     };
 
@@ -53,7 +60,7 @@ export async function createTestSchemaObjects() {
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
-        template: "platform-core/templates/MainPageTemplate",
+        template: MainPageTemplate.pageTemplateId,// "platform-core/templates/MainPageTemplate",
         //template: "platform-admin/pages/SchemaObjectDesignerPageTemplate",
         //template: "platform-admin/pages/AdminMainPageTemplate",
         //template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
