@@ -1,21 +1,23 @@
 import * as React from "react";
 
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
-import * as Antd from 'antd';
-import {PageTemplate} from "../../platform-core/components/PageTemplate";
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
+import {FormInput} from "../../platform-core/components/FormInput";
 //import enUS from 'antd/lib/locale-provider/ru_RU';
 
 export interface IPageTemplateProps {
 
 }
 
+
 export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
     static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
     static pageTemplateName: string = "шаблон дизайера SchemaApp";
 
+
     renderChildren(): JSX.Element {
+        //console.log("SchemaAppDesignerPageTemplate renderChildren()",this.designedObject.props);
         return (
 
             <div>
@@ -26,9 +28,7 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
                     <Col className="gutter-row" span={12}>
                         <Form layout="vertical">
 
-                            <Form.Item>
-                                <Input prefix={<Icon type="user" style={{fontSize: 18}}/>} placeholder="Username"/>
-                            </Form.Item>
+                            <FormInput bindObject={this.designedObject.props} bindProperty="name"/>
 
                             <Form.Item>
 
@@ -43,5 +43,6 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
 
         )
     }
+
 
 }

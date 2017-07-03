@@ -117,7 +117,7 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
     }
 
     render() {
-        console.log("render page template");
+        console.log("render page template",this.schemaPage);
         if (this.loadDataError)
             return <div style={{color: "red"}}>ОШИБКА: {this.loadDataError}</div>;
         else if (this.schemaPage) {
