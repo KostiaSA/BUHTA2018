@@ -7,7 +7,7 @@ import {OpenSchemaObjectDesignerAction} from "./actions/OpenSchemaObjectDesigner
 export async function clientStartup() {
     appState.registerPageTemplate(AdminMainPageTemplate);
     appState.registerPageTemplate(SchemaObjectDesignerPageTemplate);
-    appState.registerPageTemplate(SchemaAppDesignerPageTemplate);
+    appState.registerPageTemplate(SchemaAppDesignerPageTemplate as any);
 
     appState.registerAction(OpenSchemaObjectDesignerAction);
 

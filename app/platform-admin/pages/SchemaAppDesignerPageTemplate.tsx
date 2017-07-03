@@ -10,7 +10,7 @@ export interface IPageTemplateProps {
 
 }
 
-export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
+class InternalSchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
     static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
     static pageTemplateName: string = "шаблон дизайера SchemaApp";
@@ -25,12 +25,19 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
         sm: {span: 18},
     } as FormItemColOption;
 
+    async loadData() {
+
+        await super.loadData();
+        console.log("load schema object");
+        if (this.designedObject) {
+            this.props.form!.setFieldsValue(this.designedObject.props);
+        }
+    }
 
     renderChildren(): JSX.Element {
-        //console.log("SchemaAppDesignerPageTemplate renderChildren()",this.designedObject.props);
+        console.log("SchemaAppDesignerPageTemplate renderChildren()",this.props.form);
 
         let layout = {labelCol: this.labelCol, wrapperCol: this.wrapperCol, bindObject: this.designedObject.props};
-
         return (
 
             <div>
@@ -41,17 +48,24 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
                     <Col className="gutter-row" span={12}>
                         <Form layout="horizontal">
 
-                            <FormInput
-                                {...layout}
-                                label="name"
-                                bindProperty="name"
-                            />
-                            <FormInput
-                                {...layout}
-                                label="description"
-                                bindProperty="description"
-                            />
-
+                            {/*<FormInput*/}
+                                {/*{...layout}*/}
+                                {/*label="name"*/}
+                                {/*bindProperty="name"*/}
+                            {/*/>*/}
+                            {/*<FormInput*/}
+                                {/*{...layout}*/}
+                                {/*label="description"*/}
+                                {/*bindProperty="description"*/}
+                            {/*/>*/}
+                            <Form.Item>
+                                {this.props.form!.getFieldDecorator('name', {
+                                    initialValue:"жпа",
+                                    rules: [{ required: true, message: 'Please input your name!' }],
+                                })(
+                                    <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Name" />
+                                )}
+                            </Form.Item>
                         </Form>
                     </Col>
                 </Row>
@@ -63,4 +77,7 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
 
 }
 
+let exp=Form.create()(InternalSchemaAppDesignerPageTemplate as any) as any;
+exp.pageTemplateId = "platform-admin/pages/SchemaAppDesignerPageTemplate";
 
+export const SchemaAppDesignerPageTemplate = exp;

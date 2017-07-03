@@ -5,9 +5,11 @@ import {superPingApiRequest} from "../rest-api/superPingApiRequest";
 import {SchemaPage} from "../schema/SchemaPage";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {createSchemaObject} from "../schema/SchemaObject";
+import {WrappedFormUtils} from "antd/es/form/Form";
 
 export interface IPageTemplateProps {
     //schemaPageId: string;
+    form?:WrappedFormUtils;
 }
 
 //export class PageTemplate<P extends IPageTemplateProps> extends React.Component<P , any> {
