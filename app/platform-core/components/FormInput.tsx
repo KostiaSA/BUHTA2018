@@ -3,14 +3,13 @@ import * as ReactDOM from "react-dom";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {FormItemColOption} from "antd/es/form/FormItem";
 
-
 export interface IFormInput {
     label?: string | JSX.Element,
     bindObject: any;
     bindProperty: string;
     placeholder?: string;
-    labelCol?:FormItemColOption;
-    wrapperCol?:FormItemColOption;
+    labelCol?: FormItemColOption;
+    wrapperCol?: FormItemColOption;
 }
 
 

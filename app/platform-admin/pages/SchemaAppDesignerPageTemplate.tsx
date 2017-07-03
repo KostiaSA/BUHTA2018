@@ -10,7 +10,6 @@ export interface IPageTemplateProps {
 
 }
 
-
 export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
     static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
@@ -63,3 +62,5 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
 
 
 }
+
+
