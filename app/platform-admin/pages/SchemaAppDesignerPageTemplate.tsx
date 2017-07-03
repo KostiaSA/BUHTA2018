@@ -3,6 +3,7 @@ import * as React from "react";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
 import {FormInput} from "../../platform-core/components/FormInput";
+import {FormItemColOption} from "antd/es/form/FormItem";
 //import enUS from 'antd/lib/locale-provider/ru_RU';
 
 export interface IPageTemplateProps {
@@ -15,9 +16,22 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
     static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
     static pageTemplateName: string = "шаблон дизайера SchemaApp";
 
+    labelCol: FormItemColOption = {
+        xs: {span: 24},
+        sm: {span: 6},
+    } as FormItemColOption;
+
+    wrapperCol: FormItemColOption = {
+        xs: {span: 24},
+        sm: {span: 18},
+    } as FormItemColOption;
+
 
     renderChildren(): JSX.Element {
         //console.log("SchemaAppDesignerPageTemplate renderChildren()",this.designedObject.props);
+
+        let layout = {labelCol: this.labelCol, wrapperCol: this.wrapperCol, bindObject: this.designedObject.props};
+
         return (
 
             <div>
@@ -26,16 +40,19 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
                 <a href="/">на главную {(new Date()).toString()}</a>
                 <Row gutter={0}>
                     <Col className="gutter-row" span={12}>
-                        <Form layout="vertical">
+                        <Form layout="horizontal">
 
-                            <FormInput bindObject={this.designedObject.props} bindProperty="name"/>
+                            <FormInput
+                                {...layout}
+                                label="name"
+                                bindProperty="name"
+                            />
+                            <FormInput
+                                {...layout}
+                                label="description"
+                                bindProperty="description"
+                            />
 
-                            <Form.Item>
-
-                                <Input prefix={<Icon type="lock" style={{fontSize: 13}}/>} type="password"
-                                       placeholder="Password"/>
-
-                            </Form.Item>
                         </Form>
                     </Col>
                 </Row>

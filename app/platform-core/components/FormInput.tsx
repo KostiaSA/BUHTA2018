@@ -1,12 +1,16 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {FormItemColOption} from "antd/es/form/FormItem";
 
 
 export interface IFormInput {
+    label?: string | JSX.Element,
     bindObject: any;
     bindProperty: string;
     placeholder?: string;
+    labelCol?:FormItemColOption;
+    wrapperCol?:FormItemColOption;
 }
 
 
@@ -29,7 +33,13 @@ export class FormInput extends React.Component<IFormInput, any> {
 
     render(): JSX.Element {
         return (
-            <Form.Item>
+            <Form.Item
+                labelCol={this.props.labelCol}
+                wrapperCol={this.props.wrapperCol}
+                label={this.props.label}
+                validateStatus={'success'}
+                help={undefined}
+            >
                 <Input placeholder={this.props.placeholder} value={this.getValue()} onChange={this.onChangeHandle}/>
             </Form.Item>
 
