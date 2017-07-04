@@ -13,22 +13,19 @@ export interface IFormPanelProps {
 
 }
 
-export class WrappedFormPanel extends React.Component<IFormPanelProps, any> {
+export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
 
     static formOptions: FormCreateOption = {
         onFieldsChange: (props: IFormPanelProps, fields: any) => {
 
             for (let propName in fields) {
                 props.editedObject[propName] = fields[propName].value;
-                //console.log("------------------------", propName,fields[propName].value);
             }
 
             if (props.onFieldsChange) {
-                console.log("PROPS-onFieldsChange", props, fields);
                 props.onFieldsChange(fields);
             }
 
-            console.log("onFieldsChange", props, fields);
         }
     };
 
@@ -56,32 +53,5 @@ export class WrappedFormPanel extends React.Component<IFormPanelProps, any> {
         onClickSaveButton:PropTypes.func,
     };
 
-    // render() {
-    //     console.log("render form-panel");
-    //     return (
-    //         <div>
-    //             <div>form-panel</div>
-    //
-    //             {this.props.form!.getFieldDecorator("name", {
-    //                 initialValue: this.props.editedObject["name"],
-    //
-    //             })(
-    //                 <Input placeholder="name4"/>
-    //             )}
-    //
-    //             {this.props.form!.getFieldDecorator("description", {
-    //                 initialValue: this.props.editedObject["description"],
-    //
-    //             })(
-    //                 <Input placeholder="description4"/>
-    //             )}
-    //
-    //             {this.props.children}
-    //             <Button onClick={this.handleClickSaveButton}>Сохранить</Button>
-    //         </div>
-    //     );
-    // }
-
 }
 
-//export const FormPanel = Form.create(WrappedFormPanel.formOptions)(WrappedFormPanel as any) as typeof WrappedFormPanel;
