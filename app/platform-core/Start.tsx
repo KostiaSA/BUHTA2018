@@ -24,7 +24,7 @@ async function start() {
     let startPage=await createSchemaObject<SchemaPage>((document as any).schemaPageId);
     let startPageTemplate = appState.getRegisteredPageTemplate(startPage.props.template);
 
-    ReactDOM.render(React.createElement(startPageTemplate,{schemaPageId:startPage.props.id} as IPageTemplateProps), document.getElementById("content"));
+    ReactDOM.render(React.createElement(startPageTemplate,{schemaPageId:startPage.props.id} as any /*IPageTemplateProps*/), document.getElementById("content"));
     //ReactDOM.render(<PageTemplate>ПРИВЕТ 90 !!!</PageTemplate>, document.getElementById("content"));
 
 }

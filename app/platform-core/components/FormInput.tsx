@@ -2,44 +2,42 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {FormItemColOption} from "antd/es/form/FormItem";
+import {ValidationRule, WrappedFormUtils} from "antd/es/form/Form";
+import {PropTypes} from "react";
 
 export interface IFormInput {
     label?: string | JSX.Element,
-    bindObject: any;
     bindProperty: string;
     placeholder?: string;
     labelCol?: FormItemColOption;
     wrapperCol?: FormItemColOption;
+    rules?: ValidationRule[];
 }
 
 
 export class FormInput extends React.Component<IFormInput, any> {
 
-    getValue(): any {
-        if (this.props.bindObject && this.props.bindProperty) {
-            return this.props.bindObject[this.props.bindProperty];
-        }
-        else
-            return undefined;
-    }
-
-    onChangeHandle = (event: any) => {
-        if (this.props.bindObject && this.props.bindProperty) {
-            this.props.bindObject[this.props.bindProperty] = event.target.value;
-            this.forceUpdate();
-        }
+    static contextTypes = {
+        form: PropTypes.any,
+        bindObject: PropTypes.any,
     };
 
     render(): JSX.Element {
+        let form = this.context.form;
+        let bindObject = this.context.bindObject;
         return (
             <Form.Item
                 labelCol={this.props.labelCol}
                 wrapperCol={this.props.wrapperCol}
                 label={this.props.label}
-                validateStatus={'success'}
-                help={undefined}
             >
-                <Input placeholder={this.props.placeholder} value={this.getValue()} onChange={this.onChangeHandle}/>
+                {form.getFieldDecorator(this.props.bindProperty, {
+                    initialValue: bindObject[this.props.bindProperty],
+                    rules: this.props.rules,
+                })(
+                    <Input placeholder={this.props.placeholder} />
+                )}
+
             </Form.Item>
 
         );

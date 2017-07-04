@@ -4,17 +4,14 @@ import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'a
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
 import {FormInput} from "../../platform-core/components/FormInput";
 import {FormItemColOption} from "antd/es/form/FormItem";
-//import enUS from 'antd/lib/locale-provider/ru_RU';
+import {IFormPanelProps, WrappedFormPanel} from "../../platform-core/components/FormPanel";
+import {FormSaveButton} from "../../platform-core/components/FormSaveButton";
 
 export interface IPageTemplateProps {
 
 }
 
-class InternalSchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
-
-    static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
-    static pageTemplateName: string = "шаблон дизайера SchemaApp";
-
+class AppFormPanel extends WrappedFormPanel {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -25,19 +22,44 @@ class InternalSchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemp
         sm: {span: 18},
     } as FormItemColOption;
 
-    async loadData() {
+    render(){
+        let layout = {
+            labelCol: this.labelCol,
+            wrapperCol: this.wrapperCol,
+        };
 
-        await super.loadData();
-        console.log("load schema object");
-        if (this.designedObject) {
-            this.props.form!.setFieldsValue(this.designedObject.props);
-        }
+        return (
+            <Form layout="horizontal">
+                <FormInput
+                    key="1"
+                    {...layout}
+                    label="name3"
+                    bindProperty="name"
+                    rules={[{required: true, message: 'введи name3!'}]}
+                />
+                <FormInput
+                    key="2"
+                    {...layout}
+                    label="description3"
+                    bindProperty="description"
+                    rules={[{required: true, message: 'введи description3!'}]}
+                />
+                <Col span={24} offset={6}><FormSaveButton/></Col>
+            </Form>
+        )
     }
+}
+const FormPanel = Form.create<IFormPanelProps>(AppFormPanel.formOptions)(AppFormPanel as any) as typeof AppFormPanel;
+
+
+export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
+
+    static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
+    static pageTemplateName: string = "шаблон дизайера SchemaApp";
+
 
     renderChildren(): JSX.Element {
-        console.log("SchemaAppDesignerPageTemplate renderChildren()",this.props.form);
 
-        let layout = {labelCol: this.labelCol, wrapperCol: this.wrapperCol, bindObject: this.designedObject.props};
         return (
 
             <div>
@@ -46,27 +68,7 @@ class InternalSchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemp
                 <a href="/">на главную {(new Date()).toString()}</a>
                 <Row gutter={0}>
                     <Col className="gutter-row" span={12}>
-                        <Form layout="horizontal">
-
-                            {/*<FormInput*/}
-                                {/*{...layout}*/}
-                                {/*label="name"*/}
-                                {/*bindProperty="name"*/}
-                            {/*/>*/}
-                            {/*<FormInput*/}
-                                {/*{...layout}*/}
-                                {/*label="description"*/}
-                                {/*bindProperty="description"*/}
-                            {/*/>*/}
-                            <Form.Item>
-                                {this.props.form!.getFieldDecorator('name', {
-                                    initialValue:"жпа",
-                                    rules: [{ required: true, message: 'Please input your name!' }],
-                                })(
-                                    <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Name" />
-                                )}
-                            </Form.Item>
-                        </Form>
+                        <FormPanel editedObject={this.designedObject.props} onSave={this.onSaveButtonClick}/>
                     </Col>
                 </Row>
             </div>
@@ -77,7 +79,3 @@ class InternalSchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemp
 
 }
 
-let exp=Form.create()(InternalSchemaAppDesignerPageTemplate as any) as any;
-exp.pageTemplateId = "platform-admin/pages/SchemaAppDesignerPageTemplate";
-
-export const SchemaAppDesignerPageTemplate = exp;

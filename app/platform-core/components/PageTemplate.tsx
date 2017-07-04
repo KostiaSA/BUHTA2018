@@ -9,7 +9,7 @@ import {WrappedFormUtils} from "antd/es/form/Form";
 
 export interface IPageTemplateProps {
     //schemaPageId: string;
-    form?:WrappedFormUtils;
+    form:WrappedFormUtils;
 }
 
 //export class PageTemplate<P extends IPageTemplateProps> extends React.Component<P , any> {
