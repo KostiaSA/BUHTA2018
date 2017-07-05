@@ -7,6 +7,7 @@ export function _createIndexHtml(schemaPageId:string): string {
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/platform-core/static/css/ag-grid.css">
     <link rel="stylesheet" type="text/css" href="/platform-core/static/css/antd.css">
     <link rel="stylesheet" type="text/css" href="/platform-core/static/css/index.css">
