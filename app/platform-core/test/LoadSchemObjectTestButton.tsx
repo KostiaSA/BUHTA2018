@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
-import {SchemaTable} from "../schema/ISchemaTable";
 
 
 export class LoadSchemObjectTestButton extends React.Component<any, any> {

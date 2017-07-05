@@ -3,11 +3,13 @@ import {SchemaAppDesignerPageTemplate} from "./pages/SchemaAppDesignerPageTempla
 import {AdminMainPageTemplate} from "./pages/AdminMainPageTemplate";
 import {SchemaObjectDesignerPageTemplate} from "./pages/SchemaObjectDesignerPageTemplate";
 import {OpenSchemaObjectDesignerAction} from "./actions/OpenSchemaObjectDesignerAction";
+import {SchemaTableDesignerPageTemplate} from "./pages/SchemaTableDesignerPageTemplate";
 
 export async function clientStartup() {
     appState.registerPageTemplate(AdminMainPageTemplate);
     appState.registerPageTemplate(SchemaObjectDesignerPageTemplate);
-    appState.registerPageTemplate(SchemaAppDesignerPageTemplate as any);
+    appState.registerPageTemplate(SchemaAppDesignerPageTemplate);
+    appState.registerPageTemplate(SchemaTableDesignerPageTemplate);
 
     appState.registerAction(OpenSchemaObjectDesignerAction);
 

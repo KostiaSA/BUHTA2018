@@ -2,6 +2,7 @@ import {MenuTemplate} from "./components/MenuTemplate";
 import {SchemaObject} from "./schema/SchemaObject";
 import {PageTemplate} from "./components/PageTemplate";
 import {Action} from "./actions/Action";
+import {SqlDataType} from "./schema/table/SqlDataType";
 export class AppState {
 
     globals: { [propName: string]: any } = {};
@@ -103,6 +104,23 @@ export class AppState {
             return schemaObjectClass;
     }
 
+    // ------------------ sqlDataTypes ------------------
+    sqlDataTypes: { [sqlDataTypeClassName: string]: typeof SqlDataType; } = {};
+
+    registerSqlDataType(sqlDataTypeClassName: typeof SqlDataType) {
+        this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
+    }
+
+    getRegisteredSqlDataType(sqlDataTypeClassName: string):  typeof SqlDataType {
+        let sqlDataTypeClass = this.sqlDataTypes[sqlDataTypeClassName];
+        if (!sqlDataTypeClass) {
+            let err = "registerSqlDataType(): не найден зарегистрированный класс типа данных sql" + sqlDataTypeClassName;
+            console.error(err);
+            throw err;
+        }
+        else
+            return sqlDataTypeClass;
+    }
 }
 
 export const appState = new AppState();
