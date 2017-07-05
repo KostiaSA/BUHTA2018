@@ -1,12 +1,15 @@
 import * as React from "react";
 
-import {Tabs, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {Table, Tabs, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
 import {FormInput} from "../../platform-core/components/FormInput";
 import {FormItemColOption} from "antd/es/form/FormItem";
 import {IFormPanelProps, BaseFormPanel} from "../../platform-core/components/BaseFormPanel";
 import {FormSaveButton} from "../../platform-core/components/FormSaveButton";
 import isDivisibleBy = require("validator/lib/isDivisibleBy");
+import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
+
+const {Column, ColumnGroup} = Table;
 
 export interface IPageTemplateProps {
 
@@ -31,6 +34,8 @@ class TableFormPanel extends BaseFormPanel {
 
         const TabPane = Tabs.TabPane;
 
+        let editedTable=this.props.editedObject.props as ISchemaTableProps;
+
         return (
             <div>
                 <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
@@ -52,7 +57,20 @@ class TableFormPanel extends BaseFormPanel {
                         </Form>
 
                     </TabPane>
-                    <TabPane tab="Колонки" key="2">Content of Tab Pane 2</TabPane>
+                    <TabPane tab="Колонки" key="2">
+                        <Table dataSource={editedTable.columns as any}>
+                            <Column
+                                title="Колонка"
+                                dataIndex="name"
+                                key="name"
+                            />
+                            <Column
+                                title="Тип данных"
+                                dataIndex="type"
+                                key="type"
+                            />
+                        </Table>
+                    </TabPane>
                     <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
                 </Tabs>
                 <Col span={24} offset={6}><FormSaveButton label="Сохранить таблицу"/></Col>
