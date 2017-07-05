@@ -25,21 +25,25 @@ export class FormInput extends React.Component<IFormInput, any> {
     render(): JSX.Element {
         let form = this.context.form;
         let bindObject = this.context.bindObject;
-        return (
-            <Form.Item
-                labelCol={this.props.labelCol}
-                wrapperCol={this.props.wrapperCol}
-                label={this.props.label}
-            >
-                {form.getFieldDecorator(this.props.bindProperty, {
-                    initialValue: bindObject[this.props.bindProperty],
-                    rules: this.props.rules,
-                })(
-                    <Input placeholder={this.props.placeholder} />
-                )}
+        if (bindObject) {
+            return (
+                <Form.Item
+                    labelCol={this.props.labelCol}
+                    wrapperCol={this.props.wrapperCol}
+                    label={this.props.label}
+                >
+                    {form.getFieldDecorator(this.props.bindProperty, {
+                        initialValue: bindObject[this.props.bindProperty],
+                        rules: this.props.rules,
+                    })(
+                        <Input placeholder={this.props.placeholder}/>
+                    )}
 
-            </Form.Item>
+                </Form.Item>
 
-        );
+            );
+        }
+        else
+            return null as any;
     }
 }

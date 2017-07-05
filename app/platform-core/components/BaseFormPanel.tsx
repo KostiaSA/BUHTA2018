@@ -10,6 +10,7 @@ export interface IFormPanelProps {
     onSave?: () => void;
     onCancel?: () => void;
     form?: WrappedFormUtils;
+    panelRef?: (formPanel: BaseFormPanel) => void;
 
 }
 
@@ -19,7 +20,9 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
         onFieldsChange: (props: IFormPanelProps, fields: any) => {
 
             for (let propName in fields) {
-                props.editedObject[propName] = fields[propName].value;
+                if (props.editedObject) {
+                    props.editedObject[propName] = fields[propName].value;
+                }
             }
 
             if (props.onFieldsChange) {
@@ -29,6 +32,12 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
         }
     };
 
+    componentDidMount() {
+        if (this.props.panelRef) {
+            this.props.panelRef(this);
+        }
+    }
+
     onClickSaveButton = () => {
         console.log("handleClickSaveButton");
         this.props.form!.validateFields((erros: any, values: any) => {
@@ -37,6 +46,15 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
                 this.props.onSave();
             }
         })
+    };
+
+    async validateFieldsOk(): Promise<boolean> {
+        return new Promise<boolean>(
+            (resolve: (obj: boolean) => void, reject: (error: string) => void) => {
+                this.props.form!.validateFields((erros: any, values: any) => {
+                    resolve(!erros);
+                });
+            });
     };
 
     getChildContext() {
@@ -50,7 +68,7 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
     static childContextTypes = {
         form: PropTypes.object,
         bindObject: PropTypes.object,
-        onClickSaveButton:PropTypes.func,
+        onClickSaveButton: PropTypes.func,
     };
 
 }

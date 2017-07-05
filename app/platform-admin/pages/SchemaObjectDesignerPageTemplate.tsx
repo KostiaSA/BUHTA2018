@@ -1,5 +1,19 @@
 import * as React from "react";
-import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {
+    message,
+    Alert,
+    Modal,
+    Table,
+    Tabs,
+    Icon,
+    Input,
+    Button,
+    Form,
+    Row,
+    Col,
+    LocaleProvider,
+    DatePicker
+} from 'antd';
 import {PageTemplate} from "../../platform-core/components/PageTemplate";
 import {AdminMainPageTemplate} from "./AdminMainPageTemplate";
 import {createSchemaObject, SchemaObject} from "../../platform-core/schema/SchemaObject";
@@ -91,6 +105,8 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
         //this.needSave = false;
         this.forceUpdate();
         console.log("объект сохранен");
+        message.success("Объект '" + this.designedObject.props.name + "' сохранен");
+
     };
 
     renderBottom(): JSX.Element {

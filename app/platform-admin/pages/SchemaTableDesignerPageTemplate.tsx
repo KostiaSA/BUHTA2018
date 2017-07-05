@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {Table, Tabs, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {message, Alert,Modal, Table, Tabs, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
 import {FormInput} from "../../platform-core/components/FormInput";
 import {FormItemColOption} from "antd/es/form/FormItem";
@@ -8,6 +8,8 @@ import {IFormPanelProps, BaseFormPanel} from "../../platform-core/components/Bas
 import {FormSaveButton} from "../../platform-core/components/FormSaveButton";
 import isDivisibleBy = require("validator/lib/isDivisibleBy");
 import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
+import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
+import {clone} from "ejson";
 
 const {Column, ColumnGroup} = Table;
 
@@ -26,6 +28,22 @@ class TableFormPanel extends BaseFormPanel {
         sm: {span: 18},
     } as FormItemColOption;
 
+
+    tableColumnFormPanel: BaseFormPanel;
+    editedColumn: ISchemaTableColumnProps;
+    editedColumnCloned: ISchemaTableColumnProps;
+
+    editColumnClickHandler = (column: ISchemaTableColumnProps) => {
+        this.editedColumn = column;
+        this.editedColumnCloned = clone(this.editedColumn);
+        this.forceUpdate();
+        console.log("edit", column);
+    };
+
+    get editedTable(): ISchemaTableProps {
+        return this.props.editedObject as ISchemaTableProps;
+    }
+
     render() {
         let layout = {
             labelCol: this.labelCol,
@@ -34,7 +52,7 @@ class TableFormPanel extends BaseFormPanel {
 
         const TabPane = Tabs.TabPane;
 
-        let editedTable = this.props.editedObject as ISchemaTableProps;
+
         return (
             <div>
                 <Row>
@@ -74,7 +92,7 @@ class TableFormPanel extends BaseFormPanel {
                             <Row>
 
 
-                                <Table size="middle" bordered dataSource={editedTable.columns as any}>
+                                <Table size="middle" bordered dataSource={this.editedTable.columns as any}>
                                     <Column
                                         title="Колонка"
                                         dataIndex="name"
@@ -86,12 +104,12 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Действие"
                                         key="action"
-                                        render={ (text, record) => (
+                                        render={ (text: any, record: any) => (
                                             <span>
-                                                  <a href="#">изменить</a>
+                                                  <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
                                                   <span className="ant-divider"/>
                                                   <a href="#">удалить</a>
-                                                </span>
+                                            </span>
                                         )}
                                     />
                                 </Table>
@@ -102,13 +120,102 @@ class TableFormPanel extends BaseFormPanel {
                         <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
                     </Tabs>
                 </Row>
+                <Modal
+                    title={
+                        <span>редактор колонки: <strong>{this.editedColumn ? this.editedColumn.name : ""}</strong></span>}
+                    visible={this.editedColumn !== undefined}
+                    onOk={() => {
+                        this.tableColumnFormPanel.validateFieldsOk().then((ok) => {
+                            if (ok) {
+                                this.tableColumnFormPanel.onClickSaveButton();
+                                this.editedColumn = undefined as any;
+                                this.forceUpdate();
+                            }
+                            else{
+                                message.error("Есть ошибки, сохранение невозможно");
+                            }
+                        });
+                    }}
+                    onCancel={() => {
+                        let colIndex = this.editedTable.columns.indexOf(this.editedColumn);
+                        this.editedTable.columns[colIndex] = this.editedColumnCloned;
+                        this.editedColumn = undefined as any;
+                        this.forceUpdate();
+                    }}
+                >
+                    <TableColumnFormPanel
+                        panelRef={(panel: BaseFormPanel) => {
+                            this.tableColumnFormPanel = panel;
+                         //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
+
+                        }}
+                        editedObject={this.editedColumn}
+                    />
+                </Modal>
             </div>
         )
     }
 }
+
 const FormPanel = Form.create
     < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
 
+class TableColumnFormPanelW extends BaseFormPanel {
+    labelCol: FormItemColOption = {
+        xs: {span: 24},
+        sm: {span: 6},
+    } as FormItemColOption;
+
+    wrapperCol: FormItemColOption = {
+        xs: {span: 24},
+        sm: {span: 18},
+    } as FormItemColOption;
+
+
+    render() {
+        let layout = {
+            labelCol: this.labelCol,
+            wrapperCol: this.wrapperCol,
+        };
+
+        const TabPane = Tabs.TabPane;
+
+        let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
+        return (
+            <Row>
+                <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
+                    <TabPane tab="SQL" key="main">
+                        <Row>
+                            <Col>
+                                <Form layout="horizontal">
+                                    <FormInput
+                                        {...layout}
+                                        label="имя колонки"
+                                        bindProperty="name"
+                                        rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
+                                    />
+                                    <FormInput
+                                        {...layout}
+                                        label="тип данных"
+                                        bindProperty="dataType"
+                                        rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
+                                    />
+                                </Form>
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tab="В таблицах" key="2">
+                        XXX
+                    </TabPane>
+                    <TabPane tab="В формах" key="3">Content of Tab Pane 3</TabPane>
+                </Tabs>
+            </Row>
+        )
+    }
+}
+
+const TableColumnFormPanel = Form.create
+    < IFormPanelProps > (TableColumnFormPanelW.formOptions)(TableColumnFormPanelW as any) as typeof TableColumnFormPanelW;
 
 export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
