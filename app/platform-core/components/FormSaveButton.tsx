@@ -13,19 +13,13 @@ export interface IFormSaveButtonProps {
 export class FormSaveButton extends React.Component<IFormSaveButtonProps, any> {
 
     static contextTypes = {
-        //form: PropTypes.any,
-        //bindObject: PropTypes.any,
         onClickSaveButton: PropTypes.func,
     };
 
 
     render(): JSX.Element {
-        //let form = this.context.form;
-        //let bindObject = this.context.bindObject;
-
-
         return (
-            <Button onClick={this.context.onClickSaveButton}>{this.props.label || "Сохранить"}</Button>
+            <Button type="primary" onClick={this.context.onClickSaveButton}>{this.props.label || "Сохранить"}</Button>
 
         );
     }
