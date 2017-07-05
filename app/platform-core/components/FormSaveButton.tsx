@@ -3,10 +3,11 @@ import * as ReactDOM from "react-dom";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {FormItemColOption} from "antd/es/form/FormItem";
 import {ValidationRule, WrappedFormUtils} from "antd/es/form/Form";
-import {PropTypes} from "react";
+import {CSSProperties, HTMLAttributes, PropTypes} from "react";
 
-export interface IFormSaveButtonProps {
-    label?: string | JSX.Element,
+export interface IFormSaveButtonProps{
+    text?: string | JSX.Element,
+    style?: CSSProperties,
 }
 
 
@@ -19,7 +20,7 @@ export class FormSaveButton extends React.Component<IFormSaveButtonProps, any> {
 
     render(): JSX.Element {
         return (
-            <Button type="primary" onClick={this.context.onClickSaveButton}>{this.props.label || "Сохранить"}</Button>
+            <Button style={this.props.style} type="primary"  onClick={this.context.onClickSaveButton}>{this.props.text || "Сохранить"}</Button>
 
         );
     }

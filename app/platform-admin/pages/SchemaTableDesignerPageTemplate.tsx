@@ -34,51 +34,80 @@ class TableFormPanel extends BaseFormPanel {
 
         const TabPane = Tabs.TabPane;
 
-        let editedTable=this.props.editedObject.props as ISchemaTableProps;
-
+        let editedTable = this.props.editedObject as ISchemaTableProps;
         return (
             <div>
-                <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
-                    <TabPane tab="Параметры" key="main">
-                        <Form layout="horizontal">
+                <Row>
+                    <Col span={12}>
+                        <Button>тест</Button>
+                    </Col>
+                    <Col span={12}>
+                        <FormSaveButton style={{float: "right"}} text="Сохранить"/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
+                        <TabPane tab="Параметры" key="main">
+                            <Row>
+                                <Col>
+                                    <Form layout="horizontal">
+                                        <FormInput
+                                            {...layout}
+                                            label="имя таблицы"
+                                            bindProperty="name"
+                                            rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
+                                        />
+                                        <FormInput
+                                            {...layout}
+                                            label="описание"
+                                            bindProperty="description"
+                                            rules={[{required: true, message: "описание должно быть заполнено"}]}
+                                        />
+                                    </Form>
+                                </Col>
+                            </Row>
+                        </TabPane>
+                        <TabPane tab="Колонки" key="2">
+                            <Row>
+                                <Button style={{marginBottom: 10, float: "right"}}>Новая колонка</Button>
+                            </Row>
+                            <Row>
 
-                            <FormInput
-                                {...layout}
-                                label="имя таблицы"
-                                bindProperty="name"
-                                rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
-                            />
-                            <FormInput
-                                {...layout}
-                                label="описание"
-                                bindProperty="description"
-                                rules={[{required: true, message: "описание должно быть заполнено"}]}
-                            />
-                        </Form>
 
-                    </TabPane>
-                    <TabPane tab="Колонки" key="2">
-                        <Table dataSource={editedTable.columns as any}>
-                            <Column
-                                title="Колонка"
-                                dataIndex="name"
-                                key="name"
-                            />
-                            <Column
-                                title="Тип данных"
-                                dataIndex="type"
-                                key="type"
-                            />
-                        </Table>
-                    </TabPane>
-                    <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
-                </Tabs>
-                <Col span={24} offset={6}><FormSaveButton label="Сохранить таблицу"/></Col>
+                                <Table size="middle" bordered dataSource={editedTable.columns as any}>
+                                    <Column
+                                        title="Колонка"
+                                        dataIndex="name"
+                                    />
+                                    <Column
+                                        title="Тип данных"
+                                        dataIndex="dataType"
+                                    />
+                                    <Column
+                                        title="Действие"
+                                        key="action"
+                                        render={ (text, record) => (
+                                            <span>
+                                                  <a href="#">изменить</a>
+                                                  <span className="ant-divider"/>
+                                                  <a href="#">удалить</a>
+                                                </span>
+                                        )}
+                                    />
+                                </Table>
+
+
+                            </Row>
+                        </TabPane>
+                        <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
+                    </Tabs>
+                </Row>
             </div>
         )
     }
 }
-const FormPanel = Form.create<IFormPanelProps>(TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
+const FormPanel = Form.create
+    < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
 
 
 export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
