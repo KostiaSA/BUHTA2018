@@ -1,6 +1,20 @@
 import * as React from "react";
 
-import {message, Alert,Modal, Table, Tabs, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {
+    message,
+    Alert,
+    Modal,
+    Table,
+    Tabs,
+    Icon,
+    Input,
+    Button,
+    Form,
+    Row,
+    Col,
+    LocaleProvider,
+    DatePicker
+} from 'antd';
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
 import {FormInput} from "../../platform-core/components/FormInput";
 import {FormItemColOption} from "antd/es/form/FormItem";
@@ -10,6 +24,7 @@ import isDivisibleBy = require("validator/lib/isDivisibleBy");
 import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
 import {clone} from "ejson";
+import {appState} from "../../platform-core/AppState";
 
 const {Column, ColumnGroup} = Table;
 
@@ -71,12 +86,14 @@ class TableFormPanel extends BaseFormPanel {
                                     <Form layout="horizontal">
                                         <FormInput
                                             {...layout}
+                                            mode="input"
                                             label="имя таблицы"
                                             bindProperty="name"
                                             rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
                                         />
                                         <FormInput
                                             {...layout}
+                                            mode="input"
                                             label="описание"
                                             bindProperty="description"
                                             rules={[{required: true, message: "описание должно быть заполнено"}]}
@@ -85,7 +102,9 @@ class TableFormPanel extends BaseFormPanel {
                                 </Col>
                             </Row>
                         </TabPane>
-                        <TabPane tab="Колонки" key="2">
+                        <TabPane
+                            tab={"Колонки" + (this.editedTable.columns.length > 0 ? " (" + this.editedTable.columns.length + ")" : "")}
+                            key="2">
                             <Row>
                                 <Button style={{marginBottom: 10, float: "right"}}>Новая колонка</Button>
                             </Row>
@@ -131,7 +150,7 @@ class TableFormPanel extends BaseFormPanel {
                                 this.editedColumn = undefined as any;
                                 this.forceUpdate();
                             }
-                            else{
+                            else {
                                 message.error("Есть ошибки, сохранение невозможно");
                             }
                         });
@@ -146,7 +165,7 @@ class TableFormPanel extends BaseFormPanel {
                     <TableColumnFormPanel
                         panelRef={(panel: BaseFormPanel) => {
                             this.tableColumnFormPanel = panel;
-                         //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
+                            //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
 
                         }}
                         editedObject={this.editedColumn}
@@ -173,6 +192,10 @@ class TableColumnFormPanelW extends BaseFormPanel {
 
 
     render() {
+        let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
+        if (!editedTableColumn)
+            return null;
+
         let layout = {
             labelCol: this.labelCol,
             wrapperCol: this.wrapperCol,
@@ -180,7 +203,12 @@ class TableColumnFormPanelW extends BaseFormPanel {
 
         const TabPane = Tabs.TabPane;
 
-        let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
+        let dataTypeEditor: any = null;
+
+        if (editedTableColumn.dataType) {
+            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType).renderEditor(layout);
+        }
+
         return (
             <Row>
                 <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
@@ -190,16 +218,21 @@ class TableColumnFormPanelW extends BaseFormPanel {
                                 <Form layout="horizontal">
                                     <FormInput
                                         {...layout}
+                                        mode="input"
                                         label="имя колонки"
                                         bindProperty="name"
                                         rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
                                     />
                                     <FormInput
                                         {...layout}
+                                        mode="select"
                                         label="тип данных"
                                         bindProperty="dataType"
+                                        style={{maxWidth:250}}
+                                        selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass) => sqlDataTypeClass.className)}
                                         rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
                                     />
+                                    {dataTypeEditor}
                                 </Form>
                             </Col>
                         </Row>

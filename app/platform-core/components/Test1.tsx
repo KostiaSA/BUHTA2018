@@ -20,12 +20,14 @@ export class Test1 extends React.Component<any, any> {
                 <FormInput
 
                     label="name3"
+                    mode="input"
                     bindProperty="name"
                     rules={[{required: true, message: 'введи name3!'}]}
                 />
                 <FormInput
 
                     label="description3"
+                    mode="input"
                     bindProperty="description"
                     rules={[{required: true, message: 'введи description3!'}]}
                 />

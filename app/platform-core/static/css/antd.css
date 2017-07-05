@@ -6294,13 +6294,13 @@ input[type="checkbox"].disabled {
 }
 .ant-form-item {
   font-size: 13px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   color: rgba(0, 0, 0, 0.65);
   vertical-align: top;
 }
 .ant-form-item > .ant-form-item,
 .ant-form-item :not(.ant-form) > .ant-form-item {
-  margin-bottom: -24px;
+  margin-bottom: -12px;
 }
 .ant-form-item-control {
   line-height: 32px;
@@ -6330,7 +6330,7 @@ input[type="checkbox"].disabled {
   height: 0;
 }
 .ant-form-item-with-help {
-  margin-bottom: 4.5px;
+  margin-bottom: -7.5px;
 }
 .ant-form-item-label {
   text-align: right;

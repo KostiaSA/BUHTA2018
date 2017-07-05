@@ -33,12 +33,14 @@ class AppFormPanel extends BaseFormPanel {
             <Form layout="horizontal">
                 <FormInput
                     {...layout}
+                    mode="input"
                     label="name3"
                     bindProperty="name"
                     rules={[{required: true, message: 'введи name3!'}]}
                 />
                 <FormInput
                     {...layout}
+                    mode="input"
                     label="description3"
                     bindProperty="description"
                     rules={[{required: true, message: 'введи description3!'}]}

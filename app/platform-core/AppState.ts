@@ -18,7 +18,7 @@ export class AppState {
         //     throw err;
         // }
         // else
-            this.pageTemplates[pageTemplateClass.pageTemplateId] = pageTemplateClass;
+        this.pageTemplates[pageTemplateClass.pageTemplateId] = pageTemplateClass;
     }
 
     getRegisteredPageTemplate(pageTemplateId: string): typeof PageTemplate {
@@ -42,7 +42,7 @@ export class AppState {
         //     throw err;
         // }
         // else
-            this.menuTemplates[menuTemplateClass.menuTemplateId] = menuTemplateClass;
+        this.menuTemplates[menuTemplateClass.menuTemplateId] = menuTemplateClass;
     }
 
     getRegisteredMenuTemplate(menuTemplateId: string): typeof MenuTemplate {
@@ -66,7 +66,7 @@ export class AppState {
         //     throw err;
         // }
         // else
-            this.actions[actionClass.actionId] = actionClass;
+        this.actions[actionClass.actionId] = actionClass;
     }
 
     getRegisteredAction(actionId: string): typeof Action {
@@ -90,10 +90,10 @@ export class AppState {
         //     throw err;
         // }
         // else
-            this.schemaObjects[schemaObjectClassName.className] = schemaObjectClassName;
+        this.schemaObjects[schemaObjectClassName.className] = schemaObjectClassName;
     }
 
-    getRegisteredSchemaObject(schemaObjectClassName: string):  typeof SchemaObject {
+    getRegisteredSchemaObject(schemaObjectClassName: string): typeof SchemaObject {
         let schemaObjectClass = this.schemaObjects[schemaObjectClassName];
         if (!schemaObjectClass) {
             let err = "registerSchemaObject(): не найден зарегистрированный класс объекта схемы" + schemaObjectClassName;
@@ -111,7 +111,14 @@ export class AppState {
         this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
     }
 
-    getRegisteredSqlDataType(sqlDataTypeClassName: string):  typeof SqlDataType {
+    getRegisteredSqlDataTypes(): (typeof SqlDataType)[] {
+        let ret: (typeof SqlDataType)[] = [];
+        for (let typeName in this.sqlDataTypes)
+            ret.push(this.sqlDataTypes[typeName]);
+        return ret;
+    }
+
+    getRegisteredSqlDataType(sqlDataTypeClassName: string): typeof SqlDataType {
         let sqlDataTypeClass = this.sqlDataTypes[sqlDataTypeClassName];
         if (!sqlDataTypeClass) {
             let err = "registerSqlDataType(): не найден зарегистрированный класс типа данных sql" + sqlDataTypeClassName;

@@ -1,9 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {Tooltip, Checkbox, Radio, Select, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {FormItemColOption} from "antd/es/form/FormItem";
 import {ValidationRule, WrappedFormUtils} from "antd/es/form/Form";
-import {PropTypes} from "react";
+import {CSSProperties, PropTypes} from "react";
+import {isArray, isNumber, isString} from "util";
 
 export interface IFormInput {
     label?: string | JSX.Element,
@@ -12,6 +13,11 @@ export interface IFormInput {
     labelCol?: FormItemColOption;
     wrapperCol?: FormItemColOption;
     rules?: ValidationRule[];
+    mode: "input" | "select" | "radio" | "checkbox";
+    selectValues?: any[];
+    style?: CSSProperties;
+    defaultValue?: any;
+    tooltip?: string | JSX.Element;
 }
 
 
@@ -22,21 +28,108 @@ export class FormInput extends React.Component<IFormInput, any> {
         bindObject: PropTypes.any,
     };
 
+    renderMode(): JSX.Element {
+        if (this.props.mode === "input") {
+            return <Input style={this.props.style} placeholder={this.props.placeholder}/>
+        }
+        else if (this.props.mode === "checkbox") {
+            return <Checkbox style={this.props.style}>{this.props.label}</Checkbox>
+        }
+        else if (this.props.mode === "select") {
+            let renderOptions = (): JSX.Element[] => {
+                if (!this.props.selectValues) {
+                    return [];
+                }
+                else {
+                    return this.props.selectValues.map<JSX.Element>((value: any, index: number) => {
+                        if (isString(value) || isNumber(value)) {
+                            return <Select.Option value={value.toString()}>{value.toString()}</Select.Option>;
+                        }
+                        else if (isArray(value)) {
+                            return <Select.Option value={value[0].toString()}>{value[1].toString()}</Select.Option>;
+                        }
+                        else
+                            return <Select.Option value="0">неверный тип: {value.toString()} </Select.Option>;
+                    });
+                }
+            };
+            return <Select style={this.props.style} placeholder={this.props.placeholder}>{renderOptions()}</Select>
+        }
+        else if (this.props.mode === "radio") {
+            let renderOptions = (): JSX.Element[] => {
+                if (!this.props.selectValues) {
+                    return [];
+                }
+                else {
+                    return this.props.selectValues.map<JSX.Element>((value: any, index: number) => {
+                        if (isString(value) || isNumber(value)) {
+                            return <Radio value={value.toString()}>{value.toString()}</Radio>;
+                        }
+                        else if (isArray(value)) {
+                            return <Radio value={value[0].toString()}>{value[1].toString()}</Radio>;
+                        }
+                        else
+                            return <Radio value="0">неверный тип: {value.toString()} </Radio>;
+                    });
+                }
+            };
+            return <Radio.Group style={this.props.style}>{renderOptions()}</Radio.Group>
+        }
+        else
+            return <span style={{color: "red"}}>INVALID INPUT MODE</span>;
+    }
+
     render(): JSX.Element {
         let form = this.context.form;
         let bindObject = this.context.bindObject;
+
+        let labelCol = this.props.labelCol as any;
+        let wrapperCol = this.props.wrapperCol as any;
+
+        let valuePropName = "value";
+        let label = this.props.label;
+
+        if (this.props.tooltip) {
+            label = (
+                <span>
+                    {label}&nbsp;
+                    <Tooltip title={this.props.tooltip}>
+                       <Icon type="question-circle-o"/>
+                     </Tooltip>
+                </span>
+            )
+        }
+
+        if (this.props.mode === "checkbox") {
+            wrapperCol = {
+                xs: {
+                    span: 24,
+                    offset: 0,
+                },
+                sm: {
+                    span: wrapperCol.sm.span,
+                    offset: labelCol.sm.span,
+                },
+            };
+
+            valuePropName = "checked";
+            label = null as any;
+
+        }
+
         if (bindObject) {
             return (
                 <Form.Item
-                    labelCol={this.props.labelCol}
-                    wrapperCol={this.props.wrapperCol}
-                    label={this.props.label}
+                    labelCol={ labelCol}
+                    wrapperCol={wrapperCol}
+                    label={label}
                 >
                     {form.getFieldDecorator(this.props.bindProperty, {
-                        initialValue: bindObject[this.props.bindProperty],
+                        initialValue: bindObject[this.props.bindProperty] || this.props.defaultValue,
                         rules: this.props.rules,
+                        valuePropName: valuePropName,
                     })(
-                        <Input placeholder={this.props.placeholder}/>
+                        this.renderMode()
                     )}
 
                 </Form.Item>

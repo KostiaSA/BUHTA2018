@@ -8,6 +8,7 @@ import {SchemaApp} from "./schema/SchemaApp";
 import {SchemaMenu} from "./schema/SchemaMenu";
 import {SchemaTable} from "./schema/table/SchemaTable";
 import {StringSqlDataType} from "./schema/table/StringSqlDataType";
+import {IntegerSqlDataType} from "./schema/table/IntegerSqlDataType";
 
 export async function clientStartup() {
 
@@ -25,6 +26,7 @@ export async function clientStartup() {
     appState.registerSchemaObject(SchemaPage);
 
     appState.registerSqlDataType(StringSqlDataType);
+    appState.registerSqlDataType(IntegerSqlDataType);
 
     console.log("platform-core startup ok");
 }
