@@ -139,16 +139,16 @@ export async function createTestSchemaObjects() {
         name: "Организация",
         description: "таблица организация",
         columns: [
-            {
-                name: "номер",
-                className:StringSqlDataType.className,
-                dataType: StringSqlDataType.className,
-            },
-            {
-                name: "название",
-                className:StringSqlDataType.className,
-                dataType: StringSqlDataType.className,
-            }
+            // {
+            //     name: "номер",
+            //     className:StringSqlDataType.className,
+            //     dataType: StringSqlDataType.className,
+            // },
+            // {
+            //     name: "название",
+            //     className:StringSqlDataType.className,
+            //     dataType: StringSqlDataType.className,
+            // }
         ]
     };
 

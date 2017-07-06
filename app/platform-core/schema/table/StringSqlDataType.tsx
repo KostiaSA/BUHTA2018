@@ -22,4 +22,16 @@ export class StringSqlDataType extends SqlDataType<IStringSqlDataTypeProps> {
         )
     }
 
+    dataTypeUserFriendly(): string | JSX.Element {
+        if (!this.props.maxLen || this.props.maxLen === 0)
+            return StringSqlDataType.className;
+        else
+            return (
+                <span
+                    style={{color: "indianred"}}>{StringSqlDataType.className + "(" + this.props.maxLen + ")"}
+                </span>
+            );
+    }
+
+
 }

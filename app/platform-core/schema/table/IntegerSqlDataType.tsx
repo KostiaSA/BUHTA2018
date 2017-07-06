@@ -26,4 +26,13 @@ export class IntegerSqlDataType extends SqlDataType<IIntegerSqlDataTypeProps> {
         ]
     }
 
+    dataTypeUserFriendly(): string | JSX.Element {
+        return (
+            <span
+                style={{color: "teal"}}>{"int" + this.props.size}
+            </span>
+        );
+
+    }
+
 }

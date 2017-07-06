@@ -25,6 +25,8 @@ import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTablePr
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
 import {clone} from "ejson";
 import {appState} from "../../platform-core/AppState";
+import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/table/SqlDataType";
+import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 
 const {Column, ColumnGroup} = Table;
 
@@ -111,7 +113,8 @@ class TableFormPanel extends BaseFormPanel {
                             <Row>
 
 
-                                <Table size="middle" bordered dataSource={this.editedTable.columns as any} pagination={{ pageSize: 100} as any}>
+                                <Table size="middle" bordered dataSource={this.editedTable.columns as any}
+                                       pagination={{pageSize: 100} as any}>
                                     <Column
                                         title="Колонка"
                                         dataIndex="name"
@@ -119,11 +122,19 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Тип данных"
                                         dataIndex="dataType"
+                                        render={ (text: any, record: ISchemaTableColumnProps) => {
+                                            let dataTypeInstance = createSqlDataTypeObject(record.dataType);
+                                            return (
+                                                <span>
+                                                   {dataTypeInstance.dataTypeUserFriendly()}
+                                               </span>
+                                            )
+                                        }}
                                     />
                                     <Column
                                         title="Действие"
                                         key="action"
-                                        render={ (text: any, record: any) => (
+                                        render={ (text: any, record: ISchemaTableColumnProps) => (
                                             <span>
                                                   <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
                                                   <span className="ant-divider"/>
@@ -206,7 +217,7 @@ class TableColumnFormPanelW extends BaseFormPanel {
         let dataTypeEditor: any = null;
 
         if (editedTableColumn.dataType) {
-            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType).renderEditor(layout);
+            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType.className).renderEditor(layout);
         }
 
         return (
@@ -228,7 +239,7 @@ class TableColumnFormPanelW extends BaseFormPanel {
                                         mode="select"
                                         label="тип данных"
                                         bindProperty="dataType"
-                                        style={{maxWidth:250}}
+                                        style={{maxWidth: 250}}
                                         selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass) => sqlDataTypeClass.className)}
                                         rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
                                     />

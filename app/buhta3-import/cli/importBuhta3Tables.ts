@@ -8,6 +8,7 @@ import {StringSqlDataType} from "../../platform-core/schema/table/StringSqlDataT
 import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/IStringSqlDataTypeProps";
 import {IntegerSqlDataType} from "../../platform-core/schema/table/IntegerSqlDataType";
 import {_saveSchemaObjectApiResponse} from "../../platform-core/schema/api/_saveSchemaObjectApiResponse";
+import {IIntegerSqlDataTypeProps} from "../../platform-core/schema/table/IIntegerSqlDataTypeProps";
 
 export async function importBuhta3Tables() {
     await _sequelizeInit();
@@ -40,17 +41,22 @@ export async function importBuhta3Tables() {
 
             let newcol: ISchemaTableColumnProps & IStringSqlDataTypeProps = {} as any;
 
-            newcol.name=col["FieldName"];
+            newcol.name = col["FieldName"];
 
             if (col["DataType"] === "Строка") {
-                newcol.dataType = StringSqlDataType.className;
-                newcol.maxLen = col["DataSize"];
+                let dataType: IStringSqlDataTypeProps = {
+                    className: StringSqlDataType.className,
+                    maxLen: col["DataSize"]
+                };
+                newcol.dataType = dataType;
                 obj.columns.push(newcol);
             }
-            else
-            if (col["DataType"] === "Целое") {
-                newcol.dataType = IntegerSqlDataType.className;
-                newcol.size = "32";
+            else if (col["DataType"] === "Целое") {
+                let dataType: IIntegerSqlDataTypeProps = {
+                    className: IntegerSqlDataType.className,
+                    size : "32"
+                };
+                newcol.dataType = dataType;
                 obj.columns.push(newcol);
             }
         }
