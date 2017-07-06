@@ -13,7 +13,8 @@ import {
     Row,
     Col,
     LocaleProvider,
-    DatePicker
+    DatePicker,
+
 } from 'antd';
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
 import {FormInput} from "../../platform-core/components/FormInput";
@@ -49,6 +50,21 @@ class TableFormPanel extends BaseFormPanel {
     tableColumnFormPanel: BaseFormPanel;
     editedColumn: ISchemaTableColumnProps;
     editedColumnCloned: ISchemaTableColumnProps;
+
+    columnSearchValue: string;
+
+    getFilteredColumnList(): ISchemaTableColumnProps[] {
+        if (!this.columnSearchValue || this.columnSearchValue === "")
+            return this.editedTable.columns;
+        else {
+            let value = this.columnSearchValue.toLocaleLowerCase();
+            return this.editedTable.columns.filter((col: ISchemaTableColumnProps) => {
+                return col.name.toLocaleLowerCase().indexOf(value) >= 0;
+            });
+        }
+    }
+
+    //this.editedTable.columns
 
     editColumnClickHandler = (column: ISchemaTableColumnProps) => {
         this.editedColumn = column;
@@ -107,17 +123,40 @@ class TableFormPanel extends BaseFormPanel {
                         <TabPane
                             tab={"Колонки" + (this.editedTable.columns.length > 0 ? " (" + this.editedTable.columns.length + ")" : "")}
                             key="2">
-                            <Row>
-                                <Button style={{marginBottom: 10, float: "right"}}>Новая колонка</Button>
+                            <Row style={{marginBottom: 10}}>
+                                <Col span={12}>
+                                    <Input.Search
+                                        placeholder="поиск по имени колонки"
+                                        style={{width: 300}}
+                                        value={this.columnSearchValue}
+                                        onChange={(event: any) => {
+                                            this.columnSearchValue = event.target.value;
+                                            this.forceUpdate();
+                                        }}
+                                        addonAfter={(
+                                            <span style={{cursor: "default"}} onClick={() => {
+                                                //console.log("jgf");
+                                                this.columnSearchValue = "";
+                                                this.forceUpdate()
+                                            }}
+                                            >
+                                            очистить
+                                        </span>)
+                                        }
+                                    />
+                                </Col>
+                                <Col span={12}>
+                                    <Button style={{float: "right"}}>Новая колонка</Button>
+                                </Col>
                             </Row>
                             <Row>
 
-
-                                <Table size="middle" bordered dataSource={this.editedTable.columns as any}
+                                <Table size="middle" bordered dataSource={this.getFilteredColumnList()}
                                        pagination={{pageSize: 100} as any}>
                                     <Column
-                                        title="Колонка"
+                                        title="Имя колонки"
                                         dataIndex="name"
+                                        onFilter={(value, record: ISchemaTableColumnProps) => record.name.indexOf("Тел") >= 0}
                                     />
                                     <Column
                                         title="Тип данных"
