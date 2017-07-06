@@ -1,5 +1,5 @@
 
-import {isString} from "util";
+import {isString} from "util"; 
 
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 export interface ISaveSchemaObjectApiRequest {
@@ -43,4 +43,4 @@ export function saveSchemaObjectApiRequest(req: ISaveSchemaObjectApiRequest): Pr
 
         });
 
-}
+}        

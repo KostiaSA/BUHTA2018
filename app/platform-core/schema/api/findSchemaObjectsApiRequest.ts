@@ -1,5 +1,5 @@
 
-import {isString} from "util";
+import {isString} from "util"; 
 
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 import {WhereOptions} from "sequelize";  // emit-to-request-code
@@ -45,4 +45,4 @@ export function findSchemaObjectsApiRequest(req: IFindSchemaObjectsApiRequest): 
 
         });
 
-}
+}        

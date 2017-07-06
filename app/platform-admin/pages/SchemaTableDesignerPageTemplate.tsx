@@ -28,7 +28,9 @@ import {clone} from "ejson";
 import {appState} from "../../platform-core/AppState";
 import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
-let Highlighter=require("react-highlight-words");
+import {CSSProperties} from "react";
+import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
+let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
 
@@ -78,6 +80,23 @@ class TableFormPanel extends BaseFormPanel {
         return this.props.editedObject as ISchemaTableProps;
     }
 
+    async synchronizeHandler() {
+        try {
+            let ans = await syncSchemaTableApiRequest({schemaTableId: this.editedTable.id});
+            if (!ans.error)
+                message.success("Синхронизация завершена", 3);
+            else
+                message.error("Ошибка, " + ans.error.substr(0, 50), 3);
+        }
+        catch (e) {
+            message.error("Ошибка, " + e.toString().substr(0, 50), 3);
+            console.error(e.toString());
+        }
+
+        console.log("synchronizeHandler");
+    }
+
+
     render() {
         let layout = {
             labelCol: this.labelCol,
@@ -86,6 +105,10 @@ class TableFormPanel extends BaseFormPanel {
 
         const TabPane = Tabs.TabPane;
 
+        let buttonStyle: CSSProperties = {
+            marginRight: 8,
+            marginBottom: 12
+        };
 
         return (
             <div>
@@ -94,7 +117,12 @@ class TableFormPanel extends BaseFormPanel {
                         <Button>тест</Button>
                     </Col>
                     <Col span={12}>
-                        <FormSaveButton style={{float: "right"}} text="Сохранить"/>
+                        <div style={{float: "right"}}>
+                            <Button style={buttonStyle} onClick={() => {
+                                this.synchronizeHandler()
+                            }}>Синхронизация</Button>
+                            <FormSaveButton style={buttonStyle} text="Сохранить"/>
+                        </div>
                     </Col>
                 </Row>
                 <Row>
@@ -136,7 +164,6 @@ class TableFormPanel extends BaseFormPanel {
                                         }}
                                         addonAfter={(
                                             <span style={{cursor: "default"}} onClick={() => {
-                                                //console.log("jgf");
                                                 this.columnSearchValue = "";
                                                 this.forceUpdate()
                                             }}
@@ -165,8 +192,8 @@ class TableFormPanel extends BaseFormPanel {
                                                     searchWords={[this.columnSearchValue]}
                                                     textToHighlight={record.name}
                                                 >
-                                                   {dataTypeInstance.dataTypeUserFriendly()}
-                                               </Highlighter>
+                                                    {dataTypeInstance.dataTypeUserFriendly()}
+                                                </Highlighter>
                                             )
                                         }}
                                     />
