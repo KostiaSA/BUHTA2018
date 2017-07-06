@@ -28,6 +28,7 @@ import {clone} from "ejson";
 import {appState} from "../../platform-core/AppState";
 import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
+let Highlighter=require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
 
@@ -157,6 +158,17 @@ class TableFormPanel extends BaseFormPanel {
                                         title="Имя колонки"
                                         dataIndex="name"
                                         onFilter={(value, record: ISchemaTableColumnProps) => record.name.indexOf("Тел") >= 0}
+                                        render={ (text: any, record: ISchemaTableColumnProps) => {
+                                            let dataTypeInstance = createSqlDataTypeObject(record.dataType);
+                                            return (
+                                                <Highlighter
+                                                    searchWords={[this.columnSearchValue]}
+                                                    textToHighlight={record.name}
+                                                >
+                                                   {dataTypeInstance.dataTypeUserFriendly()}
+                                               </Highlighter>
+                                            )
+                                        }}
                                     />
                                     <Column
                                         title="Тип данных"

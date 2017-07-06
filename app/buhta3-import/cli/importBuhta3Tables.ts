@@ -14,7 +14,7 @@ export async function importBuhta3Tables() {
     await _sequelizeInit();
     await _buhta3SequelizeInit();
 
-    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName='Организация'", {type: _buhta3Sequelize.QueryTypes.SELECT});
+    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName='Сотрудник'", {type: _buhta3Sequelize.QueryTypes.SELECT});
 
 //    console.log(tables);
 
