@@ -18,8 +18,8 @@ export function _createIndexHtml(schemaPageId:string): string {
 </div>
 <script>document.schemaPageId="${schemaPageId}"</script>
 <script src="/platform-core/static/js/jquery.min.js"></script>
-<script src="/platform-core/static/js/react.js"></script>
-<script src="/platform-core/static/js/react-dom.js"></script>
+<script src="/platform-core/static/js/react.min.js"></script>
+<script src="/platform-core/static/js/react-dom.min.js"></script>
 <script src="/platform-core/static/js/antd-with-locales.min.js"></script>
 <script src="/platform-core/static/js/ag-grid.min.js"></script>
 <script src="/platform-core/static/app_bundle.js"></script>

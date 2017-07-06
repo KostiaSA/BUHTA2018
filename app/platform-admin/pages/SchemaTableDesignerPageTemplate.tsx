@@ -238,7 +238,8 @@ class TableColumnFormPanelW extends BaseFormPanel {
                                         {...layout}
                                         mode="select"
                                         label="тип данных"
-                                        bindProperty="dataType"
+                                        bindObject={editedTableColumn.dataType}
+                                        bindProperty="className"
                                         style={{maxWidth: 250}}
                                         selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass) => sqlDataTypeClass.className)}
                                         rules={[{required: true, message: "тип данных должнен быть заполнен"}]}

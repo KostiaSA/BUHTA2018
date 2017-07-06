@@ -8,6 +8,7 @@ import {isArray, isNumber, isString} from "util";
 
 export interface IFormInput {
     label?: string | JSX.Element,
+    bindObject?: any;
     bindProperty: string;
     placeholder?: string;
     labelCol?: FormItemColOption;
@@ -18,6 +19,7 @@ export interface IFormInput {
     style?: CSSProperties;
     defaultValue?: any;
     tooltip?: string | JSX.Element;
+    onChange?: (value: any) => void;
 }
 
 
@@ -53,7 +55,20 @@ export class FormInput extends React.Component<IFormInput, any> {
                     });
                 }
             };
-            return <Select style={this.props.style} placeholder={this.props.placeholder}>{renderOptions()}</Select>
+            return (
+                <Select
+                    style={this.props.style}
+                    placeholder={this.props.placeholder}
+                    onChange={(value) => {
+                        let bindObject = this.props.bindObject || this.context.bindObject;
+                        bindObject[this.props.bindProperty] = value;
+                        if (this.props.onChange)
+                            this.props.onChange(value)
+                    }}
+                >
+                    {renderOptions()}
+                </Select>
+            )
         }
         else if (this.props.mode === "radio") {
             let renderOptions = (): JSX.Element[] => {
@@ -81,7 +96,7 @@ export class FormInput extends React.Component<IFormInput, any> {
 
     render(): JSX.Element {
         let form = this.context.form;
-        let bindObject = this.context.bindObject;
+        let bindObject = this.props.bindObject || this.context.bindObject;
 
         let labelCol = this.props.labelCol as any;
         let wrapperCol = this.props.wrapperCol as any;
