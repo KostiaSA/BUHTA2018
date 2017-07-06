@@ -8,6 +8,7 @@ import {_config} from "../../../_config";
 import {_bindApi} from "./_bindApi";
 import {_serverStartup} from "../_serverStartup";
 import {_bindSchemaPages} from "./_bindSchemaPages";
+import {_packagesInit} from "../../../config/_packagesInit";
 
 const expressApp = express();
 
@@ -51,7 +52,8 @@ async function _startServer() {
         console.log(err);
     });
 
-    await _serverStartup();
+    //await _serverStartup();
+    await _packagesInit();
 
     await _bindSchemaPages(expressApp);
 

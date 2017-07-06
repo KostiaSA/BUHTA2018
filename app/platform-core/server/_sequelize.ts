@@ -14,6 +14,7 @@ export async function _sequelizeInit() {
             min: 0,
             idle: 10000
         },
+        logging:false
     };
 
     _sequelize = new SequelizeStatic(_config.sqlDatabase, _config.sqlLogin, _config.sqlPassword, options);

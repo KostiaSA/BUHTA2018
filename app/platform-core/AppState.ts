@@ -3,6 +3,7 @@ import {SchemaObject} from "./schema/SchemaObject";
 import {PageTemplate} from "./components/PageTemplate";
 import {Action} from "./actions/Action";
 import {SqlDataType} from "./schema/table/SqlDataType";
+import {ISqlDataTypeProps} from "./schema/table/ISqlDataTypeProps";
 export class AppState {
 
     globals: { [propName: string]: any } = {};
