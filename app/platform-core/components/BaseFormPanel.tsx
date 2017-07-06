@@ -32,12 +32,6 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
             }
 
         },
-        // mapPropsToFields: (props: IFormPanelProps) => {
-        //     console.log('mapPropsToFields1', props);
-        //     return  {
-        //         name: props.editedObject.name,
-        //     };
-        // }
     };
 
     componentDidMount() {

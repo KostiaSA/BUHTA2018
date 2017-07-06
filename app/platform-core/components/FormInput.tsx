@@ -19,7 +19,7 @@ export interface IFormInput {
     style?: CSSProperties;
     defaultValue?: any;
     tooltip?: string | JSX.Element;
-    onChange?: (value: any) => void;
+    //onChange?: (value: any) => void;
 }
 
 
@@ -36,12 +36,6 @@ export class FormInput extends React.Component<IFormInput, any> {
                 <Input
                     style={this.props.style}
                     placeholder={this.props.placeholder}
-                    onChange={(value) => {
-                        //let bindObject = this.props.bindObject || this.context.bindObject;
-                        //bindObject[this.props.bindProperty] = value;
-                        //if (this.props.onChange)
-                        //  this.props.onChange(value)
-                    }}
                 />
             )
         }
@@ -70,12 +64,6 @@ export class FormInput extends React.Component<IFormInput, any> {
                 <Select
                     style={this.props.style}
                     placeholder={this.props.placeholder}
-                    onChange={(value) => {
-                        //let bindObject = this.props.bindObject || this.context.bindObject;
-                        //bindObject[this.props.bindProperty] = value;
-                        //if (this.props.onChange)
-//                            this.props.onChange(value)
-                    }}
                 >
                     {renderOptions()}
                 </Select>
