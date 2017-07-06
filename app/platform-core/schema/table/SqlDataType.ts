@@ -3,12 +3,13 @@ import {SchemaObject} from "../SchemaObject";
 import {ISchemaTableProps} from "./ISchemaTableProps";
 import {ISqlDataTypeProps} from "./ISqlDataTypeProps";
 import {appState} from "../../AppState";
+import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 
 export class SqlDataType<P extends ISqlDataTypeProps> {
     static className = "?";
     props: P;
 
-    static renderEditor(attrs?: any): JSX.Element | JSX.Element[] {
+    static renderEditor(columnProps:ISchemaTableColumnProps, attrs?: any ): JSX.Element | JSX.Element[] {
         return null as any;
     }
 

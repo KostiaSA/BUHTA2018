@@ -5,10 +5,10 @@ import {FormItemColOption} from "antd/es/form/FormItem";
 import {ValidationRule, WrappedFormUtils} from "antd/es/form/Form";
 import {CSSProperties, PropTypes} from "react";
 import {isArray, isNumber, isString} from "util";
+var objectPath = require("object-path");
 
 export interface IFormInput {
     label?: string | JSX.Element,
-    bindObject?: any;
     bindProperty: string;
     placeholder?: string;
     labelCol?: FormItemColOption;
@@ -32,7 +32,18 @@ export class FormInput extends React.Component<IFormInput, any> {
 
     renderMode(): JSX.Element {
         if (this.props.mode === "input") {
-            return <Input style={this.props.style} placeholder={this.props.placeholder}/>
+            return (
+                <Input
+                    style={this.props.style}
+                    placeholder={this.props.placeholder}
+                    onChange={(value) => {
+                        //let bindObject = this.props.bindObject || this.context.bindObject;
+                        //bindObject[this.props.bindProperty] = value;
+                        //if (this.props.onChange)
+                        //  this.props.onChange(value)
+                    }}
+                />
+            )
         }
         else if (this.props.mode === "checkbox") {
             return <Checkbox style={this.props.style}>{this.props.label}</Checkbox>
@@ -60,10 +71,10 @@ export class FormInput extends React.Component<IFormInput, any> {
                     style={this.props.style}
                     placeholder={this.props.placeholder}
                     onChange={(value) => {
-                        let bindObject = this.props.bindObject || this.context.bindObject;
-                        bindObject[this.props.bindProperty] = value;
-                        if (this.props.onChange)
-                            this.props.onChange(value)
+                        //let bindObject = this.props.bindObject || this.context.bindObject;
+                        //bindObject[this.props.bindProperty] = value;
+                        //if (this.props.onChange)
+//                            this.props.onChange(value)
                     }}
                 >
                     {renderOptions()}
@@ -96,7 +107,7 @@ export class FormInput extends React.Component<IFormInput, any> {
 
     render(): JSX.Element {
         let form = this.context.form;
-        let bindObject = this.props.bindObject || this.context.bindObject;
+        let bindObject = this.context.bindObject;
 
         let labelCol = this.props.labelCol as any;
         let wrapperCol = this.props.wrapperCol as any;
@@ -132,6 +143,11 @@ export class FormInput extends React.Component<IFormInput, any> {
 
         }
 
+        //let initValue = bindObject[this.props.bindProperty];
+        let initValue = objectPath.get(bindObject, this.props.bindProperty,this.props.defaultValue);
+         // if (!initValue)
+         //     initValue = this.props.defaultValue;
+
         if (bindObject) {
             return (
                 <Form.Item
@@ -140,7 +156,7 @@ export class FormInput extends React.Component<IFormInput, any> {
                     label={label}
                 >
                     {form.getFieldDecorator(this.props.bindProperty, {
-                        initialValue: bindObject[this.props.bindProperty] || this.props.defaultValue,
+                        initialValue: initValue,
                         rules: this.props.rules,
                         valuePropName: valuePropName,
                     })(

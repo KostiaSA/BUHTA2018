@@ -217,7 +217,7 @@ class TableColumnFormPanelW extends BaseFormPanel {
         let dataTypeEditor: any = null;
 
         if (editedTableColumn.dataType) {
-            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType.className).renderEditor(layout);
+            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType.className).renderEditor(editedTableColumn, layout);
         }
 
         return (
@@ -238,8 +238,7 @@ class TableColumnFormPanelW extends BaseFormPanel {
                                         {...layout}
                                         mode="select"
                                         label="тип данных"
-                                        bindObject={editedTableColumn.dataType}
-                                        bindProperty="className"
+                                        bindProperty="dataType.className"
                                         style={{maxWidth: 250}}
                                         selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass) => sqlDataTypeClass.className)}
                                         rules={[{required: true, message: "тип данных должнен быть заполнен"}]}

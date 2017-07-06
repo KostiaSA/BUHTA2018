@@ -1,8 +1,8 @@
 import * as React from "react";
 import {message, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
-
 import {FormCreateOption, WrappedFormUtils} from "antd/es/form/Form";
 import {PropTypes} from "react";
+var objectPath = require("object-path");
 
 export interface IFormPanelProps {
     editedObject: any;
@@ -21,7 +21,9 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
 
             for (let propName in fields) {
                 if (props.editedObject) {
-                    props.editedObject[propName] = fields[propName].value;
+                    //props.editedObject[propName] = fields[propName].value;
+                    objectPath.set(props.editedObject,propName,fields[propName].value)
+
                 }
             }
 
@@ -29,7 +31,13 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
                 props.onFieldsChange(fields);
             }
 
-        }
+        },
+        // mapPropsToFields: (props: IFormPanelProps) => {
+        //     console.log('mapPropsToFields1', props);
+        //     return  {
+        //         name: props.editedObject.name,
+        //     };
+        // }
     };
 
     componentDidMount() {
@@ -48,26 +56,26 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
             }
             else {
 
-                let errorList:JSX.Element[]=[];
-                for (let err in errors){
+                let errorList: JSX.Element[] = [];
+                for (let err in errors) {
                     errorList.push(<li>{errors[err].errors[0].message}</li>)
                 }
 
-                let msg=(
+                let msg = (
                     <span>
                         <span>Есть ошибки, сохранение невозможно!!</span>
                         <ul style={{
-                                listStyleType: "square",
-                                listStylePosition: "inside",
-                                color: "indianred"
-                            }}>
+                            listStyleType: "square",
+                            listStylePosition: "inside",
+                            color: "indianred"
+                        }}>
                         {errorList}
                         </ul>
                     </span>
                 );
 
                 message.error(msg);
-                console.log("Есть ошибки, сохранение невозможно!",errors);
+                console.log("Есть ошибки, сохранение невозможно!", errors);
             }
         })
     };
