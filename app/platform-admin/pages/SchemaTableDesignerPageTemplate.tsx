@@ -13,7 +13,7 @@ import {
     Row,
     Col,
     LocaleProvider,
-    DatePicker,
+    Popconfirm,
 
 } from 'antd';
 import {SchemaObjectDesignerPageTemplate} from "./SchemaObjectDesignerPageTemplate";
@@ -118,9 +118,18 @@ class TableFormPanel extends BaseFormPanel {
                     </Col>
                     <Col span={12}>
                         <div style={{float: "right"}}>
-                            <Button style={buttonStyle} onClick={() => {
-                                this.synchronizeHandler()
-                            }}>Синхронизация</Button>
+                            <Popconfirm
+                                title="Сохранить таблицу и синхронизировать с БД?"
+                                onConfirm={() => {
+                                    this.synchronizeHandler()
+                                }}
+                                okText="Да" cancelText="Нет">
+                                <Button
+                                    style={buttonStyle}
+                                >
+                                    Синхронизация
+                                </Button>
+                            </Popconfirm>
                             <FormSaveButton style={buttonStyle} text="Сохранить"/>
                         </div>
                     </Col>

@@ -16,6 +16,7 @@ export class SqlDataType<P extends ISqlDataTypeProps> {
     dataTypeUserFriendly(): string | JSX.Element {
         return null as any;
     }
+
 }
 
 

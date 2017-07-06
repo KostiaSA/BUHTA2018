@@ -17,6 +17,7 @@ export async function _syncSchemaTableApiResponse(req: _ISyncSchemaTableApiReque
         if (instance) {
             let table = new _SchemaTable();
             table.props = parse(instance.get().jsonData);
+            await table.sync();
             console.log("sync ok",table);
             return Promise.resolve({})
         }
