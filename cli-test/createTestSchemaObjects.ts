@@ -17,6 +17,7 @@ import {MainPageTemplate} from "../app/platform-core/templates/MainPageTemplate"
 import {SchemaTable} from "../app/platform-core/schema/table/SchemaTable";
 import {ISchemaTableProps} from "../app/platform-core/schema/table/ISchemaTableProps";
 import {SchemaTableDesignerPageTemplate} from "../app/platform-admin/pages/SchemaTableDesignerPageTemplate";
+import {StringSqlDataType} from "../app/platform-core/schema/table/StringSqlDataType";
 
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
@@ -140,11 +141,13 @@ export async function createTestSchemaObjects() {
         columns: [
             {
                 name: "номер",
-                dataType: "string"
+                className:StringSqlDataType.className,
+                dataType: StringSqlDataType.className,
             },
             {
                 name: "название",
-                dataType: "string"
+                className:StringSqlDataType.className,
+                dataType: StringSqlDataType.className,
             }
         ]
     };

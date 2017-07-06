@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {message, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 
 import {FormCreateOption, WrappedFormUtils} from "antd/es/form/Form";
 import {PropTypes} from "react";
@@ -39,11 +39,35 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
     }
 
     onClickSaveButton = () => {
-        console.log("handleClickSaveButton");
-        this.props.form!.validateFields((erros: any, values: any) => {
-            console.log("validateFields", erros, values);
-            if (!erros && this.props.onSave) {
-                this.props.onSave();
+        //console.log("handleClickSaveButton");
+        this.props.form!.validateFields((errors: any, values: any) => {
+            //console.log("validateFields", erros, values);
+            if (!errors) {
+                if (this.props.onSave)
+                    this.props.onSave();
+            }
+            else {
+
+                let errorList:JSX.Element[]=[];
+                for (let err in errors){
+                    errorList.push(<li>{errors[err].errors[0].message}</li>)
+                }
+
+                let msg=(
+                    <span>
+                        <span>Есть ошибки, сохранение невозможно!!</span>
+                        <ul style={{
+                                listStyleType: "square",
+                                listStylePosition: "inside",
+                                color: "indianred"
+                            }}>
+                        {errorList}
+                        </ul>
+                    </span>
+                );
+
+                message.error(msg);
+                console.log("Есть ошибки, сохранение невозможно!",errors);
             }
         })
     };

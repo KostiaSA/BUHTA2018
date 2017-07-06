@@ -111,7 +111,7 @@ class TableFormPanel extends BaseFormPanel {
                             <Row>
 
 
-                                <Table size="middle" bordered dataSource={this.editedTable.columns as any}>
+                                <Table size="middle" bordered dataSource={this.editedTable.columns as any} pagination={{ pageSize: 100} as any}>
                                     <Column
                                         title="Колонка"
                                         dataIndex="name"
