@@ -126,7 +126,7 @@ class QueryFormPanel extends BaseFormPanel {
                                         render={ (text: any, record: ISchemaQueryColumnProps) => {
                                             return (
                                                 <span>
-                                                   {record.fieldCaption}
+                                                   {record.fieldCaption || record.tableId}
                                                </span>
                                             )
                                         }}
