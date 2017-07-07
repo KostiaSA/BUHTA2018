@@ -30,8 +30,6 @@ import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/t
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
-import {LazyLoad} from "../../platform-core/components/LazyLoad";
-import {sleep} from "../../platform-core/utils/sleep";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
