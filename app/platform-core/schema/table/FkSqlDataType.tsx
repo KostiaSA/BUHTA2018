@@ -30,7 +30,7 @@ export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
                         <FormInput
                             {...attrs}
                             mode="lookup"
-                            label="ссылка на таблицу+"
+                            label="ссылка на таблицу"
                             bindProperty="dataType.fkTableId"
                             style={{maxWidth: 400}}
                             selectValues={values}
