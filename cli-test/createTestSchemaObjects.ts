@@ -18,6 +18,9 @@ import {SchemaTable} from "../app/platform-core/schema/table/SchemaTable";
 import {ISchemaTableProps} from "../app/platform-core/schema/table/ISchemaTableProps";
 import {SchemaTableDesignerPageTemplate} from "../app/platform-admin/pages/SchemaTableDesignerPageTemplate";
 import {StringSqlDataType} from "../app/platform-core/schema/table/StringSqlDataType";
+import {ISchemaQueryProps} from "../app/platform-core/schema/query/ISchemaQueryProps";
+import {SchemaQuery} from "../app/platform-core/schema/query/SchemaQuery";
+import {SchemaQueryDesignerPageTemplate} from "../app/platform-admin/pages/SchemaQueryDesignerPageTemplate";
 
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
@@ -51,15 +54,22 @@ export async function createTestSchemaObjects() {
             objectId: "8563AF517DDE"
         } as IOpenSchemaObjectDesignerActionProps
     };
+    let menuItem5: ISchemaMenuItem = {
+        label: "дизайнер ЗАПРОСА",
+        action: {
+            actionId: OpenSchemaObjectDesignerAction.actionId,
+            objectId: "7788AF517DDE"
+        } as IOpenSchemaObjectDesignerActionProps
+    };
 
     let mainmenu: ISchemaMenuProps = {
         id: "EC69BFBB1D35",
         className: SchemaMenu.className,
-        type:"SchemaMenu",
+        type: "SchemaMenu",
         name: "тестовое главное меню",
         description: "---",
         template: MainMenuTemplate.menuTemplateId,// "platform-core/templates/MainMenuTemplate",
-        items: [menuItem1, menuItem2, menuItem3,menuItem4]
+        items: [menuItem1, menuItem2, menuItem3, menuItem4, menuItem5]
     };
 
     let result = await _saveSchemaObjectApiResponse({object: mainmenu});
@@ -69,7 +79,7 @@ export async function createTestSchemaObjects() {
     let startPage: ISchemaPageProps = {
         id: "2A2B0CFFC047",
         className: SchemaPage.className,
-        type:"SchemaPage",
+        type: "SchemaPage",
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
@@ -88,7 +98,7 @@ export async function createTestSchemaObjects() {
     let app: ISchemaAppProps = {
         id: "4FD8AF410DDE",
         className: SchemaApp.className,
-        type:"SchemaApp",
+        type: "SchemaApp",
         name: "тестовое приложение",
         description: "",
         startPage: startPage.id
@@ -102,7 +112,7 @@ export async function createTestSchemaObjects() {
     let page2: ISchemaPageProps = {
         id: "31CA8AEB0552",
         className: SchemaPage.className,
-        type:"SchemaPage",
+        type: "SchemaPage",
         name: "страница 2",
         title: "страница 2 N31CA8AEB0552",
         description: "",
@@ -118,7 +128,7 @@ export async function createTestSchemaObjects() {
     let page3: ISchemaPageProps = {
         id: "777A8AEB0552",
         className: SchemaPage.className,
-        type:"SchemaPage",
+        type: "SchemaPage",
         name: "Дизайнер SchemaApp",
         title: "страница 777A8AEB0552 Дизайнер SchemaApp",
         description: "",
@@ -135,7 +145,7 @@ export async function createTestSchemaObjects() {
     let orgTable: ISchemaTableProps = {
         id: "8563AF517DDE",
         className: SchemaTable.className,
-        type:"SchemaTable",
+        type: "SchemaTable",
         name: "Организация",
         description: "таблица организация",
         columns: [
@@ -159,7 +169,7 @@ export async function createTestSchemaObjects() {
     let page4: ISchemaPageProps = {
         id: "2E5102700AFB",
         className: SchemaPage.className,
-        type:"SchemaPage",
+        type: "SchemaPage",
         name: "Дизайнер SchemaTable",
         title: "дизайнер таблицы",
         description: "",
@@ -170,6 +180,47 @@ export async function createTestSchemaObjects() {
 
     result = await _saveSchemaObjectApiResponse({object: page4});
     console.log(result.error || "создана '" + page4.name + "'");
+
+
+    // ------------------ SchemaQuery организация ------------------
+    let query1: ISchemaQueryProps = {
+        id: "7788AF517DDE",
+        className: SchemaQuery.className,
+        type: "SchemaQuery",
+        name: "Запрос список организаций",
+        description: "Запрос список организаций desc",
+        tableId: "db93rN1PNn0kVfqMRtY3",
+        children: [
+            {
+                fieldCaption: "Номер",
+                fieldSource: "Номер"
+            },
+            {
+                fieldCaption: "Название",
+                fieldSource: "Название"
+            },
+        ]
+    };
+
+    result = await _saveSchemaObjectApiResponse({object: query1});
+    console.log(result.error || "создана '" + query1.name + "'");
+
+
+    // ------------------ Дизайнер SchemaQuery ------------------
+    let page5: ISchemaPageProps = {
+        id: "qwdrrf2E5102700AFB",
+        className: SchemaPage.className,
+        type: "SchemaPage",
+        name: "Дизайнер SchemaQuery",
+        title: "дизайнер запроса",
+        description: "",
+        template: SchemaQueryDesignerPageTemplate.pageTemplateId,
+        url: SchemaQuery.designerUrl
+        //mainMenuId: mainmenu.id
+    };
+
+    result = await _saveSchemaObjectApiResponse({object: page5});
+    console.log(result.error || "создана '" + page5.name + "'");
 
 }
 

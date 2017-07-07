@@ -21,14 +21,13 @@ import {FormInput} from "../../platform-core/components/FormInput";
 import {FormItemColOption} from "antd/es/form/FormItem";
 import {IFormPanelProps, BaseFormPanel} from "../../platform-core/components/BaseFormPanel";
 import {FormSaveButton} from "../../platform-core/components/FormSaveButton";
-import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
-import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
+import {ISchemaQueryProps} from "../../platform-core/schema/query/ISchemaQueryProps";
+import {ISchemaQueryColumnProps} from "../../platform-core/schema/query/ISchemaQueryColumnProps";
 import {clone} from "ejson";
 import {appState} from "../../platform-core/AppState";
 import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 import {CSSProperties} from "react";
-import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -37,7 +36,7 @@ export interface IPageTemplateProps {
 
 }
 
-class TableFormPanel extends BaseFormPanel {
+class QueryFormPanel extends BaseFormPanel {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -49,50 +48,19 @@ class TableFormPanel extends BaseFormPanel {
     } as FormItemColOption;
 
 
-    tableColumnFormPanel: BaseFormPanel;
-    editedColumn: ISchemaTableColumnProps;
-    editedColumnCloned: ISchemaTableColumnProps;
+    queryColumnFormPanel: BaseFormPanel;
+    editedColumn: ISchemaQueryColumnProps;
+    editedColumnCloned: ISchemaQueryColumnProps;
 
-    columnSearchValue: string;
-
-    getFilteredColumnList(): ISchemaTableColumnProps[] {
-        if (!this.columnSearchValue || this.columnSearchValue === "")
-            return this.editedTable.columns;
-        else {
-            let value = this.columnSearchValue.toLocaleLowerCase();
-            return this.editedTable.columns.filter((col: ISchemaTableColumnProps) => {
-                return col.name.toLocaleLowerCase().indexOf(value) >= 0;
-            });
-        }
-    }
-
-    //this.editedTable.columns
-
-    editColumnClickHandler = (column: ISchemaTableColumnProps) => {
+    editColumnClickHandler = (column: ISchemaQueryColumnProps) => {
         this.editedColumn = column;
         this.editedColumnCloned = clone(this.editedColumn);
         this.forceUpdate();
         console.log("edit", column);
     };
 
-    get editedTable(): ISchemaTableProps {
-        return this.props.editedObject as ISchemaTableProps;
-    }
-
-    async synchronizeHandler() {
-        try {
-            let ans = await syncSchemaTableApiRequest({schemaTableId: this.editedTable.id});
-            if (!ans.error)
-                message.success("Синхронизация завершена", 3);
-            else
-                message.error("Ошибка, " + ans.error.substr(0, 50), 3);
-        }
-        catch (e) {
-            message.error("Ошибка, " + e.toString().substr(0, 50), 3);
-            console.error(e.toString());
-        }
-
-        console.log("synchronizeHandler");
+    get editedQuery(): ISchemaQueryProps {
+        return this.props.editedObject as ISchemaQueryProps;
     }
 
     render():JSX.Element {
@@ -108,7 +76,7 @@ class TableFormPanel extends BaseFormPanel {
             marginBottom: 12
         };
 
-        console.log("render designer");
+        console.log("render query designer");
         return (
             <div>
                 <Row>
@@ -117,18 +85,6 @@ class TableFormPanel extends BaseFormPanel {
                     </Col>
                     <Col span={12}>
                         <div style={{float: "right"}}>
-                            <Popconfirm
-                                title="Сохранить таблицу и синхронизировать с БД?"
-                                onConfirm={() => {
-                                    this.synchronizeHandler()
-                                }}
-                                okText="Да" cancelText="Нет">
-                                <Button
-                                    style={buttonStyle}
-                                >
-                                    Синхронизация
-                                </Button>
-                            </Popconfirm>
                             <FormSaveButton style={buttonStyle} text="Сохранить"/>
                         </div>
                     </Col>
@@ -158,60 +114,30 @@ class TableFormPanel extends BaseFormPanel {
                             </Row>
                         </TabPane>
                         <TabPane
-                            tab={"Колонки" + (this.editedTable.columns.length > 0 ? " (" + this.editedTable.columns.length + ")" : "")}
+                            tab={"Колонки" + (this.editedQuery.children!.length > 0 ? " (" + this.editedQuery.children!.length + ")" : "")}
                             key="2">
-                            <Row style={{marginBottom: 10}}>
-                                <Col span={12}>
-                                    <Input.Search
-                                        placeholder="поиск по имени колонки"
-                                        style={{width: 300}}
-                                        value={this.columnSearchValue}
-                                        onChange={(event: any) => {
-                                            this.columnSearchValue = event.target.value;
-                                            this.forceUpdate();
-                                        }}
-                                        addonAfter={(
-                                            <span style={{cursor: "default"}} onClick={() => {
-                                                this.columnSearchValue = "";
-                                                this.forceUpdate()
-                                            }}
-                                            >
-                                            очистить
-                                        </span>)
-                                        }
-                                    />
-                                </Col>
-                                <Col span={12}>
-                                    <Button style={{float: "right"}}>Новая колонка</Button>
-                                </Col>
-                            </Row>
                             <Row>
 
-                                <Table size="middle" bordered rowKey="name" dataSource={this.getFilteredColumnList()}
+                                <Table size="middle" bordered rowKey="name" dataSource={[this.editedQuery]}
                                        pagination={{pageSize: 100} as any}>
                                     <Column
                                         title="Имя колонки"
                                         dataIndex="name"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => {
-                                            let dataTypeInstance = createSqlDataTypeObject(record.dataType);
+                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
                                             return (
-                                                <Highlighter
-                                                    searchWords={[this.columnSearchValue]}
-                                                    textToHighlight={record.name}
-                                                >
-                                                    {dataTypeInstance.dataTypeUserFriendly(this)}
-                                                </Highlighter>
+                                                <span>
+                                                   {record.fieldCaption}
+                                               </span>
                                             )
                                         }}
                                     />
                                     <Column
                                         title="Тип данных"
                                         dataIndex="dataType"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => {
-                                            let dataTypeInstance = createSqlDataTypeObject(record.dataType);
+                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
                                             return (
                                                 <span>
-                                                   {dataTypeInstance.dataTypeUserFriendly(this)}
+                                                   {record.fieldSource}
                                                </span>
                                             )
                                         }}
@@ -219,7 +145,7 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Действие"
                                         key="action"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => (
+                                        render={ (text: any, record: ISchemaQueryColumnProps) => (
                                             <span>
                                                   <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
                                                   <span className="ant-divider"/>
@@ -237,13 +163,13 @@ class TableFormPanel extends BaseFormPanel {
                 </Row>
                 <Modal
                     title={
-                        <span>редактор колонки: <strong>{this.editedColumn ? this.editedColumn.name : ""}</strong></span>}
+                        <span>редактор колонки: <strong>{this.editedColumn ? this.editedColumn.fieldCaption : ""}</strong></span>}
                     visible={this.editedColumn !== undefined}
                     width={750}
                     onOk={() => {
-                        this.tableColumnFormPanel.validateFieldsOk().then((ok) => {
+                        this.queryColumnFormPanel.validateFieldsOk().then((ok) => {
                             if (ok) {
-                                this.tableColumnFormPanel.onClickSaveButton();
+                                this.queryColumnFormPanel.onClickSaveButton();
                                 this.editedColumn = undefined as any;
                                 this.forceUpdate();
                             }
@@ -253,16 +179,16 @@ class TableFormPanel extends BaseFormPanel {
                         });
                     }}
                     onCancel={() => {
-                        let colIndex = this.editedTable.columns.indexOf(this.editedColumn);
-                        this.editedTable.columns[colIndex] = this.editedColumnCloned;
-                        this.editedColumn = undefined as any;
-                        this.forceUpdate();
+                        // let colIndex = this.editedQuery.columns.indexOf(this.editedColumn);
+                        // this.editedQuery.columns[colIndex] = this.editedColumnCloned;
+                        // this.editedColumn = undefined as any;
+                        // this.forceUpdate();
                     }}
                 >
-                    <TableColumnFormPanel
+                    <QueryColumnFormPanel
                         panelRef={(panel: BaseFormPanel) => {
-                            this.tableColumnFormPanel = panel;
-                            //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
+                            this.queryColumnFormPanel = panel;
+                            //   console.log("this.queryColumnFormPanel",this.queryColumnFormPanel)
 
                         }}
                         editedObject={this.editedColumn}
@@ -274,9 +200,9 @@ class TableFormPanel extends BaseFormPanel {
 }
 
 const FormPanel = Form.create
-    < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
+    < IFormPanelProps > (QueryFormPanel.formOptions)(QueryFormPanel as any) as typeof QueryFormPanel;
 
-class TableColumnFormPanelW extends BaseFormPanel {
+class QueryColumnFormPanelW extends BaseFormPanel {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -289,8 +215,8 @@ class TableColumnFormPanelW extends BaseFormPanel {
 
 
     render() {
-        let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
-        if (!editedTableColumn)
+        let editedQueryColumn = this.props.editedObject as ISchemaQueryColumnProps;
+        if (!editedQueryColumn)
             return null;
 
         let layout = {
@@ -302,9 +228,9 @@ class TableColumnFormPanelW extends BaseFormPanel {
 
         let dataTypeEditor: any = null;
 
-        if (editedTableColumn.dataType) {
-            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType.className).renderEditor(editedTableColumn, layout);
-        }
+        // if (editedQueryColumn.dataType) {
+        //     dataTypeEditor = appState.getRegisteredSqlDataType(editedQueryColumn.dataType.className).renderEditor(editedQueryColumn, layout);
+        // }
 
         return (
             <Row>
@@ -350,13 +276,13 @@ class TableColumnFormPanelW extends BaseFormPanel {
     }
 }
 
-const TableColumnFormPanel = Form.create
-    < IFormPanelProps > (TableColumnFormPanelW.formOptions)(TableColumnFormPanelW as any) as typeof TableColumnFormPanelW;
+const QueryColumnFormPanel = Form.create
+    < IFormPanelProps > (QueryColumnFormPanelW.formOptions)(QueryColumnFormPanelW as any) as typeof QueryColumnFormPanelW;
 
-export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
+export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
-    static pageTemplateId: string = "platform-admin/pages/SchemaTableDesignerPageTemplate";
-    static pageTemplateName: string = "шаблон дизайнера SchemaTable";
+    static pageTemplateId: string = "platform-admin/pages/SchemaQueryDesignerPageTemplate";
+    static pageTemplateName: string = "шаблон дизайнера SchemaQuery";
 
 
     renderChildren(): JSX.Element {

@@ -10,6 +10,7 @@ import {SchemaTable} from "./schema/table/SchemaTable";
 import {StringSqlDataType} from "./schema/table/StringSqlDataType";
 import {IntegerSqlDataType} from "./schema/table/IntegerSqlDataType";
 import {FkSqlDataType} from "./schema/table/FkSqlDataType";
+import {SchemaQuery} from "./schema/query/SchemaQuery";
 
 export async function clientStartup() {
 
@@ -25,6 +26,7 @@ export async function clientStartup() {
     appState.registerSchemaObject(SchemaApp);
     appState.registerSchemaObject(SchemaMenu);
     appState.registerSchemaObject(SchemaPage);
+    appState.registerSchemaObject(SchemaQuery);
 
     appState.registerSqlDataType(StringSqlDataType);
     appState.registerSqlDataType(IntegerSqlDataType);
