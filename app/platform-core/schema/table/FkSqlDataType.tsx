@@ -29,12 +29,15 @@ export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
     dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
 
         let cache=parentReactComp as any;
+        //let cache:any={};
 
         return (
             <LazyLoad
                 parent={parentReactComp}
+                loadParams={this.props.fkTableId}
                 onLoad={async () => {
                     try {
+                        delete cache.__fkTableName__;
                         let table = await createSchemaObject<SchemaTable>(this.props.fkTableId);
                         cache.__fkTableName__ = table.props.name;
                     }
@@ -44,7 +47,7 @@ export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
                 }}
             >
                 <span
-                    style={{color: "indianred"}}>{"fk => " + cache.__fkTableName__}
+                    style={{color: "goldenrod "}}>{"FK => " + cache.__fkTableName__}
                 </span>
             </LazyLoad>
 

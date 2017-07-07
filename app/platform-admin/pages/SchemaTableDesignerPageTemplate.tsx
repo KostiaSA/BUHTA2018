@@ -116,15 +116,6 @@ class TableFormPanel extends BaseFormPanel {
         console.log("render designer");
         return (
             <div>
-                <LazyLoad
-                    parent={this}
-                    onLoad={async () => {
-                        await sleep(1000);
-                        this.zzz="TEST LAZY LOAD";
-                    }}
-                >
-                    <span>lasy load {this.zzz}</span>
-                </LazyLoad>
                 <Row>
                     <Col span={12}>
                         <Button>тест</Button>
@@ -201,7 +192,7 @@ class TableFormPanel extends BaseFormPanel {
                             </Row>
                             <Row>
 
-                                <Table size="middle" bordered dataSource={this.getFilteredColumnList()}
+                                <Table size="middle" bordered rowKey="name" dataSource={this.getFilteredColumnList()}
                                        pagination={{pageSize: 100} as any}>
                                     <Column
                                         title="Имя колонки"
