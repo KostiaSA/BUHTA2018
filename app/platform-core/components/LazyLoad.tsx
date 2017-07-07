@@ -28,7 +28,6 @@ export class LazyLoad extends React.Component<ILazyLoadProps, any> {
     }
 
     render(): JSX.Element | null {
-        console.log("lazy render", this.props.children);
         if (this.error)
             return <span style={{color: "red"}}>{this.error.substr(0, 50)}</span>;
         else if (this.loaded)

@@ -6,7 +6,7 @@ export class _SqlDataType<P extends ISqlDataTypeProps> {
     static className = "?";
     props: P;
 
-    getSequelizeDataType(): string | DataTypeAbstract {
+    async getSequelizeDataType(): Promise<string | DataTypeAbstract> {
         throw "abstract error"
     }
 

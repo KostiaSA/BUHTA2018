@@ -7,7 +7,7 @@ import {IIntegerSqlDataTypeProps} from "../../schema/table/IIntegerSqlDataTypePr
 export class _IntegerSqlDataType extends _SqlDataType<IIntegerSqlDataTypeProps> {
     static className = "integer";
 
-    getSequelizeDataType(): string | DataTypeAbstract {
+    async getSequelizeDataType(): Promise<string | DataTypeAbstract> {
         if (this.props.size === "64")
             return Sequelize.BIGINT;
         else

@@ -4,8 +4,9 @@ import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
 import {IIntegerSqlDataTypeProps} from "./IIntegerSqlDataTypeProps";
 import {ISqlDataTypeProps} from "./ISqlDataTypeProps";
 
-export interface ISchemaTableColumnProps{
+export interface ISchemaTableColumnProps {
     name: string;
-    dataType:ISqlDataTypeProps;
+    dataType: ISqlDataTypeProps;
+    primaryKey?: boolean;
 }
 

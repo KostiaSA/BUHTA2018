@@ -4,10 +4,12 @@ import * as Sequelize from "sequelize";
 import {_sequelize} from "./_sequelize";
 import {DefineAttributeColumnOptions, DefineAttributes} from "sequelize";
 import {_createSqlDataTypeObject} from "./sql/_SqlDataType";
+import {ISchemaTableColumnProps} from "../schema/table/ISchemaTableColumnProps";
 
 export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
+    static className = "app/platform-core/server/_SchemaObject";
 
-    getSequelizeModel(): Sequelize.Model<any, any> {
+    async getSequelizeModel(): Promise<Sequelize.Model<any, any>> {
 
         let attrs: DefineAttributes = {};
 
@@ -16,7 +18,7 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
             let dataType = _createSqlDataTypeObject(col.dataType);
 
             let attr: DefineAttributeColumnOptions = {
-                type: dataType.getSequelizeDataType()
+                type: await dataType.getSequelizeDataType()
             };
 
             attrs[col.name] = attr;
@@ -29,6 +31,15 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
     }
 
     async sync() {
-        await this.getSequelizeModel().sync({alter: true});
+        let model = await this.getSequelizeModel();
+        await model.sync({alter: true});
+    }
+
+    getPrimaryKeyColumn(): ISchemaTableColumnProps {
+        for (let col of this.props.columns) {
+            if (col.primaryKey)
+                return col;
+        }
+        return undefined as any;
     }
 }

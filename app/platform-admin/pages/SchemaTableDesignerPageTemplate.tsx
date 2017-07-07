@@ -254,6 +254,7 @@ class TableFormPanel extends BaseFormPanel {
                     title={
                         <span>редактор колонки: <strong>{this.editedColumn ? this.editedColumn.name : ""}</strong></span>}
                     visible={this.editedColumn !== undefined}
+                    width={750}
                     onOk={() => {
                         this.tableColumnFormPanel.validateFieldsOk().then((ok) => {
                             if (ok) {
@@ -344,6 +345,12 @@ class TableColumnFormPanelW extends BaseFormPanel {
                                         rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
                                     />
                                     {dataTypeEditor}
+                                    <FormInput
+                                        {...layout}
+                                        mode="checkbox"
+                                        label="первичный ключ"
+                                        bindProperty="primaryKey"
+                                    />
                                 </Form>
                             </Col>
                         </Row>
