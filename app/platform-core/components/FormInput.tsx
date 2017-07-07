@@ -1,6 +1,20 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {Tooltip, Checkbox, Radio, Select, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {
+    AutoComplete,
+    Tooltip,
+    Checkbox,
+    Radio,
+    Select,
+    Icon,
+    Input,
+    Button,
+    Form,
+    Row,
+    Col,
+    LocaleProvider,
+    DatePicker
+} from 'antd';
 import {FormItemColOption} from "antd/es/form/FormItem";
 import {ValidationRule, WrappedFormUtils} from "antd/es/form/Form";
 import {CSSProperties, PropTypes} from "react";
@@ -14,7 +28,7 @@ export interface IFormInput {
     labelCol?: FormItemColOption;
     wrapperCol?: FormItemColOption;
     rules?: ValidationRule[];
-    mode: "input" | "select" | "radio" | "checkbox";
+    mode: "input" | "select" | "radio" | "checkbox" | "lookup";
     selectValues?: any[];
     style?: CSSProperties;
     defaultValue?: any;
@@ -28,6 +42,11 @@ export class FormInput extends React.Component<IFormInput, any> {
     static contextTypes = {
         form: PropTypes.any,
         bindObject: PropTypes.any,
+    };
+
+
+    state = {
+        lookupSearchValue: ""
     };
 
     renderMode(): JSX.Element {
@@ -67,6 +86,43 @@ export class FormInput extends React.Component<IFormInput, any> {
                 >
                     {renderOptions()}
                 </Select>
+            )
+        }
+        else if (this.props.mode === "lookup") {
+
+            let datasource: any[] = [];
+            if (this.props.selectValues) {
+                datasource = this.props.selectValues
+                    .map<JSX.Element>((value: any, index: number) => {
+                        if (isString(value) || isNumber(value)) {
+                            return {value: value, text: value};
+                        }
+                        else if (isArray(value)) {
+                            return {value: value[0].toString(), text: value[1].toString()};
+                        }
+                        else
+                            return value;
+                    })
+                    .filter((obj: any) => {
+                        return this.state.lookupSearchValue === "" || obj.value.toString() === this.state.lookupSearchValue || obj.text.indexOf(this.state.lookupSearchValue) >= 0
+                    });
+            }
+
+            //console.log("datasource", datasource);
+
+            return (
+                <AutoComplete
+                    dataSource={datasource}
+                    style={this.props.style}
+                    placeholder={this.props.placeholder}
+                    onSearch={(text) => {
+                        this.state.lookupSearchValue = text;
+                        this.setState(this.state);
+                        console.log("search", text)
+                    }}
+                >
+                    <Input suffix={<Icon type="search" className="certain-category-icon"/>}/>
+                </AutoComplete>
             )
         }
         else if (this.props.mode === "radio") {
@@ -132,9 +188,9 @@ export class FormInput extends React.Component<IFormInput, any> {
         }
 
         //let initValue = bindObject[this.props.bindProperty];
-        let initValue = objectPath.get(bindObject, this.props.bindProperty,this.props.defaultValue);
-         // if (!initValue)
-         //     initValue = this.props.defaultValue;
+        let initValue = objectPath.get(bindObject, this.props.bindProperty, this.props.defaultValue);
+        // if (!initValue)
+        //     initValue = this.props.defaultValue;
 
         if (bindObject) {
             return (

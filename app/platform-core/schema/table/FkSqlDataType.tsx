@@ -9,26 +9,43 @@ import {createSchemaObject} from "../SchemaObject";
 import {SchemaTable} from "./SchemaTable";
 import {sleep} from "../../utils/sleep";
 import {LazyRender} from "../../components/LazyRender";
+import {findSchemaObjectsApiRequest} from "../api/findSchemaObjectsApiRequest";
+import {findSchemaObjectsForLookupApiRequest} from "../api/findSchemaObjectsForLookupApiRequest";
 
 export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
     static className = "fk";
 
     static renderEditor(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] {
         return (
-            <FormInput
-                {...attrs}
-                mode="input"
-                label="ссылка на таблицу"
-                bindProperty="dataType.fkTableId"
-                style={{maxWidth: 400}}
-                rules={[{required: true, message: "таблица должнена быть заполнена"}]}
-            />
+            <LazyRender
+                params={{}}
+                render={async () => {
+
+                    let ans = await findSchemaObjectsForLookupApiRequest({where: {type: "SchemaTable"}});
+                    let values = ans.objects.map((table: any) => {
+                        return {value: table.id, text: table.name}
+                    });
+
+                    return (
+                        <FormInput
+                            {...attrs}
+                            mode="lookup"
+                            label="ссылка на таблицу+"
+                            bindProperty="dataType.fkTableId"
+                            style={{maxWidth: 400}}
+                            selectValues={values}
+                            rules={[{required: true, message: "таблица должнена быть заполнена"}]}
+                        />
+                    )
+                }}
+            >
+            </LazyRender>
         )
     }
 
     dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
 
-       // let cache = parentReactComp as any;
+        // let cache = parentReactComp as any;
         //let cache:any={};
 
         // return (
