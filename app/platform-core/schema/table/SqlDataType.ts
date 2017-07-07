@@ -9,11 +9,11 @@ export class SqlDataType<P extends ISqlDataTypeProps> {
     static className = "?";
     props: P;
 
-    static renderEditor(columnProps:ISchemaTableColumnProps, attrs?: any ): JSX.Element | JSX.Element[] {
+    static renderEditor(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] {
         return null as any;
     }
 
-    dataTypeUserFriendly(): string | JSX.Element {
+    dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
         return null as any;
     }
 

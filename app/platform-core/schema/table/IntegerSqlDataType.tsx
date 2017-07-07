@@ -27,7 +27,7 @@ export class IntegerSqlDataType extends SqlDataType<IIntegerSqlDataTypeProps> {
         ]
     }
 
-    dataTypeUserFriendly(): string | JSX.Element {
+    dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
         return (
             <span
                 style={{color: "teal"}}>{(this.props.unsigned ? "u" : "") + "int" + this.props.size}

@@ -30,6 +30,8 @@ import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/t
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
+import {LazyLoad} from "../../platform-core/components/LazyLoad";
+import {sleep} from "../../platform-core/utils/sleep";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -96,8 +98,9 @@ class TableFormPanel extends BaseFormPanel {
         console.log("synchronizeHandler");
     }
 
+    zzz:string="zzz";
 
-    render() {
+    render():JSX.Element {
         let layout = {
             labelCol: this.labelCol,
             wrapperCol: this.wrapperCol,
@@ -110,8 +113,18 @@ class TableFormPanel extends BaseFormPanel {
             marginBottom: 12
         };
 
+        console.log("render designer");
         return (
             <div>
+                <LazyLoad
+                    parent={this}
+                    onLoad={async () => {
+                        await sleep(1000);
+                        this.zzz="TEST LAZY LOAD";
+                    }}
+                >
+                    <span>lasy load {this.zzz}</span>
+                </LazyLoad>
                 <Row>
                     <Col span={12}>
                         <Button>тест</Button>
@@ -201,7 +214,7 @@ class TableFormPanel extends BaseFormPanel {
                                                     searchWords={[this.columnSearchValue]}
                                                     textToHighlight={record.name}
                                                 >
-                                                    {dataTypeInstance.dataTypeUserFriendly()}
+                                                    {dataTypeInstance.dataTypeUserFriendly(this)}
                                                 </Highlighter>
                                             )
                                         }}
@@ -213,7 +226,7 @@ class TableFormPanel extends BaseFormPanel {
                                             let dataTypeInstance = createSqlDataTypeObject(record.dataType);
                                             return (
                                                 <span>
-                                                   {dataTypeInstance.dataTypeUserFriendly()}
+                                                   {dataTypeInstance.dataTypeUserFriendly(this)}
                                                </span>
                                             )
                                         }}
