@@ -28,6 +28,8 @@ import {appState} from "../../platform-core/AppState";
 import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 import {CSSProperties} from "react";
+import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
+import {getRandomString} from "../../platform-core/utils/getRandomString";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -63,7 +65,21 @@ class QueryFormPanel extends BaseFormPanel {
         return this.props.editedObject as ISchemaQueryProps;
     }
 
-    render():JSX.Element {
+    getDefaultExpandedRowKeys(): string[] {
+        let helper = new TableDataSourceHelper<ISchemaQueryColumnProps>([this.editedQuery]);
+
+        helper.iterateAllNodes((node: ISchemaQueryColumnProps) => {
+            if (!node.key)
+                node.key = getRandomString();
+        });
+
+        return helper.getFolderNodes().map((node: ISchemaQueryColumnProps) => {
+            return node.key;
+        });
+    }
+
+
+    render(): JSX.Element {
         let layout = {
             labelCol: this.labelCol,
             wrapperCol: this.wrapperCol,
@@ -118,7 +134,11 @@ class QueryFormPanel extends BaseFormPanel {
                             key="2">
                             <Row>
 
-                                <Table size="middle" bordered rowKey="name" dataSource={[this.editedQuery]}
+                                <Table size="middle"
+                                       bordered
+                                       rowKey="key"
+                                       dataSource={[this.editedQuery]}
+                                       defaultExpandedRowKeys={this.getDefaultExpandedRowKeys()}
                                        pagination={{pageSize: 100} as any}>
                                     <Column
                                         title="Имя колонки"

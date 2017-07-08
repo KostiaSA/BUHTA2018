@@ -185,6 +185,7 @@ export async function createTestSchemaObjects() {
     // ------------------ SchemaQuery организация ------------------
     let query1: ISchemaQueryProps = {
         id: "7788AF517DDE",
+        key:"1",
         className: SchemaQuery.className,
         type: "SchemaQuery",
         name: "Запрос список организаций",
@@ -192,10 +193,12 @@ export async function createTestSchemaObjects() {
         tableId: "db93rN1PNn0kVfqMRtY3",
         children: [
             {
+                key:"13",
                 fieldCaption: "Номер",
                 fieldSource: "Номер"
             },
             {
+                key:"15",
                 fieldCaption: "Название",
                 fieldSource: "Название"
             },

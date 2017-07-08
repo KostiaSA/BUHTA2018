@@ -29,6 +29,7 @@ import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/t
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
+import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -94,6 +95,7 @@ class TableFormPanel extends BaseFormPanel {
 
         console.log("synchronizeHandler");
     }
+
 
     render():JSX.Element {
         let layout = {
@@ -187,7 +189,9 @@ class TableFormPanel extends BaseFormPanel {
                             </Row>
                             <Row>
 
-                                <Table size="middle" bordered rowKey="name" dataSource={this.getFilteredColumnList()}
+                                <Table size="middle"
+                                       bordered rowKey="name"
+                                       dataSource={this.getFilteredColumnList()}
                                        pagination={{pageSize: 100} as any}>
                                     <Column
                                         title="Имя колонки"

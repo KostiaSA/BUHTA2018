@@ -9,10 +9,17 @@ export interface _IConfig {
 }
 
 let office: _IConfig = {
-    sqlServerAddress: "ps-web",
+    // sqlServerAddress: "ps-web",
+    // sqlServerInstance: "",
+    // sqlServerPort: 1433,
+    // sqlLogin: "sa1",
+    // sqlPassword: "sonyk",
+    // sqlDatabase: "MAG3305",
+    // sqlDialect: "mssql",
+    sqlServerAddress: "localhost",
     sqlServerInstance: "",
     sqlServerPort: 1433,
-    sqlLogin: "sa1",
+    sqlLogin: "sa",
     sqlPassword: "sonyk",
     sqlDatabase: "MAG3305",
     sqlDialect: "mssql",
