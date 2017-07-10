@@ -4,7 +4,16 @@ import {PageTemplate} from "./components/PageTemplate";
 import {Action} from "./actions/Action";
 import {SqlDataType} from "./schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "./schema/table/ISqlDataTypeProps";
+
 export class AppState {
+
+    // classes:{ [classSourcePath: string]: typeof Object } = {};
+    //
+    // registerClass(_class: typeof Object) {
+    //     this.classes[_class.__className] = _class;
+    // }
+
+
 
     globals: { [propName: string]: any } = {};
 

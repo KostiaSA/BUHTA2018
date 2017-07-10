@@ -10,7 +10,10 @@ module.exports = {
     output: {
         filename: "./app/platform-core/static/app_bundle.js"
     },
-
+    node: {
+        __dirname: true,
+        __filename: true,
+    },
     // Enable sourcemaps for debugging webpack's output.
     //devtool: "inline-source-map",
 

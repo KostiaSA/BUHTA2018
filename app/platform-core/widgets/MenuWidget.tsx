@@ -2,7 +2,7 @@ import * as React from "react";
 import {appState} from "../AppState";
 import {IMenuTemplateProps} from "../components/MenuTemplate";
 import {SchemaMenu} from "../schema/SchemaMenu";
-import {createSchemaObject} from "../schema/SchemaObject";
+import {SchemaHelper} from "../schema/SchemaHelper";
 
 
 export interface IMenuWidgetProps {
@@ -16,7 +16,7 @@ export class MenuWidget extends React.Component<IMenuWidgetProps, any> {
 
     async loadData() {
         if (!this.schemaMenu) {
-            this.schemaMenu = await createSchemaObject<SchemaMenu>(this.props.menuId);
+            this.schemaMenu = await SchemaHelper.createSchemaObject<SchemaMenu>(this.props.menuId);
             //await this.schemaMenu.load(this.props.menuId);
         }
     }

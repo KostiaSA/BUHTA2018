@@ -30,6 +30,8 @@ import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypePr
 import {CSSProperties} from "react";
 import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
 import {getRandomString} from "../../platform-core/utils/getRandomString";
+import {LazyRender} from "../../platform-core/components/LazyRender";
+import {SchemaHelper} from "../../platform-core/schema/SchemaHelper";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -93,6 +95,7 @@ class QueryFormPanel extends BaseFormPanel {
         };
 
         console.log("render query designer");
+        console.log("----------------------------------"+__filename+":"+__dirname);
         return (
             <div>
                 <Row>
@@ -141,18 +144,42 @@ class QueryFormPanel extends BaseFormPanel {
                                        defaultExpandedRowKeys={this.getDefaultExpandedRowKeys()}
                                        pagination={{pageSize: 100} as any}>
                                     <Column
-                                        title="Имя колонки"
+                                        title="Таблица/Колонка"
                                         dataIndex="name"
                                         render={ (text: any, record: ISchemaQueryColumnProps) => {
-                                            return (
-                                                <span>
-                                                   {record.fieldCaption || record.tableId}
-                                               </span>
-                                            )
+                                            if (record.tableId) {
+                                                return (
+                                                    <LazyRender
+                                                        params={record.tableId}
+                                                        render={async () => {
+                                                            try {
+                                                                let tableName = await SchemaHelper.getSchemaObjectName(record.tableId!);
+                                                                return (
+                                                                    <span
+                                                                        style={{color: "goldenrod "}}>{tableName}
+                                                                    </span>
+                                                                )
+                                                            }
+                                                            catch (e) {
+                                                                throw  "fk => ошибка:" + record.tableId;
+                                                            }
+                                                        }}
+                                                    >
+                                                    </LazyRender>
+                                                )
+
+                                            }
+                                            else {
+                                                return (
+                                                    <span>
+                                                        {record.fieldCaption || record.tableId}
+                                                    </span>
+                                                )
+                                            }
                                         }}
                                     />
                                     <Column
-                                        title="Тип данных"
+                                        title="Заголовок колонки"
                                         dataIndex="dataType"
                                         render={ (text: any, record: ISchemaQueryColumnProps) => {
                                             return (
@@ -235,6 +262,7 @@ class QueryColumnFormPanelW extends BaseFormPanel {
 
 
     render() {
+
         let editedQueryColumn = this.props.editedObject as ISchemaQueryColumnProps;
         if (!editedQueryColumn)
             return null;

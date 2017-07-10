@@ -4,8 +4,8 @@ import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
 import {SchemaPage} from "../schema/SchemaPage";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
-import {createSchemaObject} from "../schema/SchemaObject";
 import {WrappedFormUtils} from "antd/es/form/Form";
+import {SchemaHelper} from "../schema/SchemaHelper";
 
 export interface IPageTemplateProps {
     //schemaPageId: string;
@@ -29,7 +29,7 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
 
     async loadData() {
         if (!this.schemaPage) {
-            this.schemaPage = await createSchemaObject<SchemaPage>((document as any).schemaPageId);
+            this.schemaPage = await SchemaHelper.createSchemaObject<SchemaPage>((document as any).schemaPageId);
             //await this.schemaPage.load((document as any).schemaPageId);
         }
     }

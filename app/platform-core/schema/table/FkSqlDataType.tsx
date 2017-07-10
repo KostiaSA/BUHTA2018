@@ -5,12 +5,12 @@ import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
 import {FormInput} from "../../components/FormInput";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 import {IFkSqlDataTypeProps} from "./IFkSqlDataTypeProps";
-import {createSchemaObject} from "../SchemaObject";
 import {SchemaTable} from "./SchemaTable";
 import {sleep} from "../../utils/sleep";
 import {LazyRender} from "../../components/LazyRender";
 import {findSchemaObjectsApiRequest} from "../api/findSchemaObjectsApiRequest";
 import {findSchemaObjectsForLookupApiRequest} from "../api/findSchemaObjectsForLookupApiRequest";
+import {SchemaHelper} from "../SchemaHelper";
 
 export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
     static className = "fk";
@@ -75,7 +75,7 @@ export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
                 params={this.props.fkTableId}
                 render={async () => {
                     try {
-                        let table = await createSchemaObject<SchemaTable>(this.props.fkTableId);
+                        let table = await SchemaHelper.createSchemaObject<SchemaTable>(this.props.fkTableId);
                         return (
                             <span
                                 style={{color: "goldenrod "}}>{"FK => " + table.props.name}

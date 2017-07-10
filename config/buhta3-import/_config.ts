@@ -9,20 +9,20 @@ export interface _IConfig {
 }
 
 let office: _IConfig = {
-    // sqlServerAddress: "ps-web",
-    // sqlServerInstance: "",
-    // sqlServerPort: 1433,
-    // sqlLogin: "sa1",
-    // sqlPassword: "sonyk",
-    // sqlDatabase: "MAG3305",
-    // sqlDialect: "mssql",
-    sqlServerAddress: "localhost",
+    sqlServerAddress: "ps-web",
     sqlServerInstance: "",
     sqlServerPort: 1433,
-    sqlLogin: "sa",
+    sqlLogin: "sa1",
     sqlPassword: "sonyk",
     sqlDatabase: "MAG3305",
     sqlDialect: "mssql",
+    // sqlServerAddress: "localhost",
+    // sqlServerInstance: "",
+    // sqlServerPort: 1433,
+    // sqlLogin: "sa",
+    // sqlPassword: "sonyk",
+    // sqlDatabase: "MAG3305",
+    // sqlDialect: "mssql",
 };
 
 // let home: _IConfig = {

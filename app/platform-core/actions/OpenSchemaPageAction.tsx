@@ -2,8 +2,8 @@ import * as React from "react";
 import {IAction} from "./IAction";
 import {Action} from "./Action";
 import {IOpenSchemaPageAction} from "./IOpenSchemaPageAction";
-import {createSchemaObject} from "../schema/SchemaObject";
 import {SchemaPage} from "../schema/SchemaPage";
+import {SchemaHelper} from "../schema/SchemaHelper";
 
 export class OpenSchemaPageAction extends Action<IOpenSchemaPageAction> {
 
@@ -16,7 +16,7 @@ export class OpenSchemaPageAction extends Action<IOpenSchemaPageAction> {
 
     async doAction(){
         console.log("doAction9-open:"+this.props.pageId);
-        let page=await createSchemaObject<SchemaPage>(this.props.pageId);
+        let page=await SchemaHelper.createSchemaObject<SchemaPage>(this.props.pageId);
         window.location.href = page.props.url;
         //page.show();
     }

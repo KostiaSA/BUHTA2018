@@ -23,12 +23,3 @@ export class SchemaObject<T extends ISchemaObjectProps> {
 }
 
 
-export async function createSchemaObject<T extends SchemaObject<ISchemaObjectProps>>(objectId: string): Promise<T> {
-
-    let props = (await loadSchemaObjectApiRequest({id: objectId})).object as ISchemaObjectProps;
-    let objectClass = appState.getRegisteredSchemaObject(props.className);
-
-    let obj = new (objectClass as any)();
-    obj.props = props;
-    return obj;
-}

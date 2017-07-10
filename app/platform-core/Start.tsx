@@ -5,8 +5,8 @@ import {appState} from "./AppState";
 import {ISchemaAppProps} from "./schema/ISchemaApp";
 import {SchemaPage} from "./schema/SchemaPage";
 import {IPageTemplateProps} from "./components/PageTemplate";
-import {createSchemaObject} from "./schema/SchemaObject";
 import {ISchemaPageProps} from "./schema/ISchemaPage";
+import {SchemaHelper} from "./schema/SchemaHelper";
 
 
 async function start() {
@@ -21,7 +21,7 @@ async function start() {
 
     // let startPage = new SchemaPage();
     // await startPage.load((document as any).schemaPageId);
-    let startPage=await createSchemaObject<SchemaPage>((document as any).schemaPageId);
+    let startPage=await SchemaHelper.createSchemaObject<SchemaPage>((document as any).schemaPageId);
     let startPageTemplate = appState.getRegisteredPageTemplate(startPage.props.template);
 
     ReactDOM.render(React.createElement(startPageTemplate,{schemaPageId:startPage.props.id} as any /*IPageTemplateProps*/), document.getElementById("content"));

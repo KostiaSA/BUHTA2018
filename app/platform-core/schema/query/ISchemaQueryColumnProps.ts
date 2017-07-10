@@ -6,6 +6,7 @@ export interface ISchemaQueryColumnProps {
     fieldCaption?: string;
     fieldSource?: string;  // название поля - источника
     tableId?: string;
+    tableAlias?: string;
     children?: ISchemaQueryColumnProps[];
 }
 

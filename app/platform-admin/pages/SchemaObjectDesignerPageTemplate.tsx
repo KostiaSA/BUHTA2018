@@ -16,9 +16,10 @@ import {
 } from 'antd';
 import {PageTemplate} from "../../platform-core/components/PageTemplate";
 import {AdminMainPageTemplate} from "./AdminMainPageTemplate";
-import {createSchemaObject, SchemaObject} from "../../platform-core/schema/SchemaObject";
 import {getParamFromUrl} from "../../platform-core/utils/getQueryParamFromUrl";
 import {ISchemaObjectProps} from "../../platform-core/schema/ISchemaObject";
+import {SchemaObject} from "../../platform-core/schema/SchemaObject";
+import {SchemaHelper} from "../../platform-core/schema/SchemaHelper";
 
 export interface ISchemaObjectDesignerPageTemplateProps {
 
@@ -146,7 +147,7 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
         if (!this.designedObject) {
             let designedObjectId = getParamFromUrl("objectid");
             if (designedObjectId) {
-                this.designedObject = await createSchemaObject(designedObjectId);
+                this.designedObject = await SchemaHelper.createSchemaObject(designedObjectId);
                 //setInterval(this.trackChanges, 100);
                 //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
             }
