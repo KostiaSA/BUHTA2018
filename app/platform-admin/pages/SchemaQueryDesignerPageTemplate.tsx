@@ -36,6 +36,9 @@ import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
 import {TableRowSelection} from "antd/es/table/Table";
+import {FkSqlDataType} from "../../platform-core/schema/table/FkSqlDataType";
+import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/IFkSqlDataTypeProps";
+import {AdminTheme} from "../adminTheme";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -47,9 +50,13 @@ export interface IPageTemplateProps {
 interface IAddColumnsModal {
     visible: boolean;
     sourceTable?: ISchemaTableProps;
+    childrenForAdd?: ISchemaQueryColumnProps[];
     columnSearchValue: string;
-    colSelection: TableRowSelection<ISchemaTableColumnProps>;
+    selection: TableRowSelection<ISchemaTableColumnProps>;
     getFilteredColumnList(): ISchemaTableColumnProps[];
+    selectedCols: ISchemaTableColumnProps[];
+    handleOk: () => void;
+    handleCancel: () => void;
 }
 
 class QueryFormPanel extends BaseFormPanel {
@@ -72,9 +79,8 @@ class QueryFormPanel extends BaseFormPanel {
     addColumnsModal: IAddColumnsModal = {
         visible: false,
         columnSearchValue: "",
-        colSelection: {},
+        selection: {},
         getFilteredColumnList(): ISchemaTableColumnProps[] {
-            //debugger
             if (!this.sourceTable || !this.sourceTable.columns)
                 return [];
             else if (this.columnSearchValue === "")
@@ -85,23 +91,53 @@ class QueryFormPanel extends BaseFormPanel {
                     return col.name.toLocaleLowerCase().indexOf(value) >= 0;
                 });
             }
-        }
+        },
+        selectedCols: [],
+        handleOk(this: QueryFormPanel){
+            console.log("ok");
+            for (let col of this.addColumnsModal.selectedCols) {
+                let newQueryCol: ISchemaQueryColumnProps = {
+                    key: getRandomString(),
+                    fieldCaption: col.name,
+                    fieldSource: col.name,
+                    //tableId?: col.dataType.t
+                    //tableAlias?: string;
+                    //children?: ISchemaQueryColumnProps[];
+                };
 
+                if (col.dataType.className === FkSqlDataType.className) {
+                    let fkCol = col as any as IFkSqlDataTypeProps;
+                    newQueryCol.tableId = fkCol.fkTableId;
+                    //tableAlias?: string;
+                    newQueryCol.children = [];
+
+                }
+                this.addColumnsModal.childrenForAdd!.push(newQueryCol);
+            }
+            this.addColumnsModal.visible = false;
+            this.forceUpdate();
+        },
+        handleCancel(this: QueryFormPanel){
+            this.addColumnsModal.visible = false;
+            this.forceUpdate();
+        }
     };
 
 
     async addColumnClickHandler(column: ISchemaQueryColumnProps): Promise<void> {
         this.addColumnsModal.sourceTable = await SchemaHelper.getSchemaObjectProps<ISchemaTableProps>(column.tableId!);
         this.addColumnsModal.visible = true;
-        this.addColumnsModal.colSelection.selectedRowKeys = [];
+        this.addColumnsModal.childrenForAdd = column.children || [];
+        this.addColumnsModal.selection.selectedRowKeys = [];
 
-        this.addColumnsModal.colSelection.onChange = (selectedRowKeys) => {
-            this.addColumnsModal.colSelection.selectedRowKeys=selectedRowKeys;
+        this.addColumnsModal.selection.onChange = (selectedRowKeys, selectedCols: any) => {
+            this.addColumnsModal.selection.selectedRowKeys = selectedRowKeys;
+            this.addColumnsModal.selectedCols = selectedCols;
             //console.log(`selectedRowKeys:`, selectedRowKeys, 'selectedRows: ', selectedRows);
             this.forceUpdate();
         };
 
-        // this.addColumnsModal.colSelection.getCheckboxProps = (record) => ({
+        // this.addColumnsModal.selection.getCheckboxProps = (record) => ({
         //     disabled: false
         // });
 
@@ -219,10 +255,9 @@ class QueryFormPanel extends BaseFormPanel {
                                                                         {record.fieldSource}{arrow}
                                                                         <a href="#"
                                                                            onClick={() => this.addColumnClickHandler(record)}
-                                                                           style={{color: "goldenrod"}}>{tableName}
+                                                                           style={{color: AdminTheme.schemaTableColor}}>{tableName}
                                                                         </a>
                                                                     </span>
-
                                                                 )
                                                             }
                                                             catch (e) {
@@ -262,7 +297,7 @@ class QueryFormPanel extends BaseFormPanel {
                                             if (record.tableId) {
                                                 return (
                                                     <span>
-                                                        <a href="#">добавить колонки</a>
+                                                        <a href="#" style={{color: AdminTheme.schemaTableColor}} onClick={() => this.addColumnClickHandler(record)}>добавить колонки</a>
                                                         <span className="ant-divider"/>
                                                         <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
                                                     </span>
@@ -329,22 +364,10 @@ class QueryFormPanel extends BaseFormPanel {
                     width={750}
 
                     onOk={() => {
-                        // this.queryColumnFormPanel.validateFieldsOk().then((ok) => {
-                        //     if (ok) {
-                        //         this.queryColumnFormPanel.onClickSaveButton();
-                        //         this.editedColumn = undefined as any;
-                        //         this.forceUpdate();
-                        //     }
-                        //     else {
-                        //         message.error("Есть ошибки, сохранение невозможно");
-                        //     }
-                        // });
+                        this.addColumnsModal.handleOk.call(this)
                     }}
                     onCancel={() => {
-                        // let colIndex = this.editedQuery.columns.indexOf(this.editedColumn);
-                        // this.editedQuery.columns[colIndex] = this.editedColumnCloned;
-                        // this.editedColumn = undefined as any;
-                        // this.forceUpdate();
+                        this.addColumnsModal.handleCancel.call(this)
                     }}
                 >
                     <Row style={{marginBottom: 10}}>
@@ -374,7 +397,7 @@ class QueryFormPanel extends BaseFormPanel {
                            bordered
                            showHeader={true}
                            rowKey="name"
-                           rowSelection={this.addColumnsModal.colSelection}
+                           rowSelection={this.addColumnsModal.selection}
                            dataSource={this.addColumnsModal.getFilteredColumnList()}
                            pagination={false}>
                         <Column
@@ -403,7 +426,8 @@ class QueryFormPanel extends BaseFormPanel {
                         />
                     </Table>
                     <Row >
-                        <span>выбрано {!!this.addColumnsModal.colSelection.selectedRowKeys? this.addColumnsModal.colSelection.selectedRowKeys!.length:"0"} кол.</span>
+                        <span>выбрано {this.addColumnsModal.selection.selectedRowKeys ? this.addColumnsModal.selection.selectedRowKeys!.length : "0"}
+                            кол.</span>
                     </Row>
                 </Modal>
             </div>
@@ -503,7 +527,7 @@ export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTem
         return (
 
             <div>
-                { this.schemaPage.props.title ? <h1>{this.schemaPage.props.title}</h1> : null}
+                <h2 style={{color:AdminTheme.schemaQueryColor}}>запрос: {this.designedObject.props.name}</h2>
                 ДИЗАЙНЕР ТАБЛИЦЫ
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>
