@@ -5,8 +5,8 @@ import {appState} from "../AppState";
 
 export class SchemaHelper {
 
-    static async getSchemaObjectProps(objectId: string): Promise<ISchemaObjectProps> {
-        let props = (await loadSchemaObjectApiRequest({id: objectId})).object as ISchemaObjectProps;
+    static async getSchemaObjectProps<T extends ISchemaObjectProps>(objectId: string): Promise<T> {
+        let props = (await loadSchemaObjectApiRequest({id: objectId})).object as T;
         return props;
     }
 

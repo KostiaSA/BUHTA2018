@@ -32,12 +32,24 @@ import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHe
 import {getRandomString} from "../../platform-core/utils/getRandomString";
 import {LazyRender} from "../../platform-core/components/LazyRender";
 import {SchemaHelper} from "../../platform-core/schema/SchemaHelper";
+import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
+import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
+import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
+import {TableRowSelection} from "antd/es/table/Table";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
 
 export interface IPageTemplateProps {
 
+}
+
+interface IAddColumnsModal {
+    visible: boolean;
+    sourceTable?: ISchemaTableProps;
+    columnSearchValue: string;
+    colSelection: TableRowSelection<ISchemaTableColumnProps>;
+    getFilteredColumnList(): ISchemaTableColumnProps[];
 }
 
 class QueryFormPanel extends BaseFormPanel {
@@ -55,6 +67,50 @@ class QueryFormPanel extends BaseFormPanel {
     queryColumnFormPanel: BaseFormPanel;
     editedColumn: ISchemaQueryColumnProps;
     editedColumnCloned: ISchemaQueryColumnProps;
+
+
+    addColumnsModal: IAddColumnsModal = {
+        visible: false,
+        columnSearchValue: "",
+        colSelection: {},
+        getFilteredColumnList(): ISchemaTableColumnProps[] {
+            //debugger
+            if (!this.sourceTable || !this.sourceTable.columns)
+                return [];
+            else if (this.columnSearchValue === "")
+                return this.sourceTable.columns;
+            else {
+                let value = this.columnSearchValue.toLocaleLowerCase();
+                return this.sourceTable.columns.filter((col: ISchemaTableColumnProps) => {
+                    return col.name.toLocaleLowerCase().indexOf(value) >= 0;
+                });
+            }
+        }
+
+    };
+
+
+    async addColumnClickHandler(column: ISchemaQueryColumnProps): Promise<void> {
+        this.addColumnsModal.sourceTable = await SchemaHelper.getSchemaObjectProps<ISchemaTableProps>(column.tableId!);
+        this.addColumnsModal.visible = true;
+        this.addColumnsModal.colSelection.selectedRowKeys = [];
+
+        this.addColumnsModal.colSelection.onChange = (selectedRowKeys) => {
+            this.addColumnsModal.colSelection.selectedRowKeys=selectedRowKeys;
+            //console.log(`selectedRowKeys:`, selectedRowKeys, 'selectedRows: ', selectedRows);
+            this.forceUpdate();
+        };
+
+        // this.addColumnsModal.colSelection.getCheckboxProps = (record) => ({
+        //     disabled: false
+        // });
+
+        this.forceUpdate();
+        // this.editedColumn = column;
+        // this.editedColumnCloned = clone(this.editedColumn);
+        // this.forceUpdate();
+        // console.log("edit", column);
+    };
 
     editColumnClickHandler = (column: ISchemaQueryColumnProps) => {
         this.editedColumn = column;
@@ -95,7 +151,7 @@ class QueryFormPanel extends BaseFormPanel {
         };
 
         console.log("render query designer");
-        console.log("----------------------------------"+__filename+":"+__dirname);
+        console.log("----------------------------------" + __filename + ":" + __dirname);
         return (
             <div>
                 <Row>
@@ -154,10 +210,19 @@ class QueryFormPanel extends BaseFormPanel {
                                                         render={async () => {
                                                             try {
                                                                 let tableName = await SchemaHelper.getSchemaObjectName(record.tableId!);
+                                                                let arrow = "=>";
+                                                                if (record === this.editedQuery) {
+                                                                    arrow = "";
+                                                                }
                                                                 return (
-                                                                    <span
-                                                                        style={{color: "goldenrod "}}>{tableName}
+                                                                    <span>
+                                                                        {record.fieldSource}{arrow}
+                                                                        <a href="#"
+                                                                           onClick={() => this.addColumnClickHandler(record)}
+                                                                           style={{color: "goldenrod"}}>{tableName}
+                                                                        </a>
                                                                     </span>
+
                                                                 )
                                                             }
                                                             catch (e) {
@@ -192,13 +257,27 @@ class QueryFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Действие"
                                         key="action"
-                                        render={ (text: any, record: ISchemaQueryColumnProps) => (
-                                            <span>
-                                                  <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
-                                                  <span className="ant-divider"/>
-                                                  <a href="#">удалить</a>
-                                            </span>
-                                        )}
+                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
+
+                                            if (record.tableId) {
+                                                return (
+                                                    <span>
+                                                        <a href="#">добавить колонки</a>
+                                                        <span className="ant-divider"/>
+                                                        <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
+                                                    </span>
+                                                )
+                                            }
+                                            else {
+                                                return (
+                                                    <span>
+                                                        <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
+                                                        <span className="ant-divider"/>
+                                                        <a href="#">удалить</a>
+                                                    </span>
+                                                )
+                                            }
+                                        }}
                                     />
                                 </Table>
 
@@ -208,6 +287,7 @@ class QueryFormPanel extends BaseFormPanel {
                         <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
                     </Tabs>
                 </Row>
+                {/* ----------------------- редактор колонки --------------------------------------  */}
                 <Modal
                     title={
                         <span>редактор колонки: <strong>{this.editedColumn ? this.editedColumn.fieldCaption : ""}</strong></span>}
@@ -240,6 +320,91 @@ class QueryFormPanel extends BaseFormPanel {
                         }}
                         editedObject={this.editedColumn}
                     />
+                </Modal>
+                {/* ----------------------- список колонок для добавления --------------------------------------  */}
+                <Modal
+                    title={
+                        <span>добавление колонки, таблица: <strong>{this.addColumnsModal.sourceTable ? this.addColumnsModal.sourceTable.name : ""}</strong></span>}
+                    visible={this.addColumnsModal.visible}
+                    width={750}
+
+                    onOk={() => {
+                        // this.queryColumnFormPanel.validateFieldsOk().then((ok) => {
+                        //     if (ok) {
+                        //         this.queryColumnFormPanel.onClickSaveButton();
+                        //         this.editedColumn = undefined as any;
+                        //         this.forceUpdate();
+                        //     }
+                        //     else {
+                        //         message.error("Есть ошибки, сохранение невозможно");
+                        //     }
+                        // });
+                    }}
+                    onCancel={() => {
+                        // let colIndex = this.editedQuery.columns.indexOf(this.editedColumn);
+                        // this.editedQuery.columns[colIndex] = this.editedColumnCloned;
+                        // this.editedColumn = undefined as any;
+                        // this.forceUpdate();
+                    }}
+                >
+                    <Row style={{marginBottom: 10}}>
+                        <Input.Search
+                            placeholder="поиск по имени колонки"
+                            style={{width: 300}}
+                            value={this.addColumnsModal.columnSearchValue}
+                            onChange={(event: any) => {
+                                this.addColumnsModal.columnSearchValue = event.target.value;
+                                this.forceUpdate();
+                            }}
+                            addonAfter={(
+                                <span style={{cursor: "default"}} onClick={() => {
+                                    this.addColumnsModal.columnSearchValue = "";
+                                    this.forceUpdate()
+                                }}
+                                >
+                                       очистить
+                                    </span>)
+                            }
+                        />
+                    </Row>
+
+                    <Table size="small"
+                           style={{marginBottom: 10}}
+                           scroll={{y: 500}}
+                           bordered
+                           showHeader={true}
+                           rowKey="name"
+                           rowSelection={this.addColumnsModal.colSelection}
+                           dataSource={this.addColumnsModal.getFilteredColumnList()}
+                           pagination={false}>
+                        <Column
+                            title="Колонка"
+                            dataIndex="name"
+                            width={300}
+                            render={ (text: any, record: ISchemaTableColumnProps) => {
+                                return (
+                                    <span>
+                                         {record.name}
+                                    </span>
+                                )
+                            }}
+                        />
+                        <Column
+                            title="Тип данных"
+                            dataIndex="dataType"
+                            width={200}
+                            render={ (text: any, record: ISchemaTableColumnProps) => {
+                                return (
+                                    <span>
+                                        {"record.dataType"}
+                                    </span>
+                                )
+                            }}
+                        />
+                    </Table>
+                    <Row >
+                        <span>выбрано {!!this.addColumnsModal.colSelection.selectedRowKeys? this.addColumnsModal.colSelection.selectedRowKeys!.length:"0"} кол.</span>
+                    </Row>
                 </Modal>
             </div>
         )
