@@ -23,6 +23,7 @@ import {SchemaQuery} from "../app/platform-core/schema/query/SchemaQuery";
 import {SchemaQueryDesignerPageTemplate} from "../app/platform-admin/pages/SchemaQueryDesignerPageTemplate";
 import {_SchemaQuery} from "../app/platform-core/server/schema/query/_SchemaQuery";
 import {_SchemaPage} from "../app/platform-core/server/_SchemaPage";
+import {SchemaAppDesignerPageTemplate} from "../app/platform-admin/pages/SchemaAppDesignerPageTemplate";
 
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
@@ -134,7 +135,7 @@ export async function createTestSchemaObjects() {
         name: "Дизайнер SchemaApp",
         title: "страница 777A8AEB0552 Дизайнер SchemaApp",
         description: "",
-        template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
+        template: SchemaAppDesignerPageTemplate.classInfo.className,
         url: SchemaApp.classInfo.designerUrl
         //mainMenuId: mainmenu.id
     };
