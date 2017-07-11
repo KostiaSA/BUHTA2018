@@ -13,7 +13,7 @@ import {findSchemaObjectsForLookupApiRequest} from "../api/findSchemaObjectsForL
 import {SchemaHelper} from "../SchemaHelper";
 
 export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
-    static className = "fk";
+    static className = "platform-core:FkSqlDataType";
 
     static renderEditor(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] {
         return (

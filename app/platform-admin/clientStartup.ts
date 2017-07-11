@@ -7,11 +7,11 @@ import {SchemaTableDesignerPageTemplate} from "./pages/SchemaTableDesignerPageTe
 import {SchemaQueryDesignerPageTemplate} from "./pages/SchemaQueryDesignerPageTemplate";
 
 export async function clientStartup() {
-    appState.registerPageTemplate(AdminMainPageTemplate);
-    appState.registerPageTemplate(SchemaObjectDesignerPageTemplate);
-    appState.registerPageTemplate(SchemaAppDesignerPageTemplate);
-    appState.registerPageTemplate(SchemaTableDesignerPageTemplate);
-    appState.registerPageTemplate(SchemaQueryDesignerPageTemplate);
+    appState.registerClassInfo(AdminMainPageTemplate.classInfo);
+    appState.registerClassInfo(SchemaObjectDesignerPageTemplate.classInfo);
+    appState.registerClassInfo(SchemaAppDesignerPageTemplate.classInfo);
+    appState.registerClassInfo(SchemaTableDesignerPageTemplate.classInfo);
+    appState.registerClassInfo(SchemaQueryDesignerPageTemplate.classInfo);
 
     appState.registerAction(OpenSchemaObjectDesignerAction);
 

@@ -6,23 +6,31 @@ import {SchemaPage} from "../schema/SchemaPage";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {WrappedFormUtils} from "antd/es/form/Form";
 import {SchemaHelper} from "../schema/SchemaHelper";
+import {IClassInfo} from "../IClassInfo";
 
 export interface IPageTemplateProps {
     //schemaPageId: string;
     form:WrappedFormUtils;
 }
 
-//export class PageTemplate<P extends IPageTemplateProps> extends React.Component<P , any> {
+export interface IPageTemplateClassInfo extends IClassInfo<typeof PageTemplate> {
+    pageTemplateName:string;
+}
+
+
+
 export class PageTemplate extends React.Component<IPageTemplateProps, any> {
     constructor(props: any, context: any) {
         super(props, context);
         this.props = props;
         this.context = context;
-        console.log("PageTemplate:::" + PageTemplate.pageTemplateId);
     }
 
-    static pageTemplateId: string = "platform-core/components/PageTemplate";
-    static pageTemplateName: string = "базовый шаблон страницы";
+    static classInfo: IPageTemplateClassInfo = {
+        className: "platform-core:PageTemplate",
+        constructor: PageTemplate,
+        pageTemplateName: "базовый шаблон страницы"
+    };
 
     schemaPage: SchemaPage;
     loadDataError: string;

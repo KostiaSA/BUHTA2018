@@ -14,8 +14,8 @@ import {SchemaQuery} from "./schema/query/SchemaQuery";
 
 export async function clientStartup() {
 
-    appState.registerPageTemplate(PageTemplate);
-    appState.registerPageTemplate(MainPageTemplate);
+    appState.registerClassInfo(PageTemplate.classInfo);
+    appState.registerClassInfo(MainPageTemplate.classInfo);
 
     appState.registerMenuTemplate(MainMenuTemplate);
 

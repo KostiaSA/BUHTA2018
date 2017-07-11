@@ -21,6 +21,8 @@ import {StringSqlDataType} from "../app/platform-core/schema/table/StringSqlData
 import {ISchemaQueryProps} from "../app/platform-core/schema/query/ISchemaQueryProps";
 import {SchemaQuery} from "../app/platform-core/schema/query/SchemaQuery";
 import {SchemaQueryDesignerPageTemplate} from "../app/platform-admin/pages/SchemaQueryDesignerPageTemplate";
+import {_SchemaQuery} from "../app/platform-core/server/schema/query/_SchemaQuery";
+import {_SchemaPage} from "../app/platform-core/server/_SchemaPage";
 
 export async function createTestSchemaObjects() {
     await _sequelizeInit();
@@ -83,7 +85,7 @@ export async function createTestSchemaObjects() {
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
-        template: MainPageTemplate.pageTemplateId,// "platform-core/templates/MainPageTemplate",
+        template: MainPageTemplate.classInfo.className,// "platform-core/templates/MainPageTemplate",
         //template: "platform-admin/pages/SchemaObjectDesignerPageTemplate",
         //template: "platform-admin/pages/AdminMainPageTemplate",
         //template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
@@ -173,7 +175,7 @@ export async function createTestSchemaObjects() {
         name: "Дизайнер SchemaTable",
         title: "дизайнер таблицы",
         description: "",
-        template: SchemaTableDesignerPageTemplate.pageTemplateId,
+        template: SchemaTableDesignerPageTemplate.classInfo.className,
         url: SchemaTable.designerUrl
         //mainMenuId: mainmenu.id
     };
@@ -223,7 +225,8 @@ export async function createTestSchemaObjects() {
         ]
     };
 
-    result = await _saveSchemaObjectApiResponse({object: query1});
+    await new _SchemaQuery(query1).save();
+///    result = await _saveSchemaObjectApiResponse({object: query1});
     console.log(result.error || "создана '" + query1.name + "'");
 
 
@@ -235,13 +238,14 @@ export async function createTestSchemaObjects() {
         name: "Дизайнер SchemaQuery",
         title: "дизайнер запроса",
         description: "",
-        template: SchemaQueryDesignerPageTemplate.pageTemplateId,
+        template: SchemaQueryDesignerPageTemplate.classInfo.className,
         url: SchemaQuery.designerUrl
         //mainMenuId: mainmenu.id
     };
 
-    result = await _saveSchemaObjectApiResponse({object: page5});
-    console.log(result.error || "создана '" + page5.name + "'");
+    //result = await _saveSchemaObjectApiResponse({object: page5});
+    await new _SchemaPage(page5).save();
+    console.log( "создана '" + page5.name + "'");
 
 }
 

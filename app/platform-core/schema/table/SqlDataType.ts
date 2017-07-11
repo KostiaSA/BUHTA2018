@@ -6,7 +6,7 @@ import {appState} from "../../AppState";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 
 export class SqlDataType<P extends ISqlDataTypeProps> {
-    static className = "?";
+    static className = "?SqlDataType?";
     props: P;
 
     static renderEditor(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] {

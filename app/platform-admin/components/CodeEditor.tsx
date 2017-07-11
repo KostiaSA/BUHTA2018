@@ -1,6 +1,5 @@
 import * as React from "react";
 import {EditorConfiguration, EditorFromTextArea} from "codemirror";
-var CodeMirror = require("codemirror");
 
 // adapted from:
 // https://github.com/facebook/react/blob/master/docs/_js/live_editor.js#L16
@@ -29,6 +28,7 @@ export class CodeEditor extends React.Component<ICodeEditorProps, any> {
     // },
 
     componentDidMount() {
+        const CodeMirror = require("codemirror");
         this.editor = CodeMirror.fromTextArea(this.textArea, this.props.options);
         this.editor.on("change", this.handleChange);
 

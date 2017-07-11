@@ -41,6 +41,8 @@ import {FkSqlDataType} from "../../platform-core/schema/table/FkSqlDataType";
 import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/IFkSqlDataTypeProps";
 import {AdminTheme} from "../adminTheme";
 import {CodeEditor} from "../components/CodeEditor";
+import {ISchemaPageClassInfo} from "../../platform-core/schema/SchemaPage";
+import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -206,8 +208,8 @@ END
     }
 
     handleTabChange = (activeTabKey: string) => {
-        if (activeTabKey==="sql") {
-            this.sqlCodeMirrorSource=(new Date()).toISOString();
+        if (activeTabKey === "sql") {
+            this.sqlCodeMirrorSource = (new Date()).toISOString();
             this.forceUpdate();
         }
     }
@@ -226,7 +228,7 @@ END
         };
 
         console.log("render query designer");
-        console.log("----------------------------------" + __filename + ":" + __dirname);
+        console.log("---filename---" + __filename);
         return (
             <div>
                 <Row>
@@ -364,10 +366,13 @@ END
 
                             </Row>
                         </TabPane>
-                        <TabPane tab="SQL-текст" key="sql">
+                        <TabPane tab="SQL" key="sql">
                             <Row>
-                                <CodeEditor code={this.sqlCodeMirrorSource}
-                                            options={{mode: "sql", viewportMargin: Infinity}}/>
+                                <div>SQL код генерируется автоматически</div>
+                                <CodeEditor
+                                    code={this.sqlCodeMirrorSource}
+                                    options={{mode: "sql", viewportMargin: Infinity}}
+                                />
                             </Row>
                         </TabPane>
                     </Tabs>
@@ -567,10 +572,19 @@ class QueryColumnFormPanelW extends BaseFormPanel {
 const QueryColumnFormPanel = Form.create
     < IFormPanelProps > (QueryColumnFormPanelW.formOptions)(QueryColumnFormPanelW as any) as typeof QueryColumnFormPanelW;
 
+
+
 export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
-    static pageTemplateId: string = "platform-admin/pages/SchemaQueryDesignerPageTemplate";
-    static pageTemplateName: string = "шаблон дизайнера SchemaQuery";
+//    static className: string = "platform-admin:SchemaQueryDesignerPageTemplate";
+  //  static pageTemplateName: string = "шаблон дизайнера SchemaQuery";
+
+    static classInfo: IPageTemplateClassInfo = {
+        className: "platform-core:SchemaObject",
+        constructor: SchemaQueryDesignerPageTemplate,
+        pageTemplateName: "шаблон дизайнера SchemaQuery"
+
+    };
 
 
     renderChildren(): JSX.Element {
@@ -579,7 +593,6 @@ export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTem
 
             <div>
                 <h2 style={{color: AdminTheme.schemaQueryColor}}>запрос: {this.designedObject.props.name}</h2>
-                ДИЗАЙНЕР ТАБЛИЦЫ
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>
                         <FormPanel editedObject={this.designedObject.props} onSave={this.onSaveButtonClick}

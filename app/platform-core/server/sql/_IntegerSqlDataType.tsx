@@ -5,7 +5,8 @@ import * as Sequelize from "sequelize";
 import {IIntegerSqlDataTypeProps} from "../../schema/table/IIntegerSqlDataTypeProps";
 
 export class _IntegerSqlDataType extends _SqlDataType<IIntegerSqlDataTypeProps> {
-    static className = "integer";
+    static className = "platform-core:IntegerSqlDataType";
+
 
     async getSequelizeDataType(): Promise<string | DataTypeAbstract> {
         if (this.props.size === "64")

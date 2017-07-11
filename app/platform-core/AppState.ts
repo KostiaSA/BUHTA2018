@@ -4,45 +4,84 @@ import {PageTemplate} from "./components/PageTemplate";
 import {Action} from "./actions/Action";
 import {SqlDataType} from "./schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "./schema/table/ISqlDataTypeProps";
+import {IClassInfo} from "./IClassInfo";
 
 export class AppState {
 
-    // classes:{ [classSourcePath: string]: typeof Object } = {};
-    //
-    // registerClass(_class: typeof Object) {
-    //     this.classes[_class.__className] = _class;
-    // }
+    registeredClassInfos: { [className: string]: IClassInfo<any> } = {};
 
+    registerClassInfo(regInfo: IClassInfo<any>) {
+        if (this.registeredClassInfos[regInfo.className]) {
+            let msg = "уже зарегистрирован класс " + regInfo.className;
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+        this.registeredClassInfos[regInfo.className] = regInfo;
+    }
+
+    getRegisteredClassInfo<T extends IClassInfo<any>>(className: string): T {
+        let objClass = this.registeredClassInfos[className];
+        if (!objClass) {
+            let err = "registerClass(): не найден зарегистрированный класс " + className;
+            console.error(err);
+            throw err;
+        }
+        else
+            return objClass as any;
+    }
+
+
+    classes: { [classSourcePath: string]: Function } = {};
+
+    registerClass(_class: Function) {
+        if (!(_class as any).className) {
+            let msg = "не найден className";
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+        this.classes[(_class as any).className] = _class;
+    }
+
+    // getRegisteredClass(className: string): any {
+    //     let objClass = this.classes[className];
+    //     if (!objClass) {
+    //         let err = "registerClass(): не найден зарегистрированный класс " + className;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return objClass as any;
+    // }
 
 
     globals: { [propName: string]: any } = {};
 
 
     // ------------------ pageTemplates ------------------
-    pageTemplates: { [pageTemplateId: string]: typeof PageTemplate; } = {};
+    // pageTemplates: { [pageTemplateId: string]: typeof PageTemplate; } = {};
+    //
+    // registerPageTemplate(pageTemplateClass: typeof PageTemplate) {
+    //     // if (!pageTemplateClass.className) {
+    //     //     let err = "registerPageTemplate(): неверный класс шаблона страницы";
+    //     //     console.error(err);
+    //     //     throw err;
+    //     // }
+    //     // else
+    //     this.pageTemplates[pageTemplateClass.className] = pageTemplateClass;
+    // }
 
-    registerPageTemplate(pageTemplateClass: typeof PageTemplate) {
-        // if (!pageTemplateClass.pageTemplateId) {
-        //     let err = "registerPageTemplate(): неверный класс шаблона страницы";
-        //     console.error(err);
-        //     throw err;
-        // }
-        // else
-        this.pageTemplates[pageTemplateClass.pageTemplateId] = pageTemplateClass;
-    }
+    // getRegisteredPageTemplate(pageTemplateId: string): typeof PageTemplate {
+    //     let pageClass = this.pageTemplates[pageTemplateId];
+    //     if (!pageClass) {
+    //         let err = "registerPageTemplate(): не найден зарегистрированный шаблон страницы " + pageTemplateId;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return pageClass;
+    // }
 
-    getRegisteredPageTemplate(pageTemplateId: string): typeof PageTemplate {
-        let pageClass = this.pageTemplates[pageTemplateId];
-        if (!pageClass) {
-            let err = "registerPageTemplate(): не найден зарегистрированный шаблон страницы " + pageTemplateId;
-            console.error(err);
-            throw err;
-        }
-        else
-            return pageClass;
-    }
-
-    // ------------------ menuTemplates ------------------
+    //------------------ menuTemplates ------------------
     menuTemplates: { [menuTemplateId: string]: typeof MenuTemplate; } = {};
 
     registerMenuTemplate(menuTemplateClass: typeof MenuTemplate) {

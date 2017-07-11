@@ -4,7 +4,7 @@ import {SchemaObject} from "./SchemaObject";
 import {ISchemaMenuProps} from "./ISchemaMenu";
 
 export class SchemaMenu extends SchemaObject<ISchemaMenuProps> {
-    static className="platform-core/schema/SchemaMenu";
+    static className="platform-core:SchemaMenu";
     static designerUrl="admin/schema-menu-designer";
 
 }

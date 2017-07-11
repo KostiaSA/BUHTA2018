@@ -4,7 +4,7 @@ import {SchemaObject} from "./SchemaObject";
 import {ISchemaAppProps} from "./ISchemaApp";
 
 export class SchemaApp extends SchemaObject<ISchemaAppProps> {
-    static className="platform-core/schema/SchemaApp";
+    static className="platform-core:SchemaApp";
     static designerUrl="admin/schema-app-designer";
 
 }

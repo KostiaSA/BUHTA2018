@@ -30,6 +30,7 @@ import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypePr
 import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
 import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
+import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -359,8 +360,15 @@ const TableColumnFormPanel = Form.create
 
 export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
-    static pageTemplateId: string = "platform-admin/pages/SchemaTableDesignerPageTemplate";
-    static pageTemplateName: string = "шаблон дизайнера SchemaTable";
+    //static className: string = "platform-admin:SchemaTableDesignerPageTemplate";
+    //static pageTemplateName: string = "шаблон дизайнера SchemaTable";
+
+    static classInfo: IPageTemplateClassInfo = {
+        className: "platform-admin:SchemaTableDesignerPageTemplate",
+        constructor: SchemaTableDesignerPageTemplate,
+        pageTemplateName: "шаблон дизайнера SchemaTable"
+
+    };
 
 
     renderChildren(): JSX.Element {

@@ -7,6 +7,7 @@ import {FormItemColOption} from "antd/es/form/FormItem";
 import {IFormPanelProps, BaseFormPanel} from "../../platform-core/components/BaseFormPanel";
 import {FormSaveButton} from "../../platform-core/components/FormSaveButton";
 import {Test1} from "../../platform-core/components/Test1";
+import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 
 export interface IPageTemplateProps {
 
@@ -56,8 +57,15 @@ const FormPanel = Form.create<IFormPanelProps>(AppFormPanel.formOptions)(AppForm
 
 export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
-    static pageTemplateId: string = "platform-admin/pages/SchemaAppDesignerPageTemplate";
-    static pageTemplateName: string = "шаблон дизайера SchemaApp";
+    //static className: string = "platform-admin:SchemaAppDesignerPageTemplate";
+    //static pageTemplateName: string = "шаблон дизайера SchemaApp";
+
+    static classInfo: IPageTemplateClassInfo = {
+        className: "platform-admin:SchemaAppDesignerPageTemplate",
+        constructor: SchemaAppDesignerPageTemplate,
+        pageTemplateName: "шаблон дизайера SchemaApp"
+
+    }
 
 
     renderChildren(): JSX.Element {

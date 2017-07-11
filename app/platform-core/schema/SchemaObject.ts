@@ -2,14 +2,26 @@ import {ISchemaObjectProps} from "./ISchemaObject";
 import {saveSchemaObjectApiRequest} from "./api/saveSchemaObjectApiRequest";
 import {loadSchemaObjectApiRequest} from "./api/loadSchemaObjectApiRequest";
 import {appState} from "../AppState";
+import {IClassInfo} from "../IClassInfo";
+
+export interface ISchemaObjectClassInfo<T> extends IClassInfo<T> {
+
+}
 
 export class SchemaObject<T extends ISchemaObjectProps> {
     props: T = {} as any;
 
-    static className="platform-core/schema/SchemaObject";
-    static designerUrl="admin/schema-object-designer";
+//    static className = "platform-core:SchemaObject";
+//    static designerUrl = "admin/schema-object-designer";
 
     async save() {
+        let constructor = (this as any).prototype.constructor;
+        if (!constructor.className) {
+            let msg = "!constructor.className";
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+        this.props.className = constructor.className;
         return saveSchemaObjectApiRequest({object: this.props})
     }
 

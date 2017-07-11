@@ -4,7 +4,8 @@ import {DataTypeAbstract} from "sequelize";
 import * as Sequelize from "sequelize";
 
 export class _StringSqlDataType extends _SqlDataType<IStringSqlDataTypeProps> {
-    static className = "string";
+    static className = "platform-core:StringSqlDataType";
+
 
     async getSequelizeDataType(): Promise<string | DataTypeAbstract> {
         if (this.props.maxLen && this.props.maxLen !== 0)

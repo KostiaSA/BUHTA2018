@@ -7,7 +7,7 @@ import {_createSqlDataTypeObject} from "./sql/_SqlDataType";
 import {ISchemaTableColumnProps} from "../schema/table/ISchemaTableColumnProps";
 
 export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
-    static className = "app/platform-core/server/_SchemaObject";
+    static className = "platform-core:SchemaTable";
 
     async getSequelizeModel(): Promise<Sequelize.Model<any, any>> {
 

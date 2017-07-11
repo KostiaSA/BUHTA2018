@@ -5,7 +5,7 @@ import {FormInput} from "../../components/FormInput";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 
 export class IntegerSqlDataType extends SqlDataType<IIntegerSqlDataTypeProps> {
-    static className = "integer";
+    static className = "platform-core:IntegerSqlDataType";
 
     static renderEditor(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] {
         return [

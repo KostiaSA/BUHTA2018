@@ -14,7 +14,7 @@ import {
     LocaleProvider,
     DatePicker
 } from 'antd';
-import {PageTemplate} from "../../platform-core/components/PageTemplate";
+import {IPageTemplateClassInfo, PageTemplate} from "../../platform-core/components/PageTemplate";
 import {AdminMainPageTemplate} from "./AdminMainPageTemplate";
 import {getParamFromUrl} from "../../platform-core/utils/getQueryParamFromUrl";
 import {ISchemaObjectProps} from "../../platform-core/schema/ISchemaObject";
@@ -27,8 +27,15 @@ export interface ISchemaObjectDesignerPageTemplateProps {
 
 export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
 
-    static pageTemplateId: string = "platform-admin/pages/SchemaObjectDesignerPageTemplate";
-    static pageTemplateName: string = "шаблон страницы редактирования schemaobject";
+    //static className: string = "platform-admin:SchemaObjectDesignerPageTemplate";
+    //static pageTemplateName: string = "шаблон страницы редактирования schemaobject";
+
+    static classInfo: IPageTemplateClassInfo = {
+        className: "platform-admin:SchemaObjectDesignerPageTemplate",
+        constructor: SchemaObjectDesignerPageTemplate,
+        pageTemplateName: "шаблон страницы редактирования schemaobject"
+
+    }
 
     //orginalObjectPropsJson: string;
     designedObject: SchemaObject<ISchemaObjectProps>;

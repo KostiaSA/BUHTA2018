@@ -3,8 +3,8 @@ import * as  ReactDOM from "react-dom";
 import {findSchemaObjectsApiRequest} from "./schema/api/findSchemaObjectsApiRequest";
 import {appState} from "./AppState";
 import {ISchemaAppProps} from "./schema/ISchemaApp";
-import {SchemaPage} from "./schema/SchemaPage";
-import {IPageTemplateProps} from "./components/PageTemplate";
+import {ISchemaPageClassInfo, SchemaPage} from "./schema/SchemaPage";
+import {IPageTemplateClassInfo, IPageTemplateProps} from "./components/PageTemplate";
 import {ISchemaPageProps} from "./schema/ISchemaPage";
 import {SchemaHelper} from "./schema/SchemaHelper";
 
@@ -22,9 +22,9 @@ async function start() {
     // let startPage = new SchemaPage();
     // await startPage.load((document as any).schemaPageId);
     let startPage=await SchemaHelper.createSchemaObject<SchemaPage>((document as any).schemaPageId);
-    let startPageTemplate = appState.getRegisteredPageTemplate(startPage.props.template);
+    let startPageTemplate = appState.getRegisteredClassInfo<IPageTemplateClassInfo>(startPage.props.template);
 
-    ReactDOM.render(React.createElement(startPageTemplate,{schemaPageId:startPage.props.id} as any /*IPageTemplateProps*/), document.getElementById("content"));
+    ReactDOM.render(React.createElement(startPageTemplate.constructor,{schemaPageId:startPage.props.id} as any /*IPageTemplateProps*/), document.getElementById("content"));
     //ReactDOM.render(<PageTemplate>ПРИВЕТ 90 !!!</PageTemplate>, document.getElementById("content"));
 
 }
@@ -41,7 +41,8 @@ start()
         // </div>, document.getElementById("content"));
     })
     .catch((err: any) => {
-        ReactDOM.render(<div>ОШИБКА СТАРТА: {err}</div>, document.getElementById("content"));
+        console.error(err);
+        ReactDOM.render(<div>ОШИБКА СТАРТА: {err.toString()}</div>, document.getElementById("content"));
     });
 
 

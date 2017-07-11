@@ -3,7 +3,7 @@ import {serverState} from "../ServerState";
 import {DataTypeAbstract} from "sequelize";
 
 export class _SqlDataType<P extends ISqlDataTypeProps> {
-    static className = "?";
+    static className = "platform-core:?";
     props: P;
 
     async getSequelizeDataType(): Promise<string | DataTypeAbstract> {

@@ -2,6 +2,15 @@ import {_SqlDataType} from "./sql/_SqlDataType";
 import {_SchemaObject} from "./_SchemaObject";
 
 export class _ServerState {
+    classes: { [classSourcePath: string]: Function } = {};
+
+    registerClass(_class: Function) {
+        this.classes[(_class as any).className] = _class;
+        console.log("зарегистрирован класс",(_class as any).className);
+    }
+
+
+
     externalScripts: string[] = [];
 
     registerExternalScript(scriptTag: string) {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import {PageTemplate} from "../components/PageTemplate";
+import {IPageTemplateClassInfo, PageTemplate} from "../components/PageTemplate";
 import {SchemaPage} from "../schema/SchemaPage";
 import {MenuWidget} from "../widgets/MenuWidget";
 import {Button} from "antd";
@@ -11,8 +11,15 @@ export interface IPageTemplateProps {
 
 export class MainPageTemplate extends PageTemplate {
 
-    static pageTemplateId: string = "platform-core/templates/MainPageTemplate";
-    static pageTemplateName: string = "шаблон главной страницы";
+    //static pageTemplateId: string = "platform-core/templates/MainPageTemplate";
+    //static pageTemplateName: string = "шаблон главной страницы";
+
+    static classInfo: IPageTemplateClassInfo = {
+        className: "platform-core/templates/MainPageTemplate",
+        constructor: PageTemplate,
+        pageTemplateName: "шаблон главной страницы"
+
+    };
 
     renderChildren(): JSX.Element {
         return (

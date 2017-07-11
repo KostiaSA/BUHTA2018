@@ -7,7 +7,7 @@ import {_SchemaTable} from "../_SchemaTable";
 import {clone} from "ejson";
 
 export class _FkSqlDataType extends _SqlDataType<IFkSqlDataTypeProps> {
-    static className = "fk";
+    static className = "platform-core:FkSqlDataType";
 
     async getSequelizeDataType(): Promise<string | DataTypeAbstract> {
         let fkTable = await _loadSchemaObject<_SchemaTable>(this.props.fkTableId);

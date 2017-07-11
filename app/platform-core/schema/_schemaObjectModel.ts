@@ -16,6 +16,9 @@ export async function initSchemaObjectModel() {
         type: {
             type: Sequelize.STRING(127)
         },
+        className: {
+            type: Sequelize.STRING(127)
+        },
         description: {
             type: Sequelize.STRING(1000)
         },
