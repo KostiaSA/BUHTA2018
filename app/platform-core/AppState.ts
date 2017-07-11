@@ -5,6 +5,7 @@ import {Action} from "./actions/Action";
 import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "./schema/table/ISqlDataTypeProps";
 import {IClassInfo} from "./IClassInfo";
+import {inherits} from "util";
 
 export class AppState {
 
@@ -160,12 +161,15 @@ export class AppState {
     //     this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
     // }
 
-    getRegisteredSqlDataTypes(): (ISqlDataTypeClassInfo)[] {
-        return [];
-        // let ret: (typeof SqlDataType)[] = [];
-        // for (let typeName in this.sqlDataTypes)
-        //     ret.push(this.sqlDataTypes[typeName]);
-        // return ret;
+    getRegisteredSqlDataTypes(): ISqlDataTypeClassInfo[] {
+        //return [];
+        let ret: ISqlDataTypeClassInfo[] = [];
+        for (let infoName in this.registeredClassInfos) {
+            let info = this.registeredClassInfos[infoName];
+            if (info.constructor.prototype instanceof SqlDataType)
+                ret.push(info as any);
+        }
+        return ret;
     }
 
     // getRegisteredSqlDataType(sqlDataTypeClassName: string): typeof SqlDataType {

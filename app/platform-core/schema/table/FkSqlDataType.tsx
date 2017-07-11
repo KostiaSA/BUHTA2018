@@ -13,6 +13,7 @@ import {findSchemaObjectsForLookupApiRequest} from "../api/findSchemaObjectsForL
 import {SchemaHelper} from "../SchemaHelper";
 
 export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
+
     static classInfo: ISqlDataTypeClassInfo = {
         className: "platform-core:FkSqlDataType",
         constructor: FkSqlDataType,
