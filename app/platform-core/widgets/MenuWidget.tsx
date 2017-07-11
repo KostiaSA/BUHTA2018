@@ -41,7 +41,7 @@ export class MenuWidget extends React.Component<IMenuWidgetProps, any> {
             return <div style={{color: "red"}}>ОШИБКА MenuWidget: {this.loadDataError}</div>;
         }
         else if (this.schemaMenu) {
-            let menuTemplate = appState.getRegisteredMenuTemplate(this.schemaMenu.props.template);
+            let menuTemplate = appState.getRegisteredClassInfo(this.schemaMenu.props.template).constructor;
             return React.createElement(menuTemplate, {schemaMenu:this.schemaMenu} as IMenuTemplateProps);
         }
         else {

@@ -31,16 +31,16 @@ export class AppState {
     }
 
 
-    classes: { [classSourcePath: string]: Function } = {};
-
-    registerClass(_class: Function) {
-        if (!(_class as any).className) {
-            let msg = "не найден className";
-            console.error(msg);
-            throw msg + ", " + __filename;
-        }
-        this.classes[(_class as any).className] = _class;
-    }
+    // classes: { [classSourcePath: string]: Function } = {};
+    //
+    // registerClass(_class: Function) {
+    //     if (!(_class as any).className) {
+    //         let msg = "не найден className";
+    //         console.error(msg);
+    //         throw msg + ", " + __filename;
+    //     }
+    //     this.classes[(_class as any).className] = _class;
+    // }
 
     // getRegisteredClass(className: string): any {
     //     let objClass = this.classes[className];
@@ -81,29 +81,29 @@ export class AppState {
     //         return pageClass;
     // }
 
-    //------------------ menuTemplates ------------------
-    menuTemplates: { [menuTemplateId: string]: typeof MenuTemplate; } = {};
-
-    registerMenuTemplate(menuTemplateClass: typeof MenuTemplate) {
-        // if (!(menuTemplateClass as any).menuTemplateId) {
-        //     let err = "registerMenuTemplate(): неверный класс шаблона меню";
-        //     console.error(err);
-        //     throw err;
-        // }
-        // else
-        this.menuTemplates[menuTemplateClass.menuTemplateId] = menuTemplateClass;
-    }
-
-    getRegisteredMenuTemplate(menuTemplateId: string): typeof MenuTemplate {
-        let menuClass = this.menuTemplates[menuTemplateId];
-        if (!menuClass) {
-            let err = "registerMenuTemplate(): не найден зарегистрированный шаблон страницы " + menuTemplateId;
-            console.error(err);
-            throw err;
-        }
-        else
-            return menuClass;
-    }
+    // //------------------ menuTemplates ------------------
+    // menuTemplates: { [menuTemplateId: string]: typeof MenuTemplate; } = {};
+    //
+    // registerMenuTemplate(menuTemplateClass: typeof MenuTemplate) {
+    //     // if (!(menuTemplateClass as any).menuTemplateId) {
+    //     //     let err = "registerMenuTemplate(): неверный класс шаблона меню";
+    //     //     console.error(err);
+    //     //     throw err;
+    //     // }
+    //     // else
+    //     this.menuTemplates[menuTemplateClass.menuTemplateId] = menuTemplateClass;
+    // }
+    //
+    // getRegisteredMenuTemplate(menuTemplateId: string): typeof MenuTemplate {
+    //     let menuClass = this.menuTemplates[menuTemplateId];
+    //     if (!menuClass) {
+    //         let err = "registerMenuTemplate(): не найден зарегистрированный шаблон страницы " + menuTemplateId;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return menuClass;
+    // }
 
     // ------------------ actions ------------------
     actions: { [actionId: string]: typeof Action; } = {};

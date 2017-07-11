@@ -71,7 +71,7 @@ export async function createTestSchemaObjects() {
         type: "SchemaMenu",
         name: "тестовое главное меню",
         description: "---",
-        template: MainMenuTemplate.menuTemplateId,// "platform-core/templates/MainMenuTemplate",
+        template: MainMenuTemplate.classInfo.className,// "platform-core/templates/MainMenuTemplate",
         items: [menuItem1, menuItem2, menuItem3, menuItem4, menuItem5]
     };
 

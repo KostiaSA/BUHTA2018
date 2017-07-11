@@ -2,17 +2,25 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
-import {MenuTemplate} from "../components/MenuTemplate";
+import {IMenuTemplateClassInfo, MenuTemplate} from "../components/MenuTemplate";
 import {ISchemaMenuItem} from "../schema/ISchemaMenu";
 import {Action, createAction} from "../actions/Action";
+
+
 
 export class MainMenuTemplate extends MenuTemplate {
     // constructor(props: any, context: any) {
     //     super(props, context);
     // }
 
-    static menuTemplateId: string = "platform-core/templates/MainMenuTemplate";
-    static menuTemplateName: string = "шаблон главного меню";
+    //static menuTemplateId: string = "platform-core/templates/MainMenuTemplate";
+    //static menuTemplateName: string = "шаблон главного меню";
+
+    static classInfo: IMenuTemplateClassInfo = {
+        className: "platform-core:MainMenuTemplate",
+        constructor: MainMenuTemplate,
+        menuTemplateName: "шаблон главного меню"
+    };
 
     componentDidMount() {
     };
