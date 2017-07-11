@@ -61,11 +61,12 @@ module.exports = {
         "react": "React",
         "react-dom": "ReactDOM",
         "antd": "antd",
+        "codemirror": "CodeMirror",
         // "onsenui": "ons",
         // "react-onsenui": "Ons",
         //"lodash": "_",
         "jquery": "$",
         //"socket.io-client": "io",
         //"moment": "moment",
-    },
+    }
 };

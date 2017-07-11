@@ -1,4 +1,7 @@
-export function _createIndexHtml(schemaPageId:string): string {
+import {serverState} from "./ServerState";
+export function _createIndexHtml(schemaPageId: string): string {
+
+
     return `
 <!DOCTYPE html>
 <html>
@@ -7,21 +10,14 @@ export function _createIndexHtml(schemaPageId:string): string {
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/platform-core/static/css/ag-grid.css">
-    <link rel="stylesheet" type="text/css" href="/platform-core/static/css/antd.css">
-    <link rel="stylesheet" type="text/css" href="/platform-core/static/css/index.css">
+    ${serverState.externalStyles.map((link) => link).join("\n")}
     <title>buhta 2017</title>
 </head>
 <body>
 <div id="content">
 </div>
 <script>document.schemaPageId="${schemaPageId}"</script>
-<script src="/platform-core/static/js/jquery.min.js"></script>
-<script src="/platform-core/static/js/react.min.js"></script>
-<script src="/platform-core/static/js/react-dom.min.js"></script>
-<script src="/platform-core/static/js/antd-with-locales.min.js"></script>
-<script src="/platform-core/static/js/ag-grid.min.js"></script>
+${serverState.externalScripts.map((script) => script).join("\n")}
 <script src="/platform-core/static/app_bundle.js"></script>
 </body>
 </html>`;

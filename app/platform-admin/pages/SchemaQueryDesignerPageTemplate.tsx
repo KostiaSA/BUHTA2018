@@ -1,5 +1,6 @@
 import * as React from "react";
 
+let ReactDOM = require('react-dom');
 import {
     message,
     Alert,
@@ -39,6 +40,7 @@ import {TableRowSelection} from "antd/es/table/Table";
 import {FkSqlDataType} from "../../platform-core/schema/table/FkSqlDataType";
 import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/IFkSqlDataTypeProps";
 import {AdminTheme} from "../adminTheme";
+import {CodeEditor} from "../components/CodeEditor";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -75,6 +77,37 @@ class QueryFormPanel extends BaseFormPanel {
     editedColumn: ISchemaQueryColumnProps;
     editedColumnCloned: ISchemaQueryColumnProps;
 
+    sqlCodeMirrorSource: string = `
+ALTER PROCEDURE [dbo].[_ss_документ_в_xml_шапка_СЧЕТ_ФАКТУРА](@dogID int)
+AS 
+BEGIN 
+  SELECT 
+     Дата InvoiceDate,                            -- дата товарной накладной
+     Номер InvoiceNumber,                         -- номер товарной накладной
+     dbo.[_ss_ОрганизацияКлючToOrganizationKey](Грузоотправитель) Shipper,                    -- организация (ключ) грузоотправитель 
+     dbo.[_ss_ОрганизацияКлючToOrganizationKey](Грузополучатель) Consignee,                   -- организация (ключ) грузополучатель
+     (SELECT Ю.Организация FROM [Юр.лицо] Ю WHERE Ю.Номер=документ.[Юр.лицо]) Seller,    -- организация (ключ) поставщик
+     dbo.[_ss_ОрганизацияКлючToOrganizationKey](Получатель) Buyer,                            -- организация (ключ) плательщик
+
+    [Сумма без налогов] TotalWithVatExcluded,     -- сумма без учета НДС - всего по накладной
+    [Сумма НДС 10]+[Сумма НДС 18] Vat,            -- сумма НДС - всего по накладной
+    [Сумма спецификации всего] Total,                                -- сумма с учетом НДС - всего по накладной
+
+    Текст AdditionalInfo,                         -- дополнительные сведения
+
+	'Директор' ПодписантДолжнось, 
+	'Петров' ПодписантФамилия, 
+	'Петр' ПодписантИмя, 
+	'Петрович' ПодписантОтчество, 
+
+    'fake'
+  FROM
+    Документ(nolock)   
+  WHERE
+    Ключ=@dogID
+    
+END
+    `;
 
     addColumnsModal: IAddColumnsModal = {
         visible: false,
@@ -209,9 +242,9 @@ class QueryFormPanel extends BaseFormPanel {
                                         <FormInput
                                             {...layout}
                                             mode="input"
-                                            label="имя таблицы"
+                                            label="имя запроса"
                                             bindProperty="name"
-                                            rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
+                                            rules={[{required: true, message: "имя запроса должно быть заполнено"}]}
                                         />
                                         <FormInput
                                             {...layout}
@@ -226,7 +259,8 @@ class QueryFormPanel extends BaseFormPanel {
                         </TabPane>
                         <TabPane
                             tab={"Колонки" + (this.editedQuery.children!.length > 0 ? " (" + this.editedQuery.children!.length + ")" : "")}
-                            key="2">
+                            key="2"
+                        >
                             <Row>
 
                                 <Table size="middle"
@@ -297,7 +331,8 @@ class QueryFormPanel extends BaseFormPanel {
                                             if (record.tableId) {
                                                 return (
                                                     <span>
-                                                        <a href="#" style={{color: AdminTheme.schemaTableColor}} onClick={() => this.addColumnClickHandler(record)}>добавить колонки</a>
+                                                        <a href="#" style={{color: AdminTheme.schemaTableColor}}
+                                                           onClick={() => this.addColumnClickHandler(record)}>добавить колонки</a>
                                                         <span className="ant-divider"/>
                                                         <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
                                                     </span>
@@ -319,7 +354,11 @@ class QueryFormPanel extends BaseFormPanel {
 
                             </Row>
                         </TabPane>
-                        <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
+                        <TabPane tab="SQL-текст" key="3">
+                            <Row>
+                                <CodeEditor code={this.sqlCodeMirrorSource} options={{mode: "sql",viewportMargin: Infinity}}/>
+                            </Row>
+                        </TabPane>
                     </Tabs>
                 </Row>
                 {/* ----------------------- редактор колонки --------------------------------------  */}
@@ -359,7 +398,8 @@ class QueryFormPanel extends BaseFormPanel {
                 {/* ----------------------- список колонок для добавления --------------------------------------  */}
                 <Modal
                     title={
-                        <span>добавление колонки, таблица: <strong>{this.addColumnsModal.sourceTable ? this.addColumnsModal.sourceTable.name : ""}</strong></span>}
+                        <span>добавление колонок из таблицы: <strong
+                            style={{color: AdminTheme.schemaTableColor}}>{this.addColumnsModal.sourceTable ? this.addColumnsModal.sourceTable.name : ""}</strong></span>}
                     visible={this.addColumnsModal.visible}
                     width={750}
 
@@ -527,7 +567,7 @@ export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTem
         return (
 
             <div>
-                <h2 style={{color:AdminTheme.schemaQueryColor}}>запрос: {this.designedObject.props.name}</h2>
+                <h2 style={{color: AdminTheme.schemaQueryColor}}>запрос: {this.designedObject.props.name}</h2>
                 ДИЗАЙНЕР ТАБЛИЦЫ
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>

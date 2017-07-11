@@ -2,6 +2,17 @@ import {_SqlDataType} from "./sql/_SqlDataType";
 import {_SchemaObject} from "./_SchemaObject";
 
 export class _ServerState {
+    externalScripts: string[] = [];
+
+    registerExternalScript(scriptTag: string) {
+        this.externalScripts.push(scriptTag);
+    }
+
+    externalStyles: string[] = [];
+
+    registerExternalStyle(linkTag: string) {
+        this.externalStyles.push(linkTag);
+    }
 
     // ------------------ schemaObjects ------------------
     schemaObjects: { [schemaObjectClassName: string]: typeof _SchemaObject; } = {};
@@ -20,8 +31,6 @@ export class _ServerState {
         else
             return schemaObjectClass;
     }
-
-
 
 
     // ------------------ sqlDataTypes ------------------
