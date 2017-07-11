@@ -205,6 +205,12 @@ END
         });
     }
 
+    handleTabChange = (activeTabKey: string) => {
+        if (activeTabKey==="sql") {
+            this.sqlCodeMirrorSource=(new Date()).toISOString();
+            this.forceUpdate();
+        }
+    }
 
     render(): JSX.Element {
         let layout = {
@@ -234,7 +240,11 @@ END
                     </Col>
                 </Row>
                 <Row>
-                    <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
+                    <Tabs
+                        defaultActiveKey="main"
+                        animated={{inkBar: true, tabPane: false}}
+                        onChange={this.handleTabChange}
+                    >
                         <TabPane tab="Параметры" key="main">
                             <Row>
                                 <Col>
@@ -259,7 +269,7 @@ END
                         </TabPane>
                         <TabPane
                             tab={"Колонки" + (this.editedQuery.children!.length > 0 ? " (" + this.editedQuery.children!.length + ")" : "")}
-                            key="2"
+                            key="columns"
                         >
                             <Row>
 
@@ -354,9 +364,10 @@ END
 
                             </Row>
                         </TabPane>
-                        <TabPane tab="SQL-текст" key="3">
+                        <TabPane tab="SQL-текст" key="sql">
                             <Row>
-                                <CodeEditor code={this.sqlCodeMirrorSource} options={{mode: "sql",viewportMargin: Infinity}}/>
+                                <CodeEditor code={this.sqlCodeMirrorSource}
+                                            options={{mode: "sql", viewportMargin: Infinity}}/>
                             </Row>
                         </TabPane>
                     </Tabs>
