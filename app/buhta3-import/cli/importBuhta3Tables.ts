@@ -9,7 +9,7 @@ import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/IStringS
 import {IntegerSqlDataType} from "../../platform-core/schema/table/IntegerSqlDataType";
 import {_saveSchemaObjectApiResponse} from "../../platform-core/schema/api/_saveSchemaObjectApiResponse";
 import {IIntegerSqlDataTypeProps} from "../../platform-core/schema/table/IIntegerSqlDataTypeProps";
-import {_SchemaTable} from "../../platform-core/server/_SchemaTable";
+import {_SchemaTable} from "../../platform-core/server/schema/table/_SchemaTable";
 
 export async function importBuhta3Tables() {
     await _sequelizeInit();

@@ -1,11 +1,11 @@
 import {_createSqlDataTypeObject, _SqlDataType} from "./_SqlDataType";
 import {DataTypeAbstract} from "sequelize";
 import * as Sequelize from "sequelize";
-import {IFkSqlDataTypeProps} from "../../schema/table/IFkSqlDataTypeProps";
-import {_loadSchemaObject} from "../_SchemaObject";
+import {IFkSqlDataTypeProps} from "../../../../schema/table/IFkSqlDataTypeProps";
+import {_loadSchemaObject} from "../../../_SchemaObject";
 import {_SchemaTable} from "../_SchemaTable";
 import {clone} from "ejson";
-import {FkSqlDataType} from "../../schema/table/FkSqlDataType";
+import {FkSqlDataType} from "../../../../schema/table/FkSqlDataType";
 
 export class _FkSqlDataType extends _SqlDataType<IFkSqlDataTypeProps> {
     static classInfo  = { ...FkSqlDataType.classInfo, constructor:_FkSqlDataType };

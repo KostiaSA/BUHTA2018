@@ -1,4 +1,4 @@
-import {_SchemaTable} from "../../../server/_SchemaTable";
+import {_SchemaTable} from "../../../server/schema/table/_SchemaTable";
 import {schemaObjectModel} from "../../_schemaObjectModel";
 import {parse} from "ejson";
 

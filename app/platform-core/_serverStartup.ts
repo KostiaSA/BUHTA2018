@@ -1,10 +1,10 @@
 import {_sequelizeInit} from "./server/_sequelize";
 import {serverState} from "./server/ServerState";
-import {_StringSqlDataType} from "./server/sql/_StringSqlDataType";
-import {_IntegerSqlDataType} from "./server/sql/_IntegerSqlDataType";
-import {_FkSqlDataType} from "./server/sql/_FkSqlDataType";
+import {_StringSqlDataType} from "./server/schema/table/sql/_StringSqlDataType";
+import {_IntegerSqlDataType} from "./server/schema/table/sql/_IntegerSqlDataType";
+import {_FkSqlDataType} from "./server/schema/table/sql/_FkSqlDataType";
 import {_SchemaQuery} from "./server/schema/query/_SchemaQuery";
-import {_SchemaTable} from "./server/_SchemaTable";
+import {_SchemaTable} from "./server/schema/table/_SchemaTable";
 
 export async function _serverStartup() {
     await _sequelizeInit();
