@@ -2,7 +2,7 @@ import {MenuTemplate} from "./components/MenuTemplate";
 import {SchemaObject} from "./schema/SchemaObject";
 import {PageTemplate} from "./components/PageTemplate";
 import {Action} from "./actions/Action";
-import {SqlDataType} from "./schema/table/SqlDataType";
+import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "./schema/table/ISqlDataTypeProps";
 import {IClassInfo} from "./IClassInfo";
 
@@ -154,29 +154,30 @@ export class AppState {
     // }
 
     // ------------------ sqlDataTypes ------------------
-    sqlDataTypes: { [sqlDataTypeClassName: string]: typeof SqlDataType; } = {};
+    // sqlDataTypes: { [sqlDataTypeClassName: string]: typeof SqlDataType; } = {};
+    //
+    // registerSqlDataType(sqlDataTypeClassName: typeof SqlDataType) {
+    //     this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
+    // }
 
-    registerSqlDataType(sqlDataTypeClassName: typeof SqlDataType) {
-        this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
+    getRegisteredSqlDataTypes(): (ISqlDataTypeClassInfo)[] {
+        return [];
+        // let ret: (typeof SqlDataType)[] = [];
+        // for (let typeName in this.sqlDataTypes)
+        //     ret.push(this.sqlDataTypes[typeName]);
+        // return ret;
     }
 
-    getRegisteredSqlDataTypes(): (typeof SqlDataType)[] {
-        let ret: (typeof SqlDataType)[] = [];
-        for (let typeName in this.sqlDataTypes)
-            ret.push(this.sqlDataTypes[typeName]);
-        return ret;
-    }
-
-    getRegisteredSqlDataType(sqlDataTypeClassName: string): typeof SqlDataType {
-        let sqlDataTypeClass = this.sqlDataTypes[sqlDataTypeClassName];
-        if (!sqlDataTypeClass) {
-            let err = "registerSqlDataType(): не найден зарегистрированный класс типа данных sql" + sqlDataTypeClassName;
-            console.error(err);
-            throw err;
-        }
-        else
-            return sqlDataTypeClass;
-    }
+    // getRegisteredSqlDataType(sqlDataTypeClassName: string): typeof SqlDataType {
+    //     let sqlDataTypeClass = this.sqlDataTypes[sqlDataTypeClassName];
+    //     if (!sqlDataTypeClass) {
+    //         let err = "registerSqlDataType(): не найден зарегистрированный класс типа данных sql" + sqlDataTypeClassName;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return sqlDataTypeClass;
+    // }
 }
 
 export const appState = new AppState();

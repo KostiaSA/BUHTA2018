@@ -140,7 +140,7 @@ END
                     //children?: ISchemaQueryColumnProps[];
                 };
 
-                if (col.dataType.className === FkSqlDataType.className) {
+                if (col.dataType.className === FkSqlDataType.classInfo.className) {
                     let fkCol = col as any as IFkSqlDataTypeProps;
                     newQueryCol.tableId = fkCol.fkTableId;
                     //tableAlias?: string;

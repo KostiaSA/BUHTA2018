@@ -46,7 +46,7 @@ export async function importBuhta3Tables() {
 
             if (col["DataType"] === "Строка") {
                 let dataType: IStringSqlDataTypeProps = {
-                    className: StringSqlDataType.className,
+                    className: StringSqlDataType.classInfo.className,
                     maxLen: col["DataSize"]
                 };
                 newcol.dataType = dataType;
@@ -54,7 +54,7 @@ export async function importBuhta3Tables() {
             }
             else if (col["DataType"] === "Целое") {
                 let dataType: IIntegerSqlDataTypeProps = {
-                    className: IntegerSqlDataType.className,
+                    className: IntegerSqlDataType.classInfo.className,
                     size : "32"
                 };
                 newcol.dataType = dataType;

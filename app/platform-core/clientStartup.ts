@@ -27,9 +27,9 @@ export async function clientStartup() {
     appState.registerClassInfo(SchemaMenu.classInfo);
     appState.registerClassInfo(SchemaQuery.classInfo);
 
-    appState.registerSqlDataType(StringSqlDataType);
-    appState.registerSqlDataType(IntegerSqlDataType);
-    appState.registerSqlDataType(FkSqlDataType);
+    appState.registerClassInfo(StringSqlDataType.classInfo);
+    appState.registerClassInfo(IntegerSqlDataType.classInfo);
+    appState.registerClassInfo(FkSqlDataType.classInfo);
 
     console.log("platform-core startup ok");
 }

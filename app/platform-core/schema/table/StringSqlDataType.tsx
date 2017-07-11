@@ -1,35 +1,56 @@
 import * as React from "react";
 
-import {SqlDataType} from "./SqlDataType";
+import {ISqlDataTypeClassInfo, SqlDataType} from "./SqlDataType";
 import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
 import {FormInput} from "../../components/FormInput";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 
 export class StringSqlDataType extends SqlDataType<IStringSqlDataTypeProps> {
-    static className = "platform-core:StringSqlDataType";
 
-    static renderEditor(columnProps:ISchemaTableColumnProps, attrs?: any ): JSX.Element | JSX.Element[] {
-        return (
-            <FormInput
-                {...attrs}
-                mode="input"
-                label="длина"
-                bindProperty="dataType.maxLen"
-                defaultValue="50"
-                style={{maxWidth: 100}}
-                tooltip="ноль или пустое значение означает максимальную длину.."
-                rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
-            />
-        )
-    }
+
+    static classInfo: ISqlDataTypeClassInfo = {
+        className: "platform-core:StringSqlDataType",
+        constructor: StringSqlDataType,
+        title: "строка",
+        renderEditor:(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
+            return [
+                <FormInput
+                    {...attrs}
+                    mode="input"
+                    label="длина"
+                    bindProperty="dataType.maxLen"
+                    defaultValue="50"
+                    style={{maxWidth: 100}}
+                    tooltip="ноль или пустое значение означает максимальную длину.."
+                    rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
+                />
+            ]
+        }
+
+    };
+
+    // static renderEditor(columnProps:ISchemaTableColumnProps, attrs?: any ): JSX.Element | JSX.Element[] {
+    //     return (
+    //         <FormInput
+    //             {...attrs}
+    //             mode="input"
+    //             label="длина"
+    //             bindProperty="dataType.maxLen"
+    //             defaultValue="50"
+    //             style={{maxWidth: 100}}
+    //             tooltip="ноль или пустое значение означает максимальную длину.."
+    //             rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
+    //         />
+    //     )
+    // }
 
     dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
         if (!this.props.maxLen || this.props.maxLen === 0)
-            return StringSqlDataType.className;
+            return StringSqlDataType.classInfo.title;
         else
             return (
                 <span
-                    style={{color: "indianred"}}>{StringSqlDataType.className + "(" + this.props.maxLen + ")"}
+                    style={{color: "indianred"}}>{StringSqlDataType.classInfo.title + "(" + this.props.maxLen + ")"}
                 </span>
             );
     }

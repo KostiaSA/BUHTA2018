@@ -25,7 +25,10 @@ import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTablePr
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
 import {clone} from "ejson";
 import {appState} from "../../platform-core/AppState";
-import {createSqlDataTypeObject, SqlDataType} from "../../platform-core/schema/table/SqlDataType";
+import {
+    createSqlDataTypeObject, ISqlDataTypeClassInfo,
+    SqlDataType
+} from "../../platform-core/schema/table/SqlDataType";
 import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
 import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
@@ -308,7 +311,7 @@ class TableColumnFormPanelW extends BaseFormPanel {
         let dataTypeEditor: any = null;
 
         if (editedTableColumn.dataType) {
-            dataTypeEditor = appState.getRegisteredSqlDataType(editedTableColumn.dataType.className).renderEditor(editedTableColumn, layout);
+            dataTypeEditor = appState.getRegisteredClassInfo<ISqlDataTypeClassInfo>(editedTableColumn.dataType.className).renderEditor(editedTableColumn, layout);
         }
 
         return (
