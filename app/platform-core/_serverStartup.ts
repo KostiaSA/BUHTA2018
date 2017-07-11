@@ -4,12 +4,14 @@ import {_StringSqlDataType} from "./server/sql/_StringSqlDataType";
 import {_IntegerSqlDataType} from "./server/sql/_IntegerSqlDataType";
 import {_FkSqlDataType} from "./server/sql/_FkSqlDataType";
 import {_SchemaQuery} from "./server/schema/query/_SchemaQuery";
+import {_SchemaTable} from "./server/_SchemaTable";
 
 export async function _serverStartup() {
     await _sequelizeInit();
 
 
-    serverState.registerClass(_SchemaQuery);
+    serverState.registerClassInfo(_SchemaQuery.classInfo);
+    serverState.registerClassInfo(_SchemaTable.classInfo);
 
     serverState.registerExternalScript(`<script src="/platform-core/static/js/jquery.min.js"></script>`);
     serverState.registerExternalScript(`<script src="/platform-core/static/js/react.min.js"></script>`);

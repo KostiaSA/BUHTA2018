@@ -6,7 +6,9 @@ import {DefineAttributeColumnOptions, DefineAttributes} from "sequelize";
 import {_createSqlDataTypeObject} from "./sql/_SqlDataType";
 import {ISchemaTableColumnProps} from "../schema/table/ISchemaTableColumnProps";
 import {ISchemaPageProps} from "../schema/ISchemaPage";
+import {SchemaPage} from "../schema/SchemaPage";
 
 export class _SchemaPage extends _SchemaObject<ISchemaPageProps> {
-    static className = "platform-core:SchemaPage";
+    static classInfo  = { ...SchemaPage.classInfo, constructor:_SchemaPage };
+
 }

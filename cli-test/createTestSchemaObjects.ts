@@ -53,7 +53,7 @@ export async function createTestSchemaObjects() {
         label: "дизайнер ТАБЛИЦЫ",
         action: {
             actionId: OpenSchemaObjectDesignerAction.actionId,
-            objectId: "8563AF517DDE"
+            objectId: "WG9lq9AjR9Erxw33AElM"
         } as IOpenSchemaObjectDesignerActionProps
     };
     let menuItem5: ISchemaMenuItem = {

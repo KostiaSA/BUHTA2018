@@ -15,13 +15,13 @@ export class SchemaObject<T extends ISchemaObjectProps> {
 //    static designerUrl = "admin/schema-object-designer";
 
     async save() {
-        let constructor = (this as any).prototype.constructor;
-        if (!constructor.className) {
-            let msg = "!constructor.className";
+        let classInfo = (this.constructor as any).classInfo as ISchemaObjectClassInfo<any>;
+        if (!classInfo) {
+            let msg = "!constructor.classInfo";
             console.error(msg);
             throw msg + ", " + __filename;
         }
-        this.props.className = constructor.className;
+        this.props.className = classInfo.className;
         return saveSchemaObjectApiRequest({object: this.props})
     }
 

@@ -5,9 +5,10 @@ import {_sequelize} from "./_sequelize";
 import {DefineAttributeColumnOptions, DefineAttributes} from "sequelize";
 import {_createSqlDataTypeObject} from "./sql/_SqlDataType";
 import {ISchemaTableColumnProps} from "../schema/table/ISchemaTableColumnProps";
+import {SchemaTable} from "../schema/table/SchemaTable";
 
 export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
-    static className = "platform-core:SchemaTable";
+    static classInfo  = { ...SchemaTable.classInfo, constructor:_SchemaTable };
 
     async getSequelizeModel(): Promise<Sequelize.Model<any, any>> {
 
