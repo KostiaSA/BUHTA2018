@@ -13,7 +13,7 @@ export async function clientStartup() {
     appState.registerClassInfo(SchemaTableDesignerPageTemplate.classInfo);
     appState.registerClassInfo(SchemaQueryDesignerPageTemplate.classInfo);
 
-    appState.registerAction(OpenSchemaObjectDesignerAction);
+    appState.registerClassInfo(OpenSchemaObjectDesignerAction.classInfo);
 
     console.log("platform-admin startup ok")
 

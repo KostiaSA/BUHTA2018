@@ -19,7 +19,7 @@ export async function clientStartup() {
 
     appState.registerClassInfo(MainMenuTemplate.classInfo);
 
-    appState.registerAction(OpenSchemaPageAction);
+    appState.registerClassInfo(OpenSchemaPageAction.classInfo);
 
     appState.registerClassInfo(SchemaPage.classInfo);
     appState.registerClassInfo(SchemaTable.classInfo);

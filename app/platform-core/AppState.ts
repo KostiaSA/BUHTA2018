@@ -106,28 +106,28 @@ export class AppState {
     // }
 
     // ------------------ actions ------------------
-    actions: { [actionId: string]: typeof Action; } = {};
-
-    registerAction(actionClass: typeof Action) {
-        // if (!(actionClass as any).actionId) {
-        //     let err = "registerAction(): неверный класс action";
-        //     console.error(err);
-        //     throw err;
-        // }
-        // else
-        this.actions[actionClass.actionId] = actionClass;
-    }
-
-    getRegisteredAction(actionId: string): typeof Action {
-        let actionClass = this.actions[actionId];
-        if (!actionClass) {
-            let err = "registerAction(): не найден зарегистрированный action " + actionId;
-            console.error(err);
-            throw err;
-        }
-        else
-            return actionClass;
-    }
+    // actions: { [actionId: string]: typeof Action; } = {};
+    //
+    // registerAction(actionClass: typeof Action) {
+    //     // if (!(actionClass as any).actionId) {
+    //     //     let err = "registerAction(): неверный класс action";
+    //     //     console.error(err);
+    //     //     throw err;
+    //     // }
+    //     // else
+    //     this.actions[actionClass.actionId] = actionClass;
+    // }
+    //
+    // getRegisteredAction(actionId: string): typeof Action {
+    //     let actionClass = this.actions[actionId];
+    //     if (!actionClass) {
+    //         let err = "registerAction(): не найден зарегистрированный action " + actionId;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return actionClass;
+    // }
 
     // // ------------------ schemaObjects ------------------
     // schemaObjects: { [schemaObjectClassName: string]: typeof SchemaObject; } = {};

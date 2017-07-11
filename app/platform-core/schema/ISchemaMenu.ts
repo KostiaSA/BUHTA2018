@@ -1,6 +1,6 @@
 import {ISchemaObjectProps} from "./ISchemaObject";
 import {SchemaObject} from "./SchemaObject";
-import {IAction} from "../actions/IAction";
+import {IActionProps} from "../actions/IActionProps";
 
 export interface ISchemaMenuProps extends ISchemaObjectProps {
     template: string;
@@ -9,7 +9,7 @@ export interface ISchemaMenuProps extends ISchemaObjectProps {
 
 export interface ISchemaMenuItem {
     label: string;
-    action:IAction;
+    action:IActionProps;
 
     icon?: string;
     items?: ISchemaMenuItem[];

@@ -32,35 +32,35 @@ export async function createTestSchemaObjects() {
     let menuItem1: ISchemaMenuItem = {
         label: "Открой 2A2B0CFFC047",
         action: {
-            actionId: OpenSchemaPageAction.actionId,
+            actionClassName: OpenSchemaPageAction.classInfo.className,
             pageId: "2A2B0CFFC047"
         } as IOpenSchemaPageAction
     };
     let menuItem2: ISchemaMenuItem = {
         label: "Закрой 31CA8AEB0552",
         action: {
-            actionId: OpenSchemaPageAction.actionId,
+            actionClassName: OpenSchemaPageAction.classInfo.className,
             pageId: "31CA8AEB0552"
         } as IOpenSchemaPageAction
     };
     let menuItem3: ISchemaMenuItem = {
         label: "дизайнер APP да",
         action: {
-            actionId: OpenSchemaObjectDesignerAction.actionId,
+            actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
             objectId: "4FD8AF410DDE"
         } as IOpenSchemaObjectDesignerActionProps
     };
     let menuItem4: ISchemaMenuItem = {
         label: "дизайнер ТАБЛИЦЫ",
         action: {
-            actionId: OpenSchemaObjectDesignerAction.actionId,
+            actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
             objectId: "WG9lq9AjR9Erxw33AElM"
         } as IOpenSchemaObjectDesignerActionProps
     };
     let menuItem5: ISchemaMenuItem = {
         label: "дизайнер ЗАПРОСА",
         action: {
-            actionId: OpenSchemaObjectDesignerAction.actionId,
+            actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
             objectId: "7788AF517DDE"
         } as IOpenSchemaObjectDesignerActionProps
     };
