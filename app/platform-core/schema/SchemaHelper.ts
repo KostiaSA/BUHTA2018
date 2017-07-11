@@ -18,9 +18,9 @@ export class SchemaHelper {
     static async createSchemaObject<T extends SchemaObject<ISchemaObjectProps>>(objectId: string): Promise<T> {
 
         let props = await SchemaHelper.getSchemaObjectProps(objectId);
-        let objectClass = appState.getRegisteredSchemaObject(props.className);
+        let objectClass = appState.getRegisteredClassInfo(props.className).constructor;
 
-        let obj = new (objectClass as any)();
+        let obj = new objectClass();
         obj.props = props;
         return obj;
     }

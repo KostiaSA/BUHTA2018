@@ -21,12 +21,11 @@ export async function clientStartup() {
 
     appState.registerAction(OpenSchemaPageAction);
 
-    appState.registerSchemaObject(SchemaPage);
-    appState.registerSchemaObject(SchemaTable);
-    appState.registerSchemaObject(SchemaApp);
-    appState.registerSchemaObject(SchemaMenu);
-    appState.registerSchemaObject(SchemaPage);
-    appState.registerSchemaObject(SchemaQuery);
+    appState.registerClassInfo(SchemaPage.classInfo);
+    appState.registerClassInfo(SchemaTable.classInfo);
+    appState.registerClassInfo(SchemaApp.classInfo);
+    appState.registerClassInfo(SchemaMenu.classInfo);
+    appState.registerClassInfo(SchemaQuery.classInfo);
 
     appState.registerSqlDataType(StringSqlDataType);
     appState.registerSqlDataType(IntegerSqlDataType);

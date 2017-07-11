@@ -66,7 +66,7 @@ export async function createTestSchemaObjects() {
 
     let mainmenu: ISchemaMenuProps = {
         id: "EC69BFBB1D35",
-        className: SchemaMenu.className,
+        className: SchemaMenu.classInfo.className,
         type: "SchemaMenu",
         name: "тестовое главное меню",
         description: "---",
@@ -80,7 +80,7 @@ export async function createTestSchemaObjects() {
     // ------------------ startPage ------------------
     let startPage: ISchemaPageProps = {
         id: "2A2B0CFFC047",
-        className: SchemaPage.className,
+        className: SchemaPage.classInfo.className,
         type: "SchemaPage",
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
@@ -99,7 +99,7 @@ export async function createTestSchemaObjects() {
     // ------------------ SchemaApp ------------------
     let app: ISchemaAppProps = {
         id: "4FD8AF410DDE",
-        className: SchemaApp.className,
+        className: SchemaApp.classInfo.className,
         type: "SchemaApp",
         name: "тестовое приложение",
         description: "",
@@ -113,7 +113,7 @@ export async function createTestSchemaObjects() {
     // ------------------ Page 2 ------------------
     let page2: ISchemaPageProps = {
         id: "31CA8AEB0552",
-        className: SchemaPage.className,
+        className: SchemaPage.classInfo.className,
         type: "SchemaPage",
         name: "страница 2",
         title: "страница 2 N31CA8AEB0552",
@@ -129,13 +129,13 @@ export async function createTestSchemaObjects() {
     // ------------------ Дизайнер SchemaApp ------------------
     let page3: ISchemaPageProps = {
         id: "777A8AEB0552",
-        className: SchemaPage.className,
+        className: SchemaPage.classInfo.className,
         type: "SchemaPage",
         name: "Дизайнер SchemaApp",
         title: "страница 777A8AEB0552 Дизайнер SchemaApp",
         description: "",
         template: "platform-admin/pages/SchemaAppDesignerPageTemplate",
-        url: SchemaApp.designerUrl
+        url: SchemaApp.classInfo.designerUrl
         //mainMenuId: mainmenu.id
     };
 
@@ -146,7 +146,7 @@ export async function createTestSchemaObjects() {
     // ------------------ SchemaTable организация ------------------
     let orgTable: ISchemaTableProps = {
         id: "8563AF517DDE",
-        className: SchemaTable.className,
+        className: SchemaTable.classInfo.className,
         type: "SchemaTable",
         name: "Организация",
         description: "таблица организация",
@@ -170,13 +170,13 @@ export async function createTestSchemaObjects() {
     // ------------------ Дизайнер SchemaTable ------------------
     let page4: ISchemaPageProps = {
         id: "2E5102700AFB",
-        className: SchemaPage.className,
+        className: SchemaPage.classInfo.className,
         type: "SchemaPage",
         name: "Дизайнер SchemaTable",
         title: "дизайнер таблицы",
         description: "",
         template: SchemaTableDesignerPageTemplate.classInfo.className,
-        url: SchemaTable.designerUrl
+        url: SchemaTable.classInfo.designerUrl
         //mainMenuId: mainmenu.id
     };
 
@@ -188,7 +188,7 @@ export async function createTestSchemaObjects() {
     let query1: ISchemaQueryProps = {
         id: "7788AF517DDE",
         key: "1",
-        className: SchemaQuery.className,
+        className: SchemaQuery.classInfo.className,
         type: "SchemaQuery",
         name: "Запрос список организаций",
         description: "Запрос список организаций desc",
@@ -233,13 +233,13 @@ export async function createTestSchemaObjects() {
     // ------------------ Дизайнер SchemaQuery ------------------
     let page5: ISchemaPageProps = {
         id: "qwdrrf2E5102700AFB",
-        className: SchemaPage.className,
+        className: SchemaPage.classInfo.className,
         type: "SchemaPage",
         name: "Дизайнер SchemaQuery",
         title: "дизайнер запроса",
         description: "",
         template: SchemaQueryDesignerPageTemplate.classInfo.className,
-        url: SchemaQuery.designerUrl
+        url: SchemaQuery.classInfo.designerUrl
         //mainMenuId: mainmenu.id
     };
 

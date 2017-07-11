@@ -23,7 +23,7 @@ export async function importBuhta3Tables() {
         // ------------------ startPage ------------------
         let obj: ISchemaTableProps = {
             id: getSHA256base64Id("imported-from-buhta3-" + table["TableName"]),
-            className: SchemaTable.className,
+            className: SchemaTable.classInfo.className,
             type: "SchemaTable",
             name: table["TableName"],
             description: "",

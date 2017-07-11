@@ -5,7 +5,7 @@ import {appState} from "../AppState";
 import {IClassInfo} from "../IClassInfo";
 
 export interface ISchemaObjectClassInfo<T> extends IClassInfo<T> {
-
+    designerUrl: string;
 }
 
 export class SchemaObject<T extends ISchemaObjectProps> {

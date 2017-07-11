@@ -580,7 +580,7 @@ export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTem
   //  static pageTemplateName: string = "шаблон дизайнера SchemaQuery";
 
     static classInfo: IPageTemplateClassInfo = {
-        className: "platform-core:SchemaObject",
+        className: "platform-admin:SchemaQueryDesignerPageTemplate",
         constructor: SchemaQueryDesignerPageTemplate,
         pageTemplateName: "шаблон дизайнера SchemaQuery"
 

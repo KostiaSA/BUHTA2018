@@ -129,29 +129,29 @@ export class AppState {
             return actionClass;
     }
 
-    // ------------------ schemaObjects ------------------
-    schemaObjects: { [schemaObjectClassName: string]: typeof SchemaObject; } = {};
-
-    registerSchemaObject(schemaObjectClassName: typeof SchemaObject) {
-        // if (!schemaObjectClassName.className) {
-        //     let err = "registerPageTemplate(): неверный класс объекта схемы";
-        //     console.error(err);
-        //     throw err;
-        // }
-        // else
-        this.schemaObjects[schemaObjectClassName.className] = schemaObjectClassName;
-    }
-
-    getRegisteredSchemaObject(schemaObjectClassName: string): typeof SchemaObject {
-        let schemaObjectClass = this.schemaObjects[schemaObjectClassName];
-        if (!schemaObjectClass) {
-            let err = "registerSchemaObject(): не найден зарегистрированный класс объекта схемы" + schemaObjectClassName;
-            console.error(err);
-            throw err;
-        }
-        else
-            return schemaObjectClass;
-    }
+    // // ------------------ schemaObjects ------------------
+    // schemaObjects: { [schemaObjectClassName: string]: typeof SchemaObject; } = {};
+    //
+    // registerSchemaObject(schemaObjectClassName: typeof SchemaObject) {
+    //     // if (!schemaObjectClassName.className) {
+    //     //     let err = "registerPageTemplate(): неверный класс объекта схемы";
+    //     //     console.error(err);
+    //     //     throw err;
+    //     // }
+    //     // else
+    //     this.schemaObjects[schemaObjectClassName.className] = schemaObjectClassName;
+    // }
+    //
+    // getRegisteredSchemaObject(schemaObjectClassName: string): typeof SchemaObject {
+    //     let schemaObjectClass = this.schemaObjects[schemaObjectClassName];
+    //     if (!schemaObjectClass) {
+    //         let err = "registerSchemaObject(): не найден зарегистрированный класс объекта схемы" + schemaObjectClassName;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return schemaObjectClass;
+    // }
 
     // ------------------ sqlDataTypes ------------------
     sqlDataTypes: { [sqlDataTypeClassName: string]: typeof SqlDataType; } = {};

@@ -15,7 +15,7 @@ export class MainPageTemplate extends PageTemplate {
     //static pageTemplateName: string = "шаблон главной страницы";
 
     static classInfo: IPageTemplateClassInfo = {
-        className: "platform-core/templates/MainPageTemplate",
+        className: "platform-core:MainPageTemplate",
         constructor: PageTemplate,
         pageTemplateName: "шаблон главной страницы"
 

@@ -7,15 +7,15 @@ import {IPageTemplateProps} from "../components/PageTemplate";
 
 
 export interface ISchemaPageClassInfo extends ISchemaObjectClassInfo<typeof SchemaPage> {
-    designerUrl: string;
+
 }
 
 export class SchemaPage extends SchemaObject<ISchemaPageProps> {
-    static className = "platform-core:SchemaPage";
-    static designerUrl = "admin/schema-page-designer";
+    //static className = "platform-core:SchemaPage";
+    //static designerUrl = "admin/schema-page-designer";
 
     static classInfo: ISchemaPageClassInfo = {
-        className: "platform-core:SchemaObject",
+        className: "platform-core:SchemaPage",
         constructor: SchemaPage,
         designerUrl: "admin/schema-page-designer"
     }
