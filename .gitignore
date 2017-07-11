@@ -4,6 +4,7 @@ node_modules
 *.map
 *.rar
 *.zip
+*.lock
 !webpack.config.js
 
 
