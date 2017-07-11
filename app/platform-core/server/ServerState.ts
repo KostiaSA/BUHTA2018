@@ -65,29 +65,29 @@ export class _ServerState {
 
 
     // ------------------ sqlDataTypes ------------------
-    sqlDataTypes: { [sqlDataTypeClassName: string]: typeof _SqlDataType; } = {};
-
-    registerSqlDataType(sqlDataTypeClassName: typeof _SqlDataType) {
-        this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
-    }
-
-    getRegisteredSqlDataTypes(): (typeof _SqlDataType)[] {
-        let ret: (typeof _SqlDataType)[] = [];
-        for (let typeName in this.sqlDataTypes)
-            ret.push(this.sqlDataTypes[typeName]);
-        return ret;
-    }
-
-    getRegisteredSqlDataType(sqlDataTypeClassName: string): typeof _SqlDataType {
-        let sqlDataTypeClass = this.sqlDataTypes[sqlDataTypeClassName];
-        if (!sqlDataTypeClass) {
-            let err = "registerSqlDataType(): не найден зарегистрированный класс типа данных sql" + sqlDataTypeClassName;
-            console.error(err);
-            throw err;
-        }
-        else
-            return sqlDataTypeClass;
-    }
+    // sqlDataTypes: { [sqlDataTypeClassName: string]: typeof _SqlDataType; } = {};
+    //
+    // registerSqlDataType(sqlDataTypeClassName: typeof _SqlDataType) {
+    //     this.sqlDataTypes[sqlDataTypeClassName.className] = sqlDataTypeClassName;
+    // }
+    //
+    // getRegisteredSqlDataTypes(): (typeof _SqlDataType)[] {
+    //     let ret: (typeof _SqlDataType)[] = [];
+    //     for (let typeName in this.sqlDataTypes)
+    //         ret.push(this.sqlDataTypes[typeName]);
+    //     return ret;
+    // }
+    //
+    // getRegisteredSqlDataType(sqlDataTypeClassName: string): typeof _SqlDataType {
+    //     let sqlDataTypeClass = this.sqlDataTypes[sqlDataTypeClassName];
+    //     if (!sqlDataTypeClass) {
+    //         let err = "registerSqlDataType(): не найден зарегистрированный класс типа данных sql" + sqlDataTypeClassName;
+    //         console.error(err);
+    //         throw err;
+    //     }
+    //     else
+    //         return sqlDataTypeClass;
+    // }
 }
 
 export const serverState = new _ServerState();

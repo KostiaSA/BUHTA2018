@@ -24,9 +24,9 @@ export async function _serverStartup() {
     serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="/platform-core/static/css/antd.css">`);
     serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="/platform-core/static/css/index.css">`);
 
-    serverState.registerSqlDataType(_StringSqlDataType);
-    serverState.registerSqlDataType(_IntegerSqlDataType);
-    serverState.registerSqlDataType(_FkSqlDataType);
+    serverState.registerClassInfo(_StringSqlDataType.classInfo);
+    serverState.registerClassInfo(_IntegerSqlDataType.classInfo);
+    serverState.registerClassInfo(_FkSqlDataType.classInfo);
 
     console.log("package platform-core: startup Ok");
 }

@@ -13,8 +13,8 @@ export class _SqlDataType<P extends ISqlDataTypeProps> {
 }
 
 export function _createSqlDataTypeObject(props: ISqlDataTypeProps): _SqlDataType<ISqlDataTypeProps> {
-    let objectClass = serverState.getRegisteredSqlDataType(props.className);
-    let obj = new (objectClass as any)();
+    let objectClass = serverState.getRegisteredClassInfo(props.className).constructor;
+    let obj = new objectClass();
     obj.props = props;
     return obj;
 }

@@ -3,9 +3,10 @@ import {IStringSqlDataTypeProps} from "../../schema/table/IStringSqlDataTypeProp
 import {DataTypeAbstract} from "sequelize";
 import * as Sequelize from "sequelize";
 import {IIntegerSqlDataTypeProps} from "../../schema/table/IIntegerSqlDataTypeProps";
+import {IntegerSqlDataType} from "../../schema/table/IntegerSqlDataType";
 
 export class _IntegerSqlDataType extends _SqlDataType<IIntegerSqlDataTypeProps> {
-    static className = "platform-core:IntegerSqlDataType";
+    static classInfo  = { ...IntegerSqlDataType.classInfo, constructor:_IntegerSqlDataType };
 
 
     async getSequelizeDataType(): Promise<string | DataTypeAbstract> {
