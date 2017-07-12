@@ -1,16 +1,15 @@
-import {ISchemaQueryColumnProps} from "../../../schema/query/ISchemaQueryColumnProps";
-import {ISchemaQueryProps} from "../../../schema/query/ISchemaQueryProps";
-import {getRandomString} from "../../../utils/getRandomString";
-import {_SchemaTable} from "../table/_SchemaTable";
-import {_loadSchemaObject} from "../_SchemaObject";
+import {SchemaTable} from "../table/SchemaTable";
+import {ISchemaQueryProps} from "./ISchemaQueryProps";
+import {ISchemaQueryColumnProps} from "./ISchemaQueryColumnProps";
+import {getRandomString} from "../../utils/getRandomString";
 
 
-export class _SchemaQueryHelperColumn {
+export class SchemaQueryHelperColumn {
     query: ISchemaQueryProps;
     props: ISchemaQueryColumnProps;
-    parent: _SchemaQueryHelperColumn;
-    columns: _SchemaQueryHelperColumn[] = [];
-    joinTable: _SchemaTable;
+    parent: SchemaQueryHelperColumn;
+    columns: SchemaQueryHelperColumn[] = [];
+    joinTable: SchemaTable;
 
     get joinTableAlias(): string {
         if (this.parent)
@@ -20,29 +19,31 @@ export class _SchemaQueryHelperColumn {
     }
 }
 
-export class _SchemaQueryHelper {
+export class SchemaQueryHelper {
     constructor(public query: ISchemaQueryProps) {
 
     }
 
-    root: _SchemaQueryHelperColumn;
-    columnsByKey: { [key: string]: _SchemaQueryHelperColumn; } = {};
+    root: SchemaQueryHelperColumn;
+    columns: SchemaQueryHelperColumn[] = [];
+    columnsByKey: { [key: string]: SchemaQueryHelperColumn; } = {};
 
 
-    private async iterateNodeRecursive(node: ISchemaQueryColumnProps, parent?: ISchemaQueryColumnProps, parentColumn?: _SchemaQueryHelperColumn) {
+    private async iterateNodeRecursive(node: ISchemaQueryColumnProps, parent?: ISchemaQueryColumnProps, parentColumn?: SchemaQueryHelperColumn) {
 
-        let column = new _SchemaQueryHelperColumn();
+        let column = new SchemaQueryHelperColumn();
         column.props = node;
         column.query = this.query;
 
         if (!node.key)
             node.key = getRandomString();
 
+        this.columns.push(column);
         this.columnsByKey[node.key] = column;
 
-        if (column.props.tableId) {
-            column.joinTable = await _loadSchemaObject<_SchemaTable>(column.props.tableId);
-        }
+        // if (column.props.tableId) {
+        //     column.joinTable = await _loadSchemaObject<_SchemaTable>(column.props.tableId);
+        // }
 
         if (parentColumn) {
             column.parent = parentColumn;
@@ -65,7 +66,7 @@ export class _SchemaQueryHelper {
 
     }
 
-    getColumn(key: string): _SchemaQueryHelperColumn {
+    getColumn(key: string): SchemaQueryHelperColumn {
         let ret = this.columnsByKey[key];
         if (!this.columnsByKey[key]) {
             let msg = "не найдена колонка, key:" + key;
