@@ -1,11 +1,14 @@
 import * as SequelizeStatic from "sequelize";
 import {Options, Sequelize} from "sequelize";
 import {_config} from "../../../_config";
-import {initSchemaObjectModel} from "../schema/_schemaObjectModel";
+import {_initSchemaObjectModel} from "../schema/_schemaObjectModel";
 
 export let _sequelize: Sequelize;
 
 export async function _sequelizeInit() {
+    if (_sequelize)
+        return;
+
     let options: Options = {
         host: _config.sqlServerAddress,
         dialect: _config.sqlDialect,
@@ -20,6 +23,6 @@ export async function _sequelizeInit() {
     _sequelize = new SequelizeStatic(_config.sqlDatabase, _config.sqlLogin, _config.sqlPassword, options);
 
     await _sequelize.authenticate();
-    await initSchemaObjectModel();
+    await _initSchemaObjectModel();
 }
 

@@ -1,8 +1,7 @@
-import * as crypto from "crypto";
+
+const SHA256 = require("crypto-js/sha256");
 
 export function getSHA256base64(body: string): string {
-    const hash = crypto.createHash("sha256");
-    hash.update(body);
-    return hash.digest("base64");
+    return btoa(SHA256(body));
 
 }

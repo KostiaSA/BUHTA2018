@@ -11,8 +11,10 @@ import {StringSqlDataType} from "./schema/table/StringSqlDataType";
 import {IntegerSqlDataType} from "./schema/table/IntegerSqlDataType";
 import {FkSqlDataType} from "./schema/table/FkSqlDataType";
 import {SchemaQuery} from "./schema/query/SchemaQuery";
+import {getSHA256base64Id} from "./utils/getSHA256base64Id";
 
 export async function clientStartup() {
+    let fake= getSHA256base64Id(""); // не убирать
 
     appState.registerClassInfo(PageTemplate.classInfo);
     appState.registerClassInfo(MainPageTemplate.classInfo);

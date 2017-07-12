@@ -8,7 +8,7 @@ import {ISchemaTableColumnProps} from "../../../schema/table/ISchemaTableColumnP
 import {SchemaTable} from "../../../schema/table/SchemaTable";
 
 export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
-    static classInfo  = { ...SchemaTable.classInfo, constructor:_SchemaTable };
+    static classInfo = {...SchemaTable.classInfo, constructor: _SchemaTable};
 
     async getSequelizeModel(): Promise<Sequelize.Model<any, any>> {
 
@@ -19,7 +19,8 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
             let dataType = _createSqlDataTypeObject(col.dataType);
 
             let attr: DefineAttributeColumnOptions = {
-                type: await dataType.getSequelizeDataType()
+                type: await dataType.getSequelizeDataType(),
+                primaryKey: col.primaryKey
             };
 
             attrs[col.name] = attr;

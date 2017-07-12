@@ -3,7 +3,7 @@ import * as Sequelize from "sequelize";
 
 export let schemaObjectModel: Sequelize.Model<any, any>;
 
-export async function initSchemaObjectModel() {
+export async function _initSchemaObjectModel() {
     schemaObjectModel = _sequelize.define("SchemaObject", {
         id: {
             type: Sequelize.STRING(32),
@@ -11,9 +11,6 @@ export async function initSchemaObjectModel() {
             primaryKey: true
         },
         name: {
-            type: Sequelize.STRING(127)
-        },
-        type: {
             type: Sequelize.STRING(127)
         },
         className: {

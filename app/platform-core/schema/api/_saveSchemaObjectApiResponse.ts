@@ -16,7 +16,6 @@ export async function _saveSchemaObjectApiResponse(req: _ISaveSchemaObjectApiReq
         id: req.object.id,
         name: req.object.name,
         className: req.object.className,
-        type: req.object.type,
         description: req.object.description,
         jsonData: JSON.stringify(req.object)
     };

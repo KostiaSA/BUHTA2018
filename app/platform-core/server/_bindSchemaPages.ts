@@ -4,12 +4,13 @@ import {_getAllFilesFromDirectory} from "../utils/_getAllFilesFromDirectory";
 import {schemaObjectModel} from "../schema/_schemaObjectModel";
 import {ISchemaPageProps} from "../schema/ISchemaPage";
 import {_createIndexHtml} from "./_createIndexHtml";
+import {SchemaPage} from "../schema/SchemaPage";
 let path = require("path");
 
 export async function _bindSchemaPages(expressApp: any) {
 
 
-    let instance = await schemaObjectModel.findAll({where: {type: "SchemaPage"}});
+    let instance = await schemaObjectModel.findAll({where: {className: SchemaPage.classInfo.className}});
 
     for (let item of instance) {
         let page = JSON.parse(item.get().jsonData) as ISchemaPageProps;

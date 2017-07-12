@@ -19,6 +19,6 @@ export async function _buhta3SequelizeInit() {
     _buhta3Sequelize = new SequelizeStatic(_config.sqlDatabase, _config.sqlLogin, _config.sqlPassword, options);
 
     await _buhta3Sequelize.authenticate();
-    //await initSchemaObjectModel();
+    //await _initSchemaObjectModel();
 }
 

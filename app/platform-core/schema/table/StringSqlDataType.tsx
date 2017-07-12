@@ -12,7 +12,7 @@ export class StringSqlDataType extends SqlDataType<IStringSqlDataTypeProps> {
         className: "platform-core:StringSqlDataType",
         constructor: StringSqlDataType,
         title: "строка",
-        renderEditor:(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
+        renderEditor: (columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
             return [
                 <FormInput
                     {...attrs}
@@ -29,30 +29,18 @@ export class StringSqlDataType extends SqlDataType<IStringSqlDataTypeProps> {
 
     };
 
-    // static renderEditor(columnProps:ISchemaTableColumnProps, attrs?: any ): JSX.Element | JSX.Element[] {
-    //     return (
-    //         <FormInput
-    //             {...attrs}
-    //             mode="input"
-    //             label="длина"
-    //             bindProperty="dataType.maxLen"
-    //             defaultValue="50"
-    //             style={{maxWidth: 100}}
-    //             tooltip="ноль или пустое значение означает максимальную длину.."
-    //             rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
-    //         />
-    //     )
-    // }
 
     dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
-        if (!this.props.maxLen || this.props.maxLen === 0)
-            return StringSqlDataType.classInfo.title;
-        else
-            return (
-                <span
-                    style={{color: "indianred"}}>{StringSqlDataType.classInfo.title + "(" + this.props.maxLen + ")"}
+        let maxLenStr = "(MAX)";
+
+        if (this.props.maxLen && this.props.maxLen > 0)
+            maxLenStr = "(" + this.props.maxLen + ")";
+
+        return (
+            <span
+                style={{color: "indianred"}}>{StringSqlDataType.classInfo.title + maxLenStr}
                 </span>
-            );
+        );
     }
 
 
