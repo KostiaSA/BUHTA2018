@@ -1,4 +1,4 @@
-import {_SchemaObject} from "../../_SchemaObject";
+import {_SchemaObject} from "../_SchemaObject";
 import {ISchemaTableProps} from "../../../schema/table/ISchemaTableProps";
 import * as Sequelize from "sequelize";
 import {_sequelize} from "../../_sequelize";

@@ -43,6 +43,7 @@ import {AdminTheme} from "../adminTheme";
 import {CodeEditor} from "../components/CodeEditor";
 import {ISchemaPageClassInfo} from "../../platform-core/schema/SchemaPage";
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
+import {emitQuerySqlApiRequest, IEmitQuerySqlApiResponse} from "../api/emitQuerySqlApiRequest";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -209,10 +210,19 @@ END
 
     handleTabChange = (activeTabKey: string) => {
         if (activeTabKey === "sql") {
-            this.sqlCodeMirrorSource = (new Date()).toISOString();
-            this.forceUpdate();
+
+            emitQuerySqlApiRequest({queryProps: this.editedQuery, dialect: "mssql"})
+                .then((ans: IEmitQuerySqlApiResponse) => {
+                    this.sqlCodeMirrorSource = ans.sql;
+                    this.forceUpdate();
+                })
+                .catch((error: any) => {
+                    this.sqlCodeMirrorSource = "ошибка";
+                    console.log(error);
+                    this.forceUpdate();
+                });
         }
-    }
+    };
 
     render(): JSX.Element {
         let layout = {
@@ -573,11 +583,10 @@ const QueryColumnFormPanel = Form.create
     < IFormPanelProps > (QueryColumnFormPanelW.formOptions)(QueryColumnFormPanelW as any) as typeof QueryColumnFormPanelW;
 
 
-
 export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
 //    static className: string = "platform-admin:SchemaQueryDesignerPageTemplate";
-  //  static pageTemplateName: string = "шаблон дизайнера SchemaQuery";
+    //  static pageTemplateName: string = "шаблон дизайнера SchemaQuery";
 
     static classInfo: IPageTemplateClassInfo = {
         className: "platform-admin:SchemaQueryDesignerPageTemplate",

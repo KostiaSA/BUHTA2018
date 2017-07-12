@@ -1,9 +1,9 @@
-import {ISchemaObjectProps} from "../schema/ISchemaObject";
-import {schemaObjectModel} from "../schema/_schemaObjectModel";
+import {ISchemaObjectProps} from "../../schema/ISchemaObject";
+import {schemaObjectModel} from "../../schema/_schemaObjectModel";
 import {parse} from "ejson";
-import {serverState} from "./ServerState";
-import {_saveSchemaObjectApiResponse} from "../schema/api/_saveSchemaObjectApiResponse";
-import {ISchemaObjectClassInfo} from "../schema/SchemaObject";
+import {serverState} from "../ServerState";
+import {_saveSchemaObjectApiResponse} from "../../schema/api/_saveSchemaObjectApiResponse";
+import {ISchemaObjectClassInfo} from "../../schema/SchemaObject";
 
 export class _SchemaObject<T extends ISchemaObjectProps> {
     constructor(props?: T) {

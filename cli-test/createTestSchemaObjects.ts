@@ -22,7 +22,7 @@ import {ISchemaQueryProps} from "../app/platform-core/schema/query/ISchemaQueryP
 import {SchemaQuery} from "../app/platform-core/schema/query/SchemaQuery";
 import {SchemaQueryDesignerPageTemplate} from "../app/platform-admin/pages/SchemaQueryDesignerPageTemplate";
 import {_SchemaQuery} from "../app/platform-core/server/schema/query/_SchemaQuery";
-import {_SchemaPage} from "../app/platform-core/server/_SchemaPage";
+import {_SchemaPage} from "../app/platform-core/server/schema/page/_SchemaPage";
 import {SchemaAppDesignerPageTemplate} from "../app/platform-admin/pages/SchemaAppDesignerPageTemplate";
 
 export async function createTestSchemaObjects() {

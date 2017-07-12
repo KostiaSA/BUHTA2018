@@ -7,6 +7,8 @@ import {appState} from "../../AppState";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 import {IClassInfo} from "../../IClassInfo";
 
+export type SqlDialect = "mysql" | "postgres" | "mssql";
+
 export interface ISqlDataTypeClassInfo extends IClassInfo<typeof SqlDataType> {
     title: string;
     renderEditor: (columnProps: ISchemaTableColumnProps, attrs?: any) => JSX.Element | JSX.Element[];
