@@ -4,6 +4,7 @@ import {SchemaQuery} from "../../../schema/query/SchemaQuery";
 import {_SchemaQueryHelper, _SchemaQueryHelperColumn} from "./_SchemaQueryHelper";
 import {SqlDialect} from "../../../schema/table/SqlDataType";
 import {_SqlSelectEmitter} from "../../sql-emitter/_SqlSelectEmitter";
+import {_sequelize} from "../../_sequelize";
 
 
 export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
@@ -56,6 +57,12 @@ export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
         await this.emitColumn(helper.root, emitter, 0);
 
         return emitter.toSql();
+    }
+
+    async execute(): Promise<any[]> {
+        let sql = await this.emitSql(_sequelize.getDialect() as any);
+        let result = await _sequelize.query(sql);
+        return result[0];
     }
 
 }

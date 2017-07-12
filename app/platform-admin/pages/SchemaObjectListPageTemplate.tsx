@@ -20,6 +20,8 @@ import {getParamFromUrl} from "../../platform-core/utils/getQueryParamFromUrl";
 import {ISchemaObjectProps} from "../../platform-core/schema/ISchemaObject";
 import {SchemaObject} from "../../platform-core/schema/SchemaObject";
 import {SchemaHelper} from "../../platform-core/schema/SchemaHelper";
+import {QueryGrid} from "../../platform-core/components/QueryGrid";
+import {AdminConst} from "../AdminConst";
 
 export interface ISchemaObjectListPageTemplateProps {
 
@@ -40,7 +42,7 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
         return (
             <div>
                 {super.renderTop()}
-                это список
+                <QueryGrid queryId={AdminConst.SchemaTableQueryObjectId}/>
             </div>
         );
     }

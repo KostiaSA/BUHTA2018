@@ -1,5 +1,6 @@
 import {ISchemaObjectClassInfo, SchemaObject} from "../SchemaObject";
 import {ISchemaQueryProps} from "./ISchemaQueryProps";
+import {executeSchemaQueryApiRequest} from "../api/executeSchemaQueryApiRequest";
 
 
 export interface ISchemaQueryClassInfo extends ISchemaObjectClassInfo<typeof SchemaQuery> {
@@ -7,12 +8,14 @@ export interface ISchemaQueryClassInfo extends ISchemaObjectClassInfo<typeof Sch
 }
 
 export class SchemaQuery extends SchemaObject<ISchemaQueryProps> {
-    //static className="platform-core:SchemaQuery";
-    //static designerUrl="admin/schema-query-designer";
 
     static classInfo: ISchemaQueryClassInfo = {
         className: "platform-core:SchemaQuery",
         constructor: SchemaQuery,
         designerUrl: "admin/schema-query-designer"
+    };
+
+    async loadData():Promise<any[]>{
+        return (await executeSchemaQueryApiRequest({queryId:this.props.id})).rows;
     }
 }
