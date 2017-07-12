@@ -4,17 +4,15 @@ import {SchemaTable} from "../schema/table/SchemaTable";
 import {_SchemaTable} from "../server/schema/table/_SchemaTable";
 import {StringSqlDataType} from "../schema/table/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../schema/table/IStringSqlDataTypeProps";
-import {_serverStartup} from "../_serverStartup";
+import {CoreConst} from "../CoreConst";
 
 export async function _schemaObjectTableInstall() {
-    await _serverStartup();
 
 
     // ------------------ SchemaTable организация ------------------
     let tableProps: ISchemaTableProps = {
-        id: "table:RZPxH2M8NGnmWEj22fBt",
+        id: CoreConst.SchemaTableObjectId,
         className: SchemaTable.classInfo.className,
-        type: "SchemaTable",
         name: "SchemaObject",
         description: "объекты конфигурации",
         columns: [
@@ -59,11 +57,6 @@ export async function _schemaObjectTableInstall() {
                 } as IStringSqlDataTypeProps
 
             },
-            // {
-            //     name: "название",
-            //     className:StringSqlDataType.className,
-            //     dataType: StringSqlDataType.className,
-            // }
         ]
     };
 

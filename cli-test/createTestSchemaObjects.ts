@@ -68,7 +68,6 @@ export async function createTestSchemaObjects() {
     let mainmenu: ISchemaMenuProps = {
         id: "EC69BFBB1D35",
         className: SchemaMenu.classInfo.className,
-        type: "SchemaMenu",
         name: "тестовое главное меню",
         description: "---",
         template: MainMenuTemplate.classInfo.className,// "platform-core/templates/MainMenuTemplate",
@@ -82,7 +81,6 @@ export async function createTestSchemaObjects() {
     let startPage: ISchemaPageProps = {
         id: "2A2B0CFFC047",
         className: SchemaPage.classInfo.className,
-        type: "SchemaPage",
         name: "стартовая страница",
         title: "стартовая страница N2A2B0CFFC047",
         description: "",
@@ -101,7 +99,6 @@ export async function createTestSchemaObjects() {
     let app: ISchemaAppProps = {
         id: "4FD8AF410DDE",
         className: SchemaApp.classInfo.className,
-        type: "SchemaApp",
         name: "тестовое приложение",
         description: "",
         startPage: startPage.id
@@ -115,7 +112,6 @@ export async function createTestSchemaObjects() {
     let page2: ISchemaPageProps = {
         id: "31CA8AEB0552",
         className: SchemaPage.classInfo.className,
-        type: "SchemaPage",
         name: "страница 2",
         title: "страница 2 N31CA8AEB0552",
         description: "",
@@ -131,7 +127,6 @@ export async function createTestSchemaObjects() {
     let page3: ISchemaPageProps = {
         id: "777A8AEB0552",
         className: SchemaPage.classInfo.className,
-        type: "SchemaPage",
         name: "Дизайнер SchemaApp",
         title: "страница 777A8AEB0552 Дизайнер SchemaApp",
         description: "",
@@ -148,7 +143,6 @@ export async function createTestSchemaObjects() {
     let orgTable: ISchemaTableProps = {
         id: "8563AF517DDE",
         className: SchemaTable.classInfo.className,
-        type: "SchemaTable",
         name: "Организация",
         description: "таблица организация",
         columns: [
@@ -172,7 +166,6 @@ export async function createTestSchemaObjects() {
     let page4: ISchemaPageProps = {
         id: "2E5102700AFB",
         className: SchemaPage.classInfo.className,
-        type: "SchemaPage",
         name: "Дизайнер SchemaTable",
         title: "дизайнер таблицы",
         description: "",
@@ -190,7 +183,6 @@ export async function createTestSchemaObjects() {
         id: "7788AF517DDE",
         key: "1",
         className: SchemaQuery.classInfo.className,
-        type: "SchemaQuery",
         name: "Запрос список организаций",
         description: "Запрос список организаций desc",
         tableId: "db93rN1PNn0kVfqMRtY3",
@@ -235,7 +227,6 @@ export async function createTestSchemaObjects() {
     let page5: ISchemaPageProps = {
         id: "qwdrrf2E5102700AFB",
         className: SchemaPage.classInfo.className,
-        type: "SchemaPage",
         name: "Дизайнер SchemaQuery",
         title: "дизайнер запроса",
         description: "",
