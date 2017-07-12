@@ -80,37 +80,7 @@ class QueryFormPanel extends BaseFormPanel {
     editedColumn: ISchemaQueryColumnProps;
     editedColumnCloned: ISchemaQueryColumnProps;
 
-    sqlCodeMirrorSource: string = `
-ALTER PROCEDURE [dbo].[_ss_документ_в_xml_шапка_СЧЕТ_ФАКТУРА](@dogID int)
-AS 
-BEGIN 
-  SELECT 
-     Дата InvoiceDate,                            -- дата товарной накладной
-     Номер InvoiceNumber,                         -- номер товарной накладной
-     dbo.[_ss_ОрганизацияКлючToOrganizationKey](Грузоотправитель) Shipper,                    -- организация (ключ) грузоотправитель 
-     dbo.[_ss_ОрганизацияКлючToOrganizationKey](Грузополучатель) Consignee,                   -- организация (ключ) грузополучатель
-     (SELECT Ю.Организация FROM [Юр.лицо] Ю WHERE Ю.Номер=документ.[Юр.лицо]) Seller,    -- организация (ключ) поставщик
-     dbo.[_ss_ОрганизацияКлючToOrganizationKey](Получатель) Buyer,                            -- организация (ключ) плательщик
-
-    [Сумма без налогов] TotalWithVatExcluded,     -- сумма без учета НДС - всего по накладной
-    [Сумма НДС 10]+[Сумма НДС 18] Vat,            -- сумма НДС - всего по накладной
-    [Сумма спецификации всего] Total,                                -- сумма с учетом НДС - всего по накладной
-
-    Текст AdditionalInfo,                         -- дополнительные сведения
-
-	'Директор' ПодписантДолжнось, 
-	'Петров' ПодписантФамилия, 
-	'Петр' ПодписантИмя, 
-	'Петрович' ПодписантОтчество, 
-
-    'fake'
-  FROM
-    Документ(nolock)   
-  WHERE
-    Ключ=@dogID
-    
-END
-    `;
+    sqlCodeMirrorSource: string = "";
 
     addColumnsModal: IAddColumnsModal = {
         visible: false,
@@ -221,7 +191,7 @@ END
                 })
                 .catch((error: any) => {
                     this.sqlCodeMirrorSource = "ошибка";
-                    console.log(error);
+                    console.error(error);
                     this.forceUpdate();
                 });
         }

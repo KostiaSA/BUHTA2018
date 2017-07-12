@@ -16,7 +16,7 @@ export class _SchemaQueryHelperColumn {
 
     get joinTableAlias(): string {
         if (this.parent)
-            return this.parent.joinTable.props.name + "." + this.joinTable.props.name;
+            return this.parent.joinTableAlias + "." + this.joinTable.props.name;
         else
             return this.joinTable.props.name;
     }
