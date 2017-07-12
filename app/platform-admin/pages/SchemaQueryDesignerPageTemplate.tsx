@@ -280,7 +280,7 @@ class QueryFormPanel extends BaseFormPanel {
                                                                     arrow = "";
                                                                 }
                                                                 return (
-                                                                    <span>
+                                                                    <span style={{fontWeight:"bold"}}>
                                                                         {record.fieldSource}{arrow}
                                                                         <a href="#"
                                                                            onClick={() => this.addColumnClickHandler(record)}

@@ -10,19 +10,25 @@ import {IntegerSqlDataType} from "../../platform-core/schema/table/IntegerSqlDat
 import {_saveSchemaObjectApiResponse} from "../../platform-core/schema/api/_saveSchemaObjectApiResponse";
 import {IIntegerSqlDataTypeProps} from "../../platform-core/schema/table/IIntegerSqlDataTypeProps";
 import {_SchemaTable} from "../../platform-core/server/schema/table/_SchemaTable";
+import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/IFkSqlDataTypeProps";
+import {FkSqlDataType} from "../../platform-core/schema/table/FkSqlDataType";
 
 export async function importBuhta3Tables() {
     await _sequelizeInit();
     await _buhta3SequelizeInit();
 
-    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'Орг%' OR TableName like 'Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
+    let getIdFromTableName = (name: string): string => {
+        return "table:" + getSHA256base64Id("imported-from-buhta3-" + name);
+    }
+
+    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable --WHERE TableName like 'Орг%' OR TableName like 'Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
 
 //    console.log(tables);
 
     for (let table of tables) {
         // ------------------ startPage ------------------
         let obj: ISchemaTableProps = {
-            id: getSHA256base64Id("imported-from-buhta3-" + table["TableName"]),
+            id: getIdFromTableName(table["TableName"]),//getSHA256base64Id("imported-from-buhta3-" + table["TableName"]),
             className: SchemaTable.classInfo.className,
             type: "SchemaTable",
             name: table["TableName"],
@@ -43,6 +49,8 @@ export async function importBuhta3Tables() {
             let newcol: ISchemaTableColumnProps & IStringSqlDataTypeProps = {} as any;
 
             newcol.name = col["FieldName"];
+            if (newcol.name === table["KeyFieldName"])
+                newcol.primaryKey = true;
 
             if (col["DataType"] === "Строка") {
                 let dataType: IStringSqlDataTypeProps = {
@@ -55,7 +63,15 @@ export async function importBuhta3Tables() {
             else if (col["DataType"] === "Целое") {
                 let dataType: IIntegerSqlDataTypeProps = {
                     className: IntegerSqlDataType.classInfo.className,
-                    size : "32"
+                    size: "32"
+                };
+                newcol.dataType = dataType;
+                obj.columns.push(newcol);
+            }
+            else if (col["DataType"] === "Ссылка") {
+                let dataType: IFkSqlDataTypeProps = {
+                    className: FkSqlDataType.classInfo.className,
+                    fkTableId: getIdFromTableName(col["ForeignTable"])
                 };
                 newcol.dataType = dataType;
                 obj.columns.push(newcol);
@@ -65,7 +81,7 @@ export async function importBuhta3Tables() {
 
         //console.log("импортирована таблица '" + table["TableName"] + "'", obj);
 
-        let schemaTable=new _SchemaTable(obj);
+        let schemaTable = new _SchemaTable(obj);
         //schemaTable.props=obj;
         await schemaTable.save();
 
