@@ -14,15 +14,12 @@ export class _SchemaQueryHelperColumn {
     columns: _SchemaQueryHelperColumn[] = [];
     joinTable: _SchemaTable;
 
-    // getParentTableName(): string {
-    //     if (!this.parent) {
-    //         return "";
-    //
-    //     }
-    //     else {
-    //         return this.parent.getParentFullName()+"."+ this.props.fieldSource!;
-    //     }
-    // }
+    get joinTableAlias(): string {
+        if (this.parent)
+            return this.parent.joinTable.props.name + "." + this.joinTable.props.name;
+        else
+            return this.joinTable.props.name;
+    }
 }
 
 export class _SchemaQueryHelper {
@@ -58,7 +55,7 @@ export class _SchemaQueryHelper {
         }
 
         if (node.children) {
-            for (let _node of node.children){
+            for (let _node of node.children) {
                 await this.iterateNodeRecursive(_node, node, column);
             }
         }

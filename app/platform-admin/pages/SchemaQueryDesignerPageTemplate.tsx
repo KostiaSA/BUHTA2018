@@ -132,6 +132,8 @@ END
         handleOk(this: QueryFormPanel){
             console.log("ok");
             for (let col of this.addColumnsModal.selectedCols) {
+                console.log("col.dataType.className",col.dataType.className);
+
                 let newQueryCol: ISchemaQueryColumnProps = {
                     key: getRandomString(),
                     fieldCaption: col.name,
@@ -142,8 +144,9 @@ END
                 };
 
                 if (col.dataType.className === FkSqlDataType.classInfo.className) {
-                    let fkCol = col as any as IFkSqlDataTypeProps;
+                    let fkCol = col.dataType as IFkSqlDataTypeProps;
                     newQueryCol.tableId = fkCol.fkTableId;
+                    console.log("fkCol.fkTableId",fkCol);
                     //tableAlias?: string;
                     newQueryCol.children = [];
 
