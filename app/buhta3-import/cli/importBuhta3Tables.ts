@@ -74,7 +74,7 @@ export async function importBuhta3Tables() {
             else if (col["DataType"] === "Ссылка") {
                 let dataType: IFkSqlDataTypeProps = {
                     className: FkSqlDataType.classInfo.className,
-                    fkTableId: getIdFromTableName(col["ForeignTable"])
+                    fkTableId: SchemaTable.classInfo.recordIdPrefix + ":" +getIdFromTableName(col["ForeignTable"])
                 };
                 newcol.dataType = dataType;
                 obj.columns.push(newcol);

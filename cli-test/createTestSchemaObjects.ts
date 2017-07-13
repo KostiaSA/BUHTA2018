@@ -131,7 +131,7 @@ export async function createTestSchemaObjects() {
         title: "страница 777A8AEB0552 Дизайнер SchemaApp",
         description: "",
         template: SchemaAppDesignerPageTemplate.classInfo.className,
-        url: SchemaApp.classInfo.designerUrl
+        url: "SchemaApp.classInfo.designerUrl"
         //mainMenuId: mainmenu.id
     };
 
@@ -170,7 +170,7 @@ export async function createTestSchemaObjects() {
         title: "дизайнер таблицы",
         description: "",
         template: SchemaTableDesignerPageTemplate.classInfo.className,
-        url: SchemaTable.classInfo.designerUrl
+        url: "SchemaTable.classInfo.designerUrl"
         //mainMenuId: mainmenu.id
     };
 
@@ -231,7 +231,7 @@ export async function createTestSchemaObjects() {
         title: "дизайнер запроса",
         description: "",
         template: SchemaQueryDesignerPageTemplate.classInfo.className,
-        url: SchemaQuery.classInfo.designerUrl
+        url: "SchemaQuery.classInfo.designerUrl"
         //mainMenuId: mainmenu.id
     };
 

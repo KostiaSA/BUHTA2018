@@ -4,6 +4,7 @@ import {_serverStartup as _coreServerStartup} from "../platform-core/_serverStar
 import {_serverStartup} from "./_serverStartup";
 import {_schemaObjectListPageInstall} from "./install/_schemaObjectListPageInstall";
 import {_schemaTableDesignerPageInstall} from "./install/_schemaTableDesignerPageInstall";
+import {_schemaQueryDesignerPageInstall} from "./install/_schemaQueryDesignerPageInstall";
 
 export async function packageInstall() {
     await _coreServerStartup();
@@ -12,6 +13,7 @@ export async function packageInstall() {
     await _schemaObjectQueryInstall();
     await _schemaObjectListPageInstall();
     await _schemaTableDesignerPageInstall();
+    await _schemaQueryDesignerPageInstall();
 
 }
 

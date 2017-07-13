@@ -14,13 +14,13 @@ export async function _schemaTableDesignerPageInstall() {
 
     // ------------------ SchemaTable организация ------------------
     let pageProps:ISchemaPageProps = {
-        id: AdminConst.SchemaTableDesignerPageObjectId,
+        id: SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaTableDesignerPageObjectId,
         className: SchemaPage.classInfo.className,
         name: "Дизайнер SchemaTable",
         title: "дизайнер таблицы",
         description: "",
         template: SchemaTableDesignerPageTemplate.classInfo.className,
-        url: SchemaTable.classInfo.designerUrl
+        url: AdminConst.SchemaTableDesignerPageUrl,
         //mainMenuId: mainmenu.id
     };
 

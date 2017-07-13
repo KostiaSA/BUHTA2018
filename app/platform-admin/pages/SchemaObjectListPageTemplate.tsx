@@ -22,6 +22,7 @@ import {SchemaObject} from "../../platform-core/schema/SchemaObject";
 import {SchemaHelper} from "../../platform-core/schema/SchemaHelper";
 import {QueryGrid} from "../../platform-core/components/QueryGrid";
 import {AdminConst} from "../AdminConst";
+import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 
 export interface ISchemaObjectListPageTemplateProps {
 
@@ -42,7 +43,7 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
         return (
             <div>
                 {super.renderTop()}
-                <QueryGrid queryId={AdminConst.SchemaTableQueryObjectId}/>
+                <QueryGrid queryId={SchemaQuery.classInfo.recordIdPrefix+":"+ AdminConst.SchemaObjectListQueryObjectId}/>
             </div>
         );
         // return (
@@ -53,20 +54,5 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
         // );
     }
 
-
-    // async loadData() {
-    //
-    //     await super.loadData();
-    //     console.log("load schema object");
-    //     if (!this.designedObject) {
-    //         let designedObjectId = getParamFromUrl("objectid");
-    //         if (designedObjectId) {
-    //             this.designedObject = await SchemaHelper.createSchemaObject(designedObjectId);
-    //             //setInterval(this.trackChanges, 100);
-    //             //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
-    //         }
-    //     }
-    // }
-    //
 
 }

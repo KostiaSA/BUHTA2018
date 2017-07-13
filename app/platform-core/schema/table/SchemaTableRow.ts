@@ -3,13 +3,16 @@ import {appState} from "../../AppState";
 import {IClassInfo} from "../../IClassInfo";
 import {ISchemaTableRowProps} from "./ISchemaTableRowProps";
 
+export interface ISchemaTableRow{
+    openChangeRecordPage(recordId: string):Promise<void>;
 
+}
 
 export interface ISchemaTableRowClassInfo extends IClassInfo<typeof SchemaTableRow> {
 
 }
 
-export class SchemaTableRow<T extends ISchemaTableRowProps> {
+export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTableRow{
 
     props:T;
 
@@ -18,17 +21,12 @@ export class SchemaTableRow<T extends ISchemaTableRowProps> {
         constructor: SchemaTableRow,
     };
 
-    async handleChangeRecordClick() {
+    async openChangeRecordPage(recordId: string):Promise<void> {
 
-        if (this.props.__recordId__) {
-            let classInfo = appState.getRegisteredClassInfoByPrefix(this.props.__recordId__);
-            if (classInfo) {
-                // let obj = new classInfo.constructor();
-                // obj.handleChangeRecordClick(recordId);
-            }
-            // let editOptions = {...this.props.editOptions,};
-            // console.log("---this.props.editOptions---", recordId, classInfo);
-        }
+          let msg="abstract error";
+          console.error(msg);
+          throw msg+", "+__filename;
+
     }
 
 
