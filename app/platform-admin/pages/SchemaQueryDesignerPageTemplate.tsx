@@ -45,6 +45,7 @@ import {ISchemaPageClassInfo} from "../../platform-core/schema/SchemaPage";
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 import {emitQuerySqlApiRequest, IEmitQuerySqlApiResponse} from "../api/emitQuerySqlApiRequest";
 import {reassignObject} from "../../platform-core/utils/reassignObject";
+import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -165,6 +166,20 @@ class QueryFormPanel extends BaseFormPanel {
         console.log("edit", column);
     };
 
+    deleteColumnClickHandler = (column: ISchemaQueryColumnProps) => {
+        if (column === this.editedQuery) {
+            this.editedQuery.tableId = undefined;
+            this.editedQuery.children = [];
+        }
+        else {
+            let query = new SchemaQuery();
+            query.props = this.editedQuery;
+            query.deleteColumn(column);
+        }
+        this.forceUpdate();
+        console.log("delete", column);
+    };
+
     get editedQuery(): ISchemaQueryProps {
         return this.props.editedObject as ISchemaQueryProps;
     }
@@ -227,7 +242,7 @@ class QueryFormPanel extends BaseFormPanel {
                 </Row>
                 <Row>
                     <Tabs
-                        defaultActiveKey="main"
+                        defaultActiveKey="columns"
                         animated={{inkBar: true, tabPane: false}}
                         onChange={this.handleTabChange}
                     >
@@ -332,7 +347,7 @@ class QueryFormPanel extends BaseFormPanel {
                                                 return null;
                                             }
                                             else {
-                                                let attrs:string[]=[];
+                                                let attrs: string[] = [];
                                                 if (record.isHidden)
                                                     attrs.push("скрытая");
                                                 if (record.isDisabled)
@@ -350,13 +365,32 @@ class QueryFormPanel extends BaseFormPanel {
                                         key="action"
                                         render={ (text: any, record: ISchemaQueryColumnProps) => {
 
+                                            let deleteTitle =
+                                                <span>Удалить колонку: <strong>{record.fieldSource}</strong>?</span>;
+                                            if (!record.fieldSource) {
+                                                deleteTitle = <span>Удалить корневую таблицу?</span>;
+                                            }
+
+                                            let deleteConfirm = (
+                                                <Popconfirm
+                                                    title={deleteTitle}
+                                                    onConfirm={() => {
+                                                        this.deleteColumnClickHandler(record);
+                                                    }}
+                                                    okText="Удалить" cancelText="Нет">
+                                                    <a href="#" style={{color: "crimson"}}>удал.</a>
+                                                </Popconfirm>
+                                            );
+                                            if (record === this.editedQuery && !this.editedQuery.tableId)
+                                                deleteConfirm = null as any;
+
                                             if (record.tableId) {
                                                 return (
                                                     <span>
                                                         <a href="#" style={{color: AdminTheme.schemaTableColor}}
                                                            onClick={() => this.addColumnClickHandler(record)}>доб. колонки</a>
                                                         <span className="ant-divider"/>
-                                                        <a href="#" style={{color:"crimson"}}>удал.</a>
+                                                        {deleteConfirm}
                                                     </span>
                                                 )
                                             }
@@ -365,7 +399,7 @@ class QueryFormPanel extends BaseFormPanel {
                                                     <span>
                                                         <a href="#" onClick={() => this.editColumnClickHandler(record)}>изм.</a>
                                                         <span className="ant-divider"/>
-                                                        <a href="#" style={{color:"crimson"}}>удал.</a>
+                                                        {deleteConfirm}
                                                     </span>
                                                 )
                                             }
