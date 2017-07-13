@@ -2,7 +2,6 @@ import {_buhta3Sequelize, _buhta3SequelizeInit} from "../_buhta3Sequelize";
 import {_sequelizeInit} from "../../platform-core/server/_sequelize";
 import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
 import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
-import {getSHA256base64Id} from "../../platform-core/utils/getSHA256base64Id";
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
 import {StringSqlDataType} from "../../platform-core/schema/table/datatypes/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IStringSqlDataTypeProps";
@@ -12,13 +11,14 @@ import {IIntegerSqlDataTypeProps} from "../../platform-core/schema/table/datatyp
 import {_SchemaTable} from "../../platform-core/server/schema/table/_SchemaTable";
 import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IFkSqlDataTypeProps";
 import {FkSqlDataType} from "../../platform-core/schema/table/datatypes/FkSqlDataType";
+import {_getSHA256base64Id} from "../../platform-core/utils/_getSHA256base64Id";
 
 export async function importBuhta3Tables() {
     await _sequelizeInit();
     await _buhta3SequelizeInit();
 
     let getIdFromTableName = (name: string): string => {
-        return "table:" + getSHA256base64Id("imported-from-buhta3-" + name);
+        return _getSHA256base64Id("imported-from-buhta3-" + name);
     }
 
     let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'Орг%' OR TableName like 'Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
@@ -28,7 +28,7 @@ export async function importBuhta3Tables() {
     for (let table of tables) {
         // ------------------ startPage ------------------
         let obj: ISchemaTableProps = {
-            id: getIdFromTableName(table["TableName"]),//getSHA256base64Id("imported-from-buhta3-" + table["TableName"]),
+            id: SchemaTable.classInfo.recordIdPrefix + ":" + getIdFromTableName(table["TableName"]),//getSHA256base64Id("imported-from-buhta3-" + table["TableName"]),
             className: SchemaTable.classInfo.className,
             name: table["TableName"],
             description: "",

@@ -7,4 +7,7 @@ export function getSHA256base64Id(body: string): string {
     return replaceAll(replaceAll(btoa(hash), "/", ""), "+", "").substr(0, 20);
 }
 
-(window as any).getRandomId=():string=>{return getSHA256base64Id(getRandomString())};
+
+(window as any).getRandomId = (): string => {
+    return getSHA256base64Id(getRandomString())
+};

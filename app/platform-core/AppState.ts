@@ -35,13 +35,14 @@ export class AppState {
             return objClass as any;
     }
 
-    getRegisteredClassInfoByPrefix<T extends IClassInfo<any>>(prefix: string): T {
+    getRegisteredClassInfoByPrefix<T extends IClassInfo<any>>(prefix: string): T | undefined {
         prefix = prefix.split(":")[0];
         let objClass = this.registeredPrefixes[prefix];
         if (!objClass) {
-            let err = "registerClass(): не найден зарегистрированный префикс " + prefix;
-            console.error(err);
-            throw err;
+            return undefined;
+            //let err = "registerClass(): не найден зарегистрированный префикс " + prefix;
+            //console.error(err);
+            //throw err;
         }
         else
             return objClass as any;
