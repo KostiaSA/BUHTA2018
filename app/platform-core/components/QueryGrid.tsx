@@ -45,6 +45,10 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
         }
     }
 
+    async handleChangeRecordClick(record: any) {
+        this.query.handleChangeRecordClick(record.__recordId__);
+    };
+
     async createColumns() {
         let helper = new SchemaQueryHelper(this.query.props);
         await  helper.createTree();
@@ -59,6 +63,28 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
                 this.columns.push(colProps);
             }
         }
+
+        // колонка редактирования
+        let colProps: ColumnProps<any> = {
+            title: "действия",
+            key: "action",
+            render: (text: any, record: any) => {
+                return (
+                    <span>
+                          <a href="#" onClick={() => {
+                              this.handleChangeRecordClick(record);
+                              //console.log("edit", record)
+                          }}>
+                              изм.
+                          </a>
+                          <span className="ant-divider"/>
+                          <a href="#">удал.</a>
+                    </span>
+                )
+            }
+        };
+        this.columns.push(colProps);
+
     }
 
 

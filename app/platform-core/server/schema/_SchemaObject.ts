@@ -22,17 +22,9 @@ export class _SchemaObject<T extends ISchemaObjectProps> {
         }
     }
 
-//    static className = "platform-core:?";
     props: T;
 
     async save() {
-        // let constructor = this.constructor as any;
-        // if (!constructor.className) {
-        //     let msg = "!constructor.className";
-        //     console.error(msg);
-        //     throw msg + ", " + __filename;
-        // }
-        // this.props.className = constructor.className;
 
         let classInfo = (this.constructor as any).classInfo as ISchemaObjectClassInfo<any>;
         if (!classInfo) {
@@ -42,8 +34,12 @@ export class _SchemaObject<T extends ISchemaObjectProps> {
         }
         this.props.className = classInfo.className;
 
-        await _saveSchemaObjectApiResponse({object: this.props});
-
+        let result= await _saveSchemaObjectApiResponse({object: this.props});
+        if (result.error) {
+          let msg=result.error;
+          console.error(msg);
+          throw msg+", "+__filename;
+        }
         //return _saveSchemaObjectApiRequest({object: this.props})
     }
 

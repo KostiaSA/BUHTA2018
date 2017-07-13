@@ -15,6 +15,15 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> {
         className: "platform-core:SchemaTable",
         constructor: SchemaTable,
         designerUrl: "admin/schema-table-designer",
+        recordIdPrefix:"schema-table"
+    };
+
+    async handleChangeRecordClick(recordId: string) {
+
+        let editOptions={...this.props.editOptions, };
+        console.log("---this.props.editOptions---", this.props.editOptions);
+
     }
+
 
 }

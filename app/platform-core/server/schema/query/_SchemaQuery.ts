@@ -23,6 +23,12 @@ export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
             for (let childColumn of column.columns) {
                 await this.emitColumn(childColumn, emitter, level + 1);
             }
+            // добавляем __recordId__
+            emitter.fields.push(
+                "    " +
+                emitter.identifierToSql(column.joinTableAlias) + "." + emitter.identifierToSql(column.joinTable.getPrimaryKeyColumn().name)+
+                " AS __recordId__");
+
         }
         else if (column.joinTable) {
             emitter.from.push(this.levelToStr(level) + "LEFT JOIN " + emitter.identifierToSql(column.joinTable.props.name) + " AS " + emitter.identifierToSql(column.joinTableAlias));

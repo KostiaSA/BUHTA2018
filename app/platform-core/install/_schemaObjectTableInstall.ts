@@ -1,6 +1,5 @@
 
 import {ISchemaTableProps} from "../schema/table/ISchemaTableProps";
-import {SchemaTable} from "../schema/table/SchemaTable";
 import {_SchemaTable} from "../server/schema/table/_SchemaTable";
 import {StringSqlDataType} from "../schema/table/datatypes/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../schema/table/datatypes/IStringSqlDataTypeProps";
@@ -11,8 +10,8 @@ export async function _schemaObjectTableInstall() {
 
     // ------------------ SchemaTable организация ------------------
     let tableProps: ISchemaTableProps = {
-        id: CoreConst.SchemaTableObjectId,
-        className: SchemaTable.classInfo.className,
+        id: _SchemaTable.classInfo.recordIdPrefix+":"+CoreConst.SchemaTableObjectId,
+        className: _SchemaTable.classInfo.className,
         name: "SchemaObject",
         description: "объекты конфигурации",
         columns: [
@@ -21,7 +20,7 @@ export async function _schemaObjectTableInstall() {
                 primaryKey: true,
                 dataType: {
                     className: StringSqlDataType.classInfo.className,
-                    maxLen: 32
+                    maxLen: 127
                 } as IStringSqlDataTypeProps
 
             },
@@ -65,7 +64,7 @@ export async function _schemaObjectTableInstall() {
     try {
         await table.save();
         await table.sync();
-        console.log("создана таблица '" + tableProps.name + "'");
+        console.log("создана таблица '" + tableProps.name + "'",tableProps);
 
     }
     catch (error) {

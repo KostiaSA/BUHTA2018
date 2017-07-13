@@ -6,7 +6,7 @@ export let schemaObjectModel: Sequelize.Model<any, any>;
 export async function _initSchemaObjectModel() {
     schemaObjectModel = _sequelize.define("SchemaObject", {
         id: {
-            type: Sequelize.STRING(32),
+            type: Sequelize.STRING(127),
             unique: true,
             primaryKey: true
         },

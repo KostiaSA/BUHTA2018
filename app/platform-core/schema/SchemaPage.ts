@@ -17,7 +17,8 @@ export class SchemaPage extends SchemaObject<ISchemaPageProps> {
     static classInfo: ISchemaPageClassInfo = {
         className: "platform-core:SchemaPage",
         constructor: SchemaPage,
-        designerUrl: "admin/schema-page-designer"
+        designerUrl: "admin/schema-page-designer",
+        recordIdPrefix:"schema-page"
     }
 
 }

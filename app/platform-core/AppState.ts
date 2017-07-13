@@ -1,14 +1,9 @@
-import {MenuTemplate} from "./components/MenuTemplate";
-import {SchemaObject} from "./schema/SchemaObject";
-import {PageTemplate} from "./components/PageTemplate";
-import {Action} from "./actions/Action";
 import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/datatypes/SqlDataType";
-import {ISqlDataTypeProps} from "./schema/table/datatypes/ISqlDataTypeProps";
 import {IClassInfo} from "./IClassInfo";
-import {inherits} from "util";
 
 export class AppState {
 
+    registeredPrefixes: { [prefix: string]: IClassInfo<any> } = {};
     registeredClassInfos: { [className: string]: IClassInfo<any> } = {};
 
     registerClassInfo(regInfo: IClassInfo<any>) {
@@ -18,12 +13,33 @@ export class AppState {
             throw msg + ", " + __filename;
         }
         this.registeredClassInfos[regInfo.className] = regInfo;
+
+        if (regInfo.recordIdPrefix) {
+            if (this.registeredPrefixes[regInfo.recordIdPrefix]) {
+                let msg = "уже зарегистрирован префикс" + regInfo.recordIdPrefix;
+                console.error(msg);
+                throw msg + ", " + __filename;
+            }
+            this.registeredPrefixes[regInfo.recordIdPrefix] = regInfo;
+        }
     }
 
     getRegisteredClassInfo<T extends IClassInfo<any>>(className: string): T {
         let objClass = this.registeredClassInfos[className];
         if (!objClass) {
             let err = "registerClass(): не найден зарегистрированный класс " + className;
+            console.error(err);
+            throw err;
+        }
+        else
+            return objClass as any;
+    }
+
+    getRegisteredClassInfoByPrefix<T extends IClassInfo<any>>(prefix: string): T {
+        prefix = prefix.split(":")[0];
+        let objClass = this.registeredPrefixes[prefix];
+        if (!objClass) {
+            let err = "registerClass(): не найден зарегистрированный префикс " + prefix;
             console.error(err);
             throw err;
         }

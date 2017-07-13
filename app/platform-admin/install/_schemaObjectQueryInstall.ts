@@ -3,6 +3,7 @@ import {_SchemaQuery} from "../../platform-core/server/schema/query/_SchemaQuery
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 import {CoreConst} from "../../platform-core/CoreConst";
 import {AdminConst} from "../AdminConst";
+import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 
 export async function _schemaObjectQueryInstall() {
 
@@ -15,7 +16,7 @@ export async function _schemaObjectQueryInstall() {
         className: SchemaQuery.classInfo.className,
         name: "Список объектов конфигурации",
         description: "Запрос список объектов конфигурации",
-        tableId: CoreConst.SchemaTableObjectId,
+        tableId: SchemaTable.classInfo.recordIdPrefix+":"+CoreConst.SchemaTableObjectId,
         children: [
             {
                 "key": "MDU4ODdjZmVmZjIyNzdj",
