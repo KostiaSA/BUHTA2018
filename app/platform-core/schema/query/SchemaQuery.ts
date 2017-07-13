@@ -15,6 +15,7 @@ export interface ISchemaQueryClassInfo extends ISchemaObjectClassInfo<typeof Sch
 export class SchemaQuery extends SchemaObject<ISchemaQueryProps> implements ISchemaTableRow{
 
     static classInfo: ISchemaQueryClassInfo = {
+        title:"Запрос",
         className: "platform-core:SchemaQuery",
         constructor: SchemaQuery,
         //designerUrl: "+++++++++++++++admin/schema-query-designer",

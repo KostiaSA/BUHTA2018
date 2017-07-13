@@ -4,7 +4,7 @@ import * as Sequelize from "sequelize";
 export let schemaObjectModel: Sequelize.Model<any, any>;
 
 export async function _initSchemaObjectModel() {
-    schemaObjectModel = _sequelize.define("SchemaObject", {
+    schemaObjectModel = _sequelize.define("__SchemaObject__", {
         id: {
             type: Sequelize.STRING(127),
             unique: true,
@@ -22,7 +22,11 @@ export async function _initSchemaObjectModel() {
         jsonData: {
             type: Sequelize.TEXT
         }
-    }, {freezeTableName: true});
+    }, {
+        freezeTableName: true,
+        createdAt: false,
+        updatedAt: false
+    });
 
     await schemaObjectModel.sync({alter: true});
 

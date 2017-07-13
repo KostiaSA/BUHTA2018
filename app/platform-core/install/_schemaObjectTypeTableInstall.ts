@@ -3,21 +3,21 @@ import {_SchemaTable} from "../server/schema/table/_SchemaTable";
 import {StringSqlDataType} from "../schema/table/datatypes/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../schema/table/datatypes/IStringSqlDataTypeProps";
 import {CoreConst} from "../CoreConst";
-import {FkSqlDataType} from "../schema/table/datatypes/FkSqlDataType";
 import {IFkSqlDataTypeProps} from "../schema/table/datatypes/IFkSqlDataTypeProps";
+import {FkSqlDataType} from "../schema/table/datatypes/FkSqlDataType";
 
-export async function _schemaObjectTableInstall() {
+export async function _schemaObjectTypeTableInstall() {
 
 
-    // ------------------ SchemaTable организация ------------------
+    // ------------------ SchemaTable типы объектов конфигурации ------------------
     let tableProps: ISchemaTableProps = {
-        id: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaTableObjectId,
+        id: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaObjectTypeTableObjectId,
         className: _SchemaTable.classInfo.className,
-        name: "__SchemaObject__",
-        description: "объекты конфигурации",
+        name: "__SchemaObjectType__",
+        description: "типы объектов конфигурации",
         columns: [
             {
-                name: "id",
+                name: "objectClassName",
                 primaryKey: true,
                 dataType: {
                     className: StringSqlDataType.classInfo.className,
@@ -26,7 +26,7 @@ export async function _schemaObjectTableInstall() {
 
             },
             {
-                name: "name",
+                name: "title",
                 dataType: {
                     className: StringSqlDataType.classInfo.className,
                     maxLen: 127
@@ -34,26 +34,10 @@ export async function _schemaObjectTableInstall() {
 
             },
             {
-                name: "description",
+                name: "prefix",
                 dataType: {
                     className: StringSqlDataType.classInfo.className,
-                    maxLen: 1000
-                } as IStringSqlDataTypeProps
-
-            },
-            {
-                name: "className",
-                dataType: {
-                    className: FkSqlDataType.classInfo.className,
-                    fkTableId: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaObjectTypeTableObjectId
-                } as IFkSqlDataTypeProps
-
-            },
-            {
-                name: "jsonData",
-                dataType: {
-                    className: StringSqlDataType.classInfo.className,
-                    maxLen: 0
+                    maxLen: 32
                 } as IStringSqlDataTypeProps
 
             },

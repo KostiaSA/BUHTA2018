@@ -27,7 +27,7 @@ export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
             emitter.fields.push(
                 "    " +
                 emitter.identifierToSql(column.joinTableAlias) + "." + emitter.identifierToSql(column.joinTable.getPrimaryKeyColumn().name)+
-                " AS __recordId__");
+                " AS "+emitter.identifierToSql("__recordId__"));
 
         }
         else if (column.joinTable) {

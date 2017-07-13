@@ -13,6 +13,7 @@ export class SchemaMenu extends SchemaObject<ISchemaMenuProps> {
 //    static className="platform-core:SchemaMenu";
 //    static designerUrl="admin/schema-menu-designer";
     static classInfo: ISchemaMenuClassInfo = {
+        title:"Меню",
         className: "platform-core:SchemaMenu",
         constructor: SchemaMenu,
         //designerUrl: "admin/schema-menu-designer",

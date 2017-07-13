@@ -16,6 +16,7 @@ export class SchemaPage extends SchemaObject<ISchemaPageProps> {
     //static designerUrl = "admin/schema-page-designer";
 
     static classInfo: ISchemaPageClassInfo = {
+        title:"Страница",
         className: "platform-core:SchemaPage",
         constructor: SchemaPage,
         //designerUrl: "admin/schema-page-designer",

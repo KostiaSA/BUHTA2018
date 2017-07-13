@@ -1,9 +1,7 @@
-import {ISchemaObjectProps} from "../ISchemaObject";
 import {ISchemaObjectClassInfo, SchemaObject} from "../SchemaObject";
 import {ISchemaTableProps} from "./ISchemaTableProps";
 import {appState} from "../../AppState";
 import {isString} from "util";
-import {SchemaQueryHelper} from "../query/SchemaQueryHelper";
 import {SchemaHelper} from "../SchemaHelper";
 import {SchemaPage} from "../SchemaPage";
 import {ISchemaTableRow} from "./SchemaTableRow";
@@ -14,13 +12,11 @@ export interface ISchemaTableClassInfo extends ISchemaObjectClassInfo<typeof Sch
 }
 
 export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISchemaTableRow {
-    //static className="platform-core:SchemaTable";
-    //static designerUrl="admin/schema-table-designer";
 
     static classInfo: ISchemaTableClassInfo = {
+        title:"Таблица",
         className: "platform-core:SchemaTable",
         constructor: SchemaTable,
-        //designerUrl: "+++++++++++admin/schema-table-designer",
         recordIdPrefix: "schema-table",
     };
 
@@ -62,8 +58,6 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
             else {
                 alert("ошибка вызова редактора 000");
             }
-            // let editOptions = {...this.props.editOptions,};
-            // console.log("---this.props.editOptions---", recordId, classInfo);
 
         }
         else {

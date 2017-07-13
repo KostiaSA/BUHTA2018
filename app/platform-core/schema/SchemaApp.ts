@@ -12,6 +12,7 @@ export class SchemaApp extends SchemaObject<ISchemaAppProps> {
     //static designerUrl="admin/schema-app-designer";
 
     static classInfo: ISchemaAppClassInfo = {
+        title:"Приложение",
         className: "platform-core:SchemaApp",
         constructor: SchemaApp,
         //designerUrl: "admin/schema-app-designer",

@@ -6,6 +6,7 @@ import {DefineAttributeColumnOptions, DefineAttributes} from "sequelize";
 import {_createSqlDataTypeObject} from "./sql/_SqlDataType";
 import {ISchemaTableColumnProps} from "../../../schema/table/ISchemaTableColumnProps";
 import {SchemaTable} from "../../../schema/table/SchemaTable";
+import {rows} from "mssql";
 
 export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
     static classInfo = {...SchemaTable.classInfo, constructor: _SchemaTable};
@@ -27,7 +28,11 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
 
         }
 
-        let model = _sequelize.define(this.props.name, attrs, {freezeTableName: true});
+        let model = _sequelize.define(this.props.name, attrs, {
+            freezeTableName: true,
+            createdAt: false,
+            updatedAt: false
+        });
 
         return model;
     }
@@ -44,4 +49,16 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
         }
         return undefined as any;
     }
+
+    async upsertRow(props: any) {
+        let model = await this.getSequelizeModel();
+        model.upsert(props);
+    }
+
+    async upsertRows(props: any[]) {
+        let model = await this.getSequelizeModel();
+        for (let row of props)
+            await model.upsert(row);
+    }
+
 }
