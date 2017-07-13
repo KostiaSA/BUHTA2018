@@ -2,8 +2,8 @@ import * as React from "react";
 
 import {ISqlDataTypeClassInfo, SqlDataType} from "./SqlDataType";
 import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
-import {FormInput} from "../../components/FormInput";
-import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
+import {FormInput} from "../../../components/FormInput";
+import {ISchemaTableColumnProps} from "../ISchemaTableColumnProps";
 
 export class StringSqlDataType extends SqlDataType<IStringSqlDataTypeProps> {
 

@@ -1,8 +1,8 @@
 import {ISchemaObjectProps} from "../ISchemaObject";
 import {SchemaObject} from "../SchemaObject";
-import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
-import {IIntegerSqlDataTypeProps} from "./IIntegerSqlDataTypeProps";
-import {ISqlDataTypeProps} from "./ISqlDataTypeProps";
+import {IStringSqlDataTypeProps} from "./datatypes/IStringSqlDataTypeProps";
+import {IIntegerSqlDataTypeProps} from "./datatypes/IIntegerSqlDataTypeProps";
+import {ISqlDataTypeProps} from "./datatypes/ISqlDataTypeProps";
 
 export interface ISchemaTableColumnProps {
     name: string;

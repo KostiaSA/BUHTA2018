@@ -14,7 +14,7 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> {
     static classInfo: ISchemaTableClassInfo = {
         className: "platform-core:SchemaTable",
         constructor: SchemaTable,
-        designerUrl: "admin/schema-table-designer"
+        designerUrl: "admin/schema-table-designer",
     }
 
 }

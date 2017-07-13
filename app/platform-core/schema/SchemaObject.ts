@@ -3,9 +3,11 @@ import {saveSchemaObjectApiRequest} from "./api/saveSchemaObjectApiRequest";
 import {loadSchemaObjectApiRequest} from "./api/loadSchemaObjectApiRequest";
 import {appState} from "../AppState";
 import {IClassInfo} from "../IClassInfo";
+import {ISchemaTableEditOptions} from "./table/ISchemaTableEditOptions";
 
 export interface ISchemaObjectClassInfo<T> extends IClassInfo<T> {
     designerUrl: string;
+    editOptions?:ISchemaTableEditOptions;
 }
 
 export class SchemaObject<T extends ISchemaObjectProps> {

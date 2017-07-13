@@ -17,7 +17,7 @@ import {MainPageTemplate} from "../app/platform-core/templates/MainPageTemplate"
 import {SchemaTable} from "../app/platform-core/schema/table/SchemaTable";
 import {ISchemaTableProps} from "../app/platform-core/schema/table/ISchemaTableProps";
 import {SchemaTableDesignerPageTemplate} from "../app/platform-admin/pages/SchemaTableDesignerPageTemplate";
-import {StringSqlDataType} from "../app/platform-core/schema/table/StringSqlDataType";
+import {StringSqlDataType} from "../app/platform-core/schema/table/datatypes/StringSqlDataType";
 import {ISchemaQueryProps} from "../app/platform-core/schema/query/ISchemaQueryProps";
 import {SchemaQuery} from "../app/platform-core/schema/query/SchemaQuery";
 import {SchemaQueryDesignerPageTemplate} from "../app/platform-admin/pages/SchemaQueryDesignerPageTemplate";

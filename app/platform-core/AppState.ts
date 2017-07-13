@@ -2,8 +2,8 @@ import {MenuTemplate} from "./components/MenuTemplate";
 import {SchemaObject} from "./schema/SchemaObject";
 import {PageTemplate} from "./components/PageTemplate";
 import {Action} from "./actions/Action";
-import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/SqlDataType";
-import {ISqlDataTypeProps} from "./schema/table/ISqlDataTypeProps";
+import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/datatypes/SqlDataType";
+import {ISqlDataTypeProps} from "./schema/table/datatypes/ISqlDataTypeProps";
 import {IClassInfo} from "./IClassInfo";
 import {inherits} from "util";
 

@@ -16,7 +16,8 @@ let office: _IConfig = {
     sqlServerPort: 1433,
     sqlLogin: "sa1",
     sqlPassword: "sonyk",
-    sqlDatabase: "Buhta2018",
+    sqlDatabase: "MAG3305",
+//    sqlDatabase: "Buhta2018",
     sqlDialect: "mssql",
     port:3001,
     projectRootPath:"C:/----BUHTA----"

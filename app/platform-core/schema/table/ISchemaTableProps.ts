@@ -1,11 +1,10 @@
 import {ISchemaObjectProps} from "../ISchemaObject";
-import {SchemaObject} from "../SchemaObject";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
-import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
-import {IIntegerSqlDataTypeProps} from "./IIntegerSqlDataTypeProps";
+import {ISchemaTableEditOptions} from "./ISchemaTableEditOptions";
 
 export interface ISchemaTableProps extends ISchemaObjectProps {
     sqlName?: string;
     columns: ISchemaTableColumnProps[];
+    editOptions?: ISchemaTableEditOptions;
 }
 

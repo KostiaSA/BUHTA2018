@@ -2,15 +2,15 @@ import * as React from "react";
 
 import {ISqlDataTypeClassInfo, SqlDataType} from "./SqlDataType";
 import {IStringSqlDataTypeProps} from "./IStringSqlDataTypeProps";
-import {FormInput} from "../../components/FormInput";
-import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
+import {FormInput} from "../../../components/FormInput";
+import {ISchemaTableColumnProps} from "../ISchemaTableColumnProps";
 import {IFkSqlDataTypeProps} from "./IFkSqlDataTypeProps";
-import {SchemaTable} from "./SchemaTable";
-import {sleep} from "../../utils/sleep";
-import {LazyRender} from "../../components/LazyRender";
-import {findSchemaObjectsApiRequest} from "../api/findSchemaObjectsApiRequest";
-import {findSchemaObjectsForLookupApiRequest} from "../api/findSchemaObjectsForLookupApiRequest";
-import {SchemaHelper} from "../SchemaHelper";
+import {SchemaTable} from "../SchemaTable";
+import {sleep} from "../../../utils/sleep";
+import {LazyRender} from "../../../components/LazyRender";
+import {findSchemaObjectsApiRequest} from "../../api/findSchemaObjectsApiRequest";
+import {findSchemaObjectsForLookupApiRequest} from "../../api/findSchemaObjectsForLookupApiRequest";
+import {SchemaHelper} from "../../SchemaHelper";
 
 export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
 

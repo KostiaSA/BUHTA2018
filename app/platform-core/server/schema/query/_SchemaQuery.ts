@@ -2,7 +2,7 @@ import {_SchemaObject} from "../_SchemaObject";
 import {ISchemaQueryProps} from "../../../schema/query/ISchemaQueryProps";
 import {SchemaQuery} from "../../../schema/query/SchemaQuery";
 import {_SchemaQueryHelper, _SchemaQueryHelperColumn} from "./_SchemaQueryHelper";
-import {SqlDialect} from "../../../schema/table/SqlDataType";
+import {SqlDialect} from "../../../schema/table/datatypes/SqlDataType";
 import {_SqlSelectEmitter} from "../../sql-emitter/_SqlSelectEmitter";
 import {_sequelize} from "../../_sequelize";
 

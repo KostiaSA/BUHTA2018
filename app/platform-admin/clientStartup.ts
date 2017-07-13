@@ -6,8 +6,16 @@ import {OpenSchemaObjectDesignerAction} from "./actions/OpenSchemaObjectDesigner
 import {SchemaTableDesignerPageTemplate} from "./pages/SchemaTableDesignerPageTemplate";
 import {SchemaQueryDesignerPageTemplate} from "./pages/SchemaQueryDesignerPageTemplate";
 import {SchemaObjectListPageTemplate} from "./pages/SchemaObjectListPageTemplate";
+import {SchemaTable} from "../platform-core/schema/table/SchemaTable";
+import {AdminConst} from "./AdminConst";
 
 export async function clientStartup() {
+
+    SchemaTable.classInfo.editOptions = {
+        ...SchemaTable.classInfo.editOptions,
+        editPageId: AdminConst.SchemaTableDesignerPageObjectId
+    };
+
     appState.registerClassInfo(AdminMainPageTemplate.classInfo);
     appState.registerClassInfo(SchemaObjectDesignerPageTemplate.classInfo);
     appState.registerClassInfo(SchemaAppDesignerPageTemplate.classInfo);

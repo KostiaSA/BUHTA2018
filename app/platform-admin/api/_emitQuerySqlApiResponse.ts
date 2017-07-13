@@ -1,5 +1,5 @@
 import {ISchemaQueryProps} from "../../platform-core/schema/query/ISchemaQueryProps"; // emit-to-request-code
-import {SqlDialect} from "../../platform-core/schema/table/SqlDataType";// emit-to-request-code
+import {SqlDialect} from "../../platform-core/schema/table/datatypes/SqlDataType";// emit-to-request-code
 
 import {_SchemaQuery} from "../../platform-core/server/schema/query/_SchemaQuery";
 

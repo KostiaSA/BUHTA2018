@@ -1,8 +1,8 @@
 
-import {isString} from "util"; 
+import {isString} from "util";
 
 import {ISchemaQueryProps} from "../../platform-core/schema/query/ISchemaQueryProps"; // emit-to-request-code
-import {SqlDialect} from "../../platform-core/schema/table/SqlDataType";// emit-to-request-code
+import {SqlDialect} from "../../platform-core/schema/table/datatypes/SqlDataType";// emit-to-request-code
 export interface IEmitQuerySqlApiRequest {
     queryProps: ISchemaQueryProps;
     dialect: SqlDialect;
@@ -46,4 +46,4 @@ export function emitQuerySqlApiRequest(req: IEmitQuerySqlApiRequest): Promise<IE
 
         });
 
-}        
+}

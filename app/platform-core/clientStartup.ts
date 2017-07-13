@@ -7,9 +7,9 @@ import {SchemaPage} from "./schema/SchemaPage";
 import {SchemaApp} from "./schema/SchemaApp";
 import {SchemaMenu} from "./schema/SchemaMenu";
 import {SchemaTable} from "./schema/table/SchemaTable";
-import {StringSqlDataType} from "./schema/table/StringSqlDataType";
-import {IntegerSqlDataType} from "./schema/table/IntegerSqlDataType";
-import {FkSqlDataType} from "./schema/table/FkSqlDataType";
+import {StringSqlDataType} from "./schema/table/datatypes/StringSqlDataType";
+import {IntegerSqlDataType} from "./schema/table/datatypes/IntegerSqlDataType";
+import {FkSqlDataType} from "./schema/table/datatypes/FkSqlDataType";
 import {SchemaQuery} from "./schema/query/SchemaQuery";
 import {getSHA256base64Id} from "./utils/getSHA256base64Id";
 

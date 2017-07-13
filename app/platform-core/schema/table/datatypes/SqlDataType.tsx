@@ -1,11 +1,11 @@
 import * as React from "react";
-import {ISchemaObjectProps} from "../ISchemaObject";
-import {SchemaObject} from "../SchemaObject";
-import {ISchemaTableProps} from "./ISchemaTableProps";
+import {ISchemaObjectProps} from "../../ISchemaObject";
+import {SchemaObject} from "../../SchemaObject";
+import {ISchemaTableProps} from "../ISchemaTableProps";
 import {ISqlDataTypeProps} from "./ISqlDataTypeProps";
-import {appState} from "../../AppState";
-import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
-import {IClassInfo} from "../../IClassInfo";
+import {appState} from "../../../AppState";
+import {ISchemaTableColumnProps} from "../ISchemaTableColumnProps";
+import {IClassInfo} from "../../../IClassInfo";
 
 export type SqlDialect = "mysql" | "postgres" | "mssql";
 

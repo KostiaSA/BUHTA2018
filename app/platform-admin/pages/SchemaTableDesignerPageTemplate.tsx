@@ -28,8 +28,8 @@ import {appState} from "../../platform-core/AppState";
 import {
     createSqlDataTypeObject, ISqlDataTypeClassInfo,
     SqlDataType
-} from "../../platform-core/schema/table/SqlDataType";
-import {ISqlDataTypeProps} from "../../platform-core/schema/table/ISqlDataTypeProps";
+} from "../../platform-core/schema/table/datatypes/SqlDataType";
+import {ISqlDataTypeProps} from "../../platform-core/schema/table/datatypes/ISqlDataTypeProps";
 import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
 import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";

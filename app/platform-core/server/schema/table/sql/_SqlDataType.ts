@@ -1,4 +1,4 @@
-import {ISqlDataTypeProps} from "../../../../schema/table/ISqlDataTypeProps";
+import {ISqlDataTypeProps} from "../../../../schema/table/datatypes/ISqlDataTypeProps";
 import {serverState} from "../../../ServerState";
 import {DataTypeAbstract} from "sequelize";
 

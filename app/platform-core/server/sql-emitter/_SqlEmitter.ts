@@ -1,4 +1,4 @@
-import {SqlDialect} from "../../schema/table/SqlDataType";
+import {SqlDialect} from "../../schema/table/datatypes/SqlDataType";
 
 export class _SqlEmitter {
     constructor(public dialect: SqlDialect) {

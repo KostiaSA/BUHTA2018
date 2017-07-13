@@ -2,8 +2,8 @@
 import {ISchemaTableProps} from "../schema/table/ISchemaTableProps";
 import {SchemaTable} from "../schema/table/SchemaTable";
 import {_SchemaTable} from "../server/schema/table/_SchemaTable";
-import {StringSqlDataType} from "../schema/table/StringSqlDataType";
-import {IStringSqlDataTypeProps} from "../schema/table/IStringSqlDataTypeProps";
+import {StringSqlDataType} from "../schema/table/datatypes/StringSqlDataType";
+import {IStringSqlDataTypeProps} from "../schema/table/datatypes/IStringSqlDataTypeProps";
 import {CoreConst} from "../CoreConst";
 
 export async function _schemaObjectTableInstall() {

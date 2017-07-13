@@ -4,14 +4,14 @@ import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTablePr
 import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 import {getSHA256base64Id} from "../../platform-core/utils/getSHA256base64Id";
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
-import {StringSqlDataType} from "../../platform-core/schema/table/StringSqlDataType";
-import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/IStringSqlDataTypeProps";
-import {IntegerSqlDataType} from "../../platform-core/schema/table/IntegerSqlDataType";
+import {StringSqlDataType} from "../../platform-core/schema/table/datatypes/StringSqlDataType";
+import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IStringSqlDataTypeProps";
+import {IntegerSqlDataType} from "../../platform-core/schema/table/datatypes/IntegerSqlDataType";
 import {_saveSchemaObjectApiResponse} from "../../platform-core/schema/api/_saveSchemaObjectApiResponse";
-import {IIntegerSqlDataTypeProps} from "../../platform-core/schema/table/IIntegerSqlDataTypeProps";
+import {IIntegerSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IIntegerSqlDataTypeProps";
 import {_SchemaTable} from "../../platform-core/server/schema/table/_SchemaTable";
-import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/IFkSqlDataTypeProps";
-import {FkSqlDataType} from "../../platform-core/schema/table/FkSqlDataType";
+import {IFkSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IFkSqlDataTypeProps";
+import {FkSqlDataType} from "../../platform-core/schema/table/datatypes/FkSqlDataType";
 
 export async function importBuhta3Tables() {
     await _sequelizeInit();
