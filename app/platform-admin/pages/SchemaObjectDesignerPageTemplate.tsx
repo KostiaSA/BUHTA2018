@@ -153,6 +153,7 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
         console.log("load schema object");
         if (!this.designedObject) {
             let designedObjectId = getParamFromUrl("objectid");
+            debugger
             if (designedObjectId) {
                 this.designedObject = await SchemaHelper.createSchemaObject(designedObjectId);
                 //setInterval(this.trackChanges, 100);

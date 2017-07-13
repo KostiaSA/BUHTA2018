@@ -4,6 +4,7 @@ import {ISchemaObjectClassInfo, SchemaObject} from "./SchemaObject";
 import {ISchemaPageProps} from "./ISchemaPage";
 import {appState} from "../AppState";
 import {IPageTemplateProps} from "../components/PageTemplate";
+import {objectToUrlParams} from "../utils/objectToUrlParams";
 
 
 export interface ISchemaPageClassInfo extends ISchemaObjectClassInfo<typeof SchemaPage> {
@@ -18,9 +19,15 @@ export class SchemaPage extends SchemaObject<ISchemaPageProps> {
         className: "platform-core:SchemaPage",
         constructor: SchemaPage,
         designerUrl: "admin/schema-page-designer",
-        recordIdPrefix:"schema-page"
-    }
+        recordIdPrefix: "schema-page"
+    };
 
+    openInNewTab(params?: any) {
+        let paramsStr = "";
+        if (params)
+            paramsStr = "?" + objectToUrlParams(params);
+        let win = window.open(this.props.url + paramsStr, '_blank');
+    }
 }
 
 // export async function createSchemaPage(pageId: string): Promise<SchemaPage> {

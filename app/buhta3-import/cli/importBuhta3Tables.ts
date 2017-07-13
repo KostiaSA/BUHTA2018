@@ -21,25 +21,29 @@ export async function importBuhta3Tables() {
         return _getSHA256base64Id("imported-from-buhta3-" + name);
     }
 
-    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'Орг%' OR TableName like 'Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
+    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'Орг%' OR TableName like '===Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
 
 //    console.log(tables);
 
     for (let table of tables) {
-        // ------------------ startPage ------------------
+
         let obj: ISchemaTableProps = {
             id: SchemaTable.classInfo.recordIdPrefix + ":" + getIdFromTableName(table["TableName"]),//getSHA256base64Id("imported-from-buhta3-" + table["TableName"]),
             className: SchemaTable.classInfo.className,
             name: table["TableName"],
             description: "",
-            columns: []
+            columns: [],
+            editOptions:{
+                editPageId:"schema-page:NGJkOGI5YWY2MmM3NThm"
+            }
+
         }
 
         let columns = await _buhta3Sequelize.query("SELECT * FROM SchemaTableField WHERE TableName=$TableName ORDER BY Position", {
             bind: table,
             type: _buhta3Sequelize.QueryTypes.SELECT
         });
-        //console.log( columns);
+
 
         for (let col of columns) {
 

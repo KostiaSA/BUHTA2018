@@ -39,18 +39,18 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
 
 
     renderTop(): JSX.Element {
-        // return (
-        //     <div>
-        //         {super.renderTop()}
-        //         <QueryGrid queryId={AdminConst.SchemaTableQueryObjectId}/>
-        //     </div>
-        // );
         return (
             <div>
                 {super.renderTop()}
-                <QueryGrid queryId={"schema-query:org9834rt35788AF517DDE"}/>
+                <QueryGrid queryId={AdminConst.SchemaTableQueryObjectId}/>
             </div>
         );
+        // return (
+        //     <div>
+        //         {super.renderTop()}
+        //         <QueryGrid queryId={"schema-query:org9834rt35788AF517DDE"}/>
+        //     </div>
+        // );
     }
 
 
