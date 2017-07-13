@@ -55,7 +55,7 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
         this.columns = [];
 
         for (let col of helper.columns) {
-            if (!col.props.tableId) {
+            if (!col.props.tableId && !col.props.isHidden && !col.props.isDisabled) {
                 let colProps: ColumnProps<any> = {
                     title: col.props.fieldCaption,
                     dataIndex: col.props.fieldCaption,
@@ -78,7 +78,7 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
                               изм.
                           </a>
                           <span className="ant-divider"/>
-                          <a href="#">удал.</a>
+                          <a href="#" style={{color:"crimson"}}>удал.</a>
                     </span>
                 )
             }

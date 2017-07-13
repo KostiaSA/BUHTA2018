@@ -43,11 +43,13 @@ export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
                 emitter.identifierToSql(column.joinTableAlias) + "." + emitter.identifierToSql(column.joinTable.getPrimaryKeyColumn().name));
         }
         else {
-            emitter.fields.push(
-                "    " +
-                emitter.identifierToSql(column.parent.joinTableAlias) + "." + emitter.identifierToSql(column.props.fieldSource!) +
-                " AS " +
-                emitter.identifierToSql(column.props.fieldCaption!));
+            if (!column.props.isDisabled) {
+                emitter.fields.push(
+                    "    " +
+                    emitter.identifierToSql(column.parent.joinTableAlias) + "." + emitter.identifierToSql(column.props.fieldSource!) +
+                    " AS " +
+                    emitter.identifierToSql(column.props.fieldCaption!));
+            }
         }
 
 

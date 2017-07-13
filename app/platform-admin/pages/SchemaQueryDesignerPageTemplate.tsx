@@ -44,6 +44,7 @@ import {CodeEditor} from "../components/CodeEditor";
 import {ISchemaPageClassInfo} from "../../platform-core/schema/SchemaPage";
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 import {emitQuerySqlApiRequest, IEmitQuerySqlApiResponse} from "../api/emitQuerySqlApiRequest";
+import {reassignObject} from "../../platform-core/utils/reassignObject";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -102,7 +103,7 @@ class QueryFormPanel extends BaseFormPanel {
         handleOk(this: QueryFormPanel){
             console.log("ok");
             for (let col of this.addColumnsModal.selectedCols) {
-                console.log("col.dataType.className",col.dataType.className);
+                console.log("col.dataType.className", col.dataType.className);
 
                 let newQueryCol: ISchemaQueryColumnProps = {
                     key: getRandomString(),
@@ -116,7 +117,7 @@ class QueryFormPanel extends BaseFormPanel {
                 if (col.dataType.className === FkSqlDataType.classInfo.className) {
                     let fkCol = col.dataType as IFkSqlDataTypeProps;
                     newQueryCol.tableId = fkCol.fkTableId;
-                    console.log("fkCol.fkTableId",fkCol);
+                    console.log("fkCol.fkTableId", fkCol);
                     //tableAlias?: string;
                     newQueryCol.children = [];
 
@@ -280,7 +281,7 @@ class QueryFormPanel extends BaseFormPanel {
                                                                     arrow = "";
                                                                 }
                                                                 return (
-                                                                    <span style={{fontWeight:"bold"}}>
+                                                                    <span style={{fontWeight: "bold"}}>
                                                                         {record.fieldSource}{arrow}
                                                                         <a href="#"
                                                                            onClick={() => this.addColumnClickHandler(record)}
@@ -301,7 +302,7 @@ class QueryFormPanel extends BaseFormPanel {
                                             else {
                                                 return (
                                                     <span>
-                                                        {record.fieldCaption || record.tableId}
+                                                       {record.fieldSource}
                                                     </span>
                                                 )
                                             }
@@ -311,11 +312,37 @@ class QueryFormPanel extends BaseFormPanel {
                                         title="Заголовок колонки"
                                         dataIndex="dataType"
                                         render={ (text: any, record: ISchemaQueryColumnProps) => {
-                                            return (
-                                                <span>
-                                                   {record.fieldSource}
-                                               </span>
-                                            )
+                                            if (record.tableId) {
+                                                return null;
+                                            }
+                                            else {
+                                                return (
+                                                    <span>
+                                                        {record.fieldCaption || record.tableId}
+                                                    </span>
+                                                )
+                                            }
+                                        }}
+                                    />
+                                    <Column
+                                        title="Аттрибуты"
+                                        dataIndex="isHidden"
+                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
+                                            if (record.tableId) {
+                                                return null;
+                                            }
+                                            else {
+                                                let attrs:string[]=[];
+                                                if (record.isHidden)
+                                                    attrs.push("скрытая");
+                                                if (record.isDisabled)
+                                                    attrs.push("отключена");
+                                                return (
+                                                    <span>
+                                                        {attrs.join(", ")}
+                                                    </span>
+                                                )
+                                            }
                                         }}
                                     />
                                     <Column
@@ -327,18 +354,18 @@ class QueryFormPanel extends BaseFormPanel {
                                                 return (
                                                     <span>
                                                         <a href="#" style={{color: AdminTheme.schemaTableColor}}
-                                                           onClick={() => this.addColumnClickHandler(record)}>добавить колонки</a>
+                                                           onClick={() => this.addColumnClickHandler(record)}>доб. колонки</a>
                                                         <span className="ant-divider"/>
-                                                        <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
+                                                        <a href="#" style={{color:"crimson"}}>удал.</a>
                                                     </span>
                                                 )
                                             }
                                             else {
                                                 return (
                                                     <span>
-                                                        <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
+                                                        <a href="#" onClick={() => this.editColumnClickHandler(record)}>изм.</a>
                                                         <span className="ant-divider"/>
-                                                        <a href="#">удалить</a>
+                                                        <a href="#" style={{color:"crimson"}}>удал.</a>
                                                     </span>
                                                 )
                                             }
@@ -379,10 +406,10 @@ class QueryFormPanel extends BaseFormPanel {
                         });
                     }}
                     onCancel={() => {
-                        // let colIndex = this.editedQuery.columns.indexOf(this.editedColumn);
-                        // this.editedQuery.columns[colIndex] = this.editedColumnCloned;
-                        // this.editedColumn = undefined as any;
-                        // this.forceUpdate();
+                        //let colIndex = this.editedQuery.срдвкут.indexOf(this.editedColumn);
+                        reassignObject(this.editedColumn, this.editedColumnCloned);
+                        this.editedColumn = undefined as any;
+                        this.forceUpdate();
                     }}
                 >
                     <QueryColumnFormPanel
@@ -511,32 +538,36 @@ class QueryColumnFormPanelW extends BaseFormPanel {
         return (
             <Row>
                 <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
-                    <TabPane tab="SQL" key="main">
+                    <TabPane tab="Колонка" key="main">
                         <Row>
                             <Col>
                                 <Form layout="horizontal">
                                     <FormInput
                                         {...layout}
                                         mode="input"
-                                        label="имя колонки"
-                                        bindProperty="name"
+                                        label="колонка таблицы"
+                                        bindProperty="fieldSource"
                                         rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
                                     />
                                     <FormInput
                                         {...layout}
-                                        mode="select"
-                                        label="тип данных"
-                                        bindProperty="dataType.className"
-                                        style={{maxWidth: 250}}
-                                        selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass) => sqlDataTypeClass.className)}
-                                        rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
+                                        mode="input"
+                                        label="заголовок"
+                                        bindProperty="fieldCaption"
+                                        rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
                                     />
-                                    {dataTypeEditor}
+
                                     <FormInput
                                         {...layout}
                                         mode="checkbox"
-                                        label="первичный ключ"
-                                        bindProperty="primaryKey"
+                                        label="скрытая"
+                                        bindProperty="isHidden"
+                                    />
+                                    <FormInput
+                                        {...layout}
+                                        mode="checkbox"
+                                        label="отключена"
+                                        bindProperty="isDisabled"
                                     />
                                 </Form>
                             </Col>

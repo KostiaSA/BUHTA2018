@@ -229,15 +229,13 @@ class TableFormPanel extends BaseFormPanel {
                                         key="action"
                                         render={ (text: any, record: ISchemaTableColumnProps) => (
                                             <span>
-                                                  <a href="#" onClick={() => this.editColumnClickHandler(record)}>изменить</a>
+                                                  <a href="#" onClick={() => this.editColumnClickHandler(record)}>изм.</a>
                                                   <span className="ant-divider"/>
-                                                  <a href="#">удалить</a>
+                                                  <a href="#" style={{color:"crimson"}}>удал.</a>
                                             </span>
                                         )}
                                     />
                                 </Table>
-
-
                             </Row>
                         </TabPane>
                         <TabPane tab="Индексы" key="3">Content of Tab Pane 3</TabPane>
