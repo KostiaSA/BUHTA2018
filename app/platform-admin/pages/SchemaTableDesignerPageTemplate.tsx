@@ -39,6 +39,7 @@ import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHe
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 import {AdminTheme} from "../adminTheme";
 import isDivisibleBy = require("validator/lib/isDivisibleBy");
+import {arrayExchangeItems} from "../../platform-core/utils/arrayExchangeItems";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -66,6 +67,10 @@ class TableFormPanel extends BaseFormPanel {
     columnSearchValue: string;
 
     getFilteredColumnList(): ISchemaTableColumnProps[] {
+        this.editedTable.columns.forEach((item, index) => {
+            item.position = index + 1
+        });
+
         if (!this.columnSearchValue || this.columnSearchValue === "")
             return this.editedTable.columns;
         else {
@@ -81,7 +86,15 @@ class TableFormPanel extends BaseFormPanel {
     initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
 
-        var sortable = Sortable.create($(container).find("tbody")[0], {animation: 125});
+        var sortable = Sortable.create($(container).find("tbody")[0], {
+            animation: 125,
+            handle: ".fa-bars",
+            onEnd: (evt: any) => {
+                arrayExchangeItems(this.editedTable.columns, evt.oldIndex, evt.newIndex);
+                this.forceUpdate();
+            },
+
+        });
 
     }
 
@@ -239,7 +252,7 @@ class TableFormPanel extends BaseFormPanel {
                                                 <i className="fa fa-long-arrow-up" aria-hidden="true"></i>
                                             </div>
                                         )}
-                                        key="pereno2s"
+                                        key="move"
                                         render={ (text: any, record: ISchemaTableColumnProps) => (
                                             <div style={{textAlign: "center", cursor: "move"}}>
                                                 <i className="fa fa-bars" aria-hidden="true"></i>
@@ -247,11 +260,11 @@ class TableFormPanel extends BaseFormPanel {
                                         )}
                                     />
                                     <Column
-                                        title="Порядок"
-                                        key="perenos"
+                                        title="Позиция"
+                                        key="position"
                                         render={ (text: any, record: ISchemaTableColumnProps) => (
                                             <div style={{textAlign: "center", cursor: "move"}}>
-                                                <span>2.</span>
+                                                <span>{record.position}</span>
                                             </div>
                                         )}
                                     />
