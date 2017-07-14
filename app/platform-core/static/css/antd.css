@@ -13529,7 +13529,7 @@ span.ant-radio + * {
 .ant-table-tbody > tr.ant-table-row-hover > td,
 .ant-table-thead > tr:hover > td,
 .ant-table-tbody > tr:hover > td {
-  background: #ecf6fd;
+  background: initial;
 }
 .ant-table-thead > tr:hover {
   background: none;

@@ -18,10 +18,14 @@ export async function _serverStartup() {
     serverState.registerExternalScript(`<script src="/platform-core/static/js/react-dom.min.js"></script>`);
     serverState.registerExternalScript(`<script src="/platform-core/static/js/antd-with-locales.min.js"></script>`);
     serverState.registerExternalScript(`<script src="/platform-core/static/js/ag-grid.min.js"></script>`);
+    serverState.registerExternalScript(`<script src="/platform-core/static/js/dragula.min.js"></script>`);
 
     serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">`);
     serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="/platform-core/static/css/ag-grid.css">`);
     serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="/platform-core/static/css/antd.css">`);
+    serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="/platform-core/static/css/font-awesome.min.css">`);
+
+
     serverState.registerExternalStyle(`<link rel="stylesheet" type="text/css" href="/platform-core/static/css/index.css">`);
 
     serverState.registerClassInfo(_StringSqlDataType.classInfo);

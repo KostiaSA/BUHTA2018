@@ -63,6 +63,7 @@ module.exports = {
         "antd": "antd",
         "codemirror": "CodeMirror",
         "jquery": "$",
+        "dragula": "dragula",
         //"socket.io-client": "io",
         //"moment": "moment",
     }

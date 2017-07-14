@@ -6,7 +6,19 @@ body {
     height: auto;
 }
 
-/*.ant-form-item {*/
-    /*margin-bottom: 12px;*/
+/*.sortable-drag{*/
+    /*opacity: 0.1;*/
+    /*background-color: #0000cc;*/
 /*}*/
 
+
+
+
+[draggable="true"].sortable-ghost{
+    background-color: #f8f8f8;
+    opacity: 1;
+}
+
+[draggable="true"]{
+    opacity: 0;
+}

@@ -1,4 +1,8 @@
 import * as React from "react";
+import * as ReactDOM from "react-dom";
+//import * as dragula from "dragula";
+
+const Sortable = require("sortablejs");
 
 import {
     message,
@@ -35,6 +39,8 @@ import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/sy
 import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 import {AdminTheme} from "../adminTheme";
+import isDivisibleBy = require("validator/lib/isDivisibleBy");
+//import {Drake} from "dragula";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -72,7 +78,29 @@ class TableFormPanel extends BaseFormPanel {
         }
     }
 
-    //this.editedTable.columns
+    //drake: Drake;
+
+    initDragula() {
+        let container = ReactDOM.findDOMNode(this);
+
+        var sortable = Sortable.create($(container).find("tbody")[0], {animation: 150,});
+
+        // let container = ReactDOM.findDOMNode(this);
+        // if (this.drake)
+        //     this.drake.destroy();
+        // this.drake = dragula([$(container).find("tbody")[0]], {direction: 'vertical',});
+
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        this.initDragula();
+    }
+
+    componentDidUpdate() {
+        super.componentDidUpdate();
+        this.initDragula();
+    }
 
     editColumnClickHandler = (column: ISchemaTableColumnProps) => {
         this.editedColumn = column;
@@ -198,6 +226,29 @@ class TableFormPanel extends BaseFormPanel {
                                        bordered rowKey="name"
                                        dataSource={this.getFilteredColumnList()}
                                        pagination={{pageSize: 100} as any}>
+                                    <Column
+                                        title={(
+                                            <div style={{textAlign: "center", width: 25}}>
+                                                <i className="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                <i className="fa fa-long-arrow-up" aria-hidden="true"></i>
+                                            </div>
+                                        )}
+                                        key="pereno2s"
+                                        render={ (text: any, record: ISchemaTableColumnProps) => (
+                                            <div style={{textAlign: "center", cursor: "move"}}>
+                                                <i className="fa fa-bars" aria-hidden="true"></i>
+                                            </div>
+                                        )}
+                                    />
+                                    <Column
+                                        title="Порядок"
+                                        key="perenos"
+                                        render={ (text: any, record: ISchemaTableColumnProps) => (
+                                            <div style={{textAlign: "center", cursor: "move"}}>
+                                                <span>2.</span>
+                                            </div>
+                                        )}
+                                    />
                                     <Column
                                         title="Имя колонки"
                                         dataIndex="name"

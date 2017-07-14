@@ -40,6 +40,10 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
         }
     }
 
+    componentDidUpdate(){
+        // не удалять
+    }
+
     onClickSaveButton = () => {
         //console.log("handleClickSaveButton");
         this.props.form!.validateFields((errors: any, values: any) => {
