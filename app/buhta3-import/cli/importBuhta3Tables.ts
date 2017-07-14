@@ -33,8 +33,8 @@ export async function importBuhta3Tables() {
             name: table["TableName"],
             description: "",
             columns: [],
-            editOptions:{
-                editPageId:"schema-page:NGJkOGI5YWY2MmM3NThm"
+            editOptions: {
+                editPageId: "schema-page:NGJkOGI5YWY2MmM3NThm"
             }
 
         }
@@ -44,9 +44,8 @@ export async function importBuhta3Tables() {
             type: _buhta3Sequelize.QueryTypes.SELECT
         });
 
-
+        let index = 0;
         for (let col of columns) {
-
             let dataType: string;
 
             let newcol: ISchemaTableColumnProps & IStringSqlDataTypeProps = {} as any;
@@ -62,6 +61,7 @@ export async function importBuhta3Tables() {
                 };
                 newcol.dataType = dataType;
                 obj.columns.push(newcol);
+                newcol.description = "pos " + index++;
             }
             else if (col["DataType"] === "Целое") {
                 let dataType: IIntegerSqlDataTypeProps = {
@@ -70,14 +70,16 @@ export async function importBuhta3Tables() {
                 };
                 newcol.dataType = dataType;
                 obj.columns.push(newcol);
+                newcol.description = "pos " + index++;
             }
             else if (col["DataType"] === "Ссылка") {
                 let dataType: IFkSqlDataTypeProps = {
                     className: FkSqlDataType.classInfo.className,
-                    fkTableId: SchemaTable.classInfo.recordIdPrefix + ":" +getIdFromTableName(col["ForeignTable"])
+                    fkTableId: SchemaTable.classInfo.recordIdPrefix + ":" + getIdFromTableName(col["ForeignTable"])
                 };
                 newcol.dataType = dataType;
                 obj.columns.push(newcol);
+                newcol.description = "pos " + index++;
             }
         }
 

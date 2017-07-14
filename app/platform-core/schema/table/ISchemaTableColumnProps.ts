@@ -8,6 +8,7 @@ export interface ISchemaTableColumnProps {
     name: string;
     dataType: ISqlDataTypeProps;
     primaryKey?: boolean;
+    description: string;
     position?: number;
 }
 

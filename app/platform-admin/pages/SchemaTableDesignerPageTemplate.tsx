@@ -68,7 +68,7 @@ class TableFormPanel extends BaseFormPanel {
 
     getFilteredColumnList(): ISchemaTableColumnProps[] {
         this.editedTable.columns.forEach((item, index) => {
-            item.position = index + 1
+            item.position = index + 0
         });
 
         if (!this.columnSearchValue || this.columnSearchValue === "")
@@ -90,7 +90,8 @@ class TableFormPanel extends BaseFormPanel {
             animation: 125,
             handle: ".fa-bars",
             onEnd: (evt: any) => {
-                arrayExchangeItems(this.editedTable.columns, evt.oldIndex, evt.newIndex);
+                console.log(evt.oldIndex, evt.newIndex);
+                //arrayExchangeItems(this.editedTable.columns, evt.oldIndex, evt.newIndex);
                 this.forceUpdate();
             },
 
@@ -294,6 +295,10 @@ class TableFormPanel extends BaseFormPanel {
                                                </span>
                                             )
                                         }}
+                                    />
+                                    <Column
+                                        title="Описание"
+                                        dataIndex="description"
                                     />
                                     <Column
                                         title="Аттрибуты"
