@@ -19,15 +19,15 @@ async function generateRequestFile() {
 
 
         let mode = 0;
-        let reguestInterfaceName = "";
+        let requestInterfaceName = "";
         let responseInterfaceName = "";
         for (let line of replaceAll(responseCode, "++++++++++", "").split("\n")) {
             //console.log("===LINE===", line);
             if (line.indexOf("export interface") > -1) {
                 mode = 1;
                 if (line.indexOf("ApiRequest") > -1) {
-                    reguestInterfaceName = line.replace("export interface", "").replace("{", "").replace("_", "").trim();
-                    apiInterfaces.push("export interface " + reguestInterfaceName + " {");
+                    requestInterfaceName = line.replace("export interface", "").replace("{", "").replace("_", "").trim();
+                    apiInterfaces.push("export interface " + requestInterfaceName + " {");
                 }
                 else if (line.indexOf("ApiResponse") > -1) {
                     responseInterfaceName = line.replace("export interface", "").replace("{", "").replace("_", "").trim();
@@ -46,7 +46,7 @@ async function generateRequestFile() {
                 apiInterfaces.push(line);
             }
         }
-        if (reguestInterfaceName === "")
+        if (requestInterfaceName === "")
             throw "ошибка в " + responseFile + ": не найден Request интерфейс";
 
         if (responseInterfaceName === "")
@@ -65,7 +65,7 @@ import {parse} from "ejson";
 
 ${apiInterfaces.join("\n")}
 
-export function ${requestFuncName}(req: ${reguestInterfaceName}): Promise<${responseInterfaceName}> {
+export function ${requestFuncName}(req: ${requestInterfaceName}): Promise<${responseInterfaceName}> {
     return new Promise<${responseInterfaceName}>(
         (resolve: (obj: ${responseInterfaceName}) => void, reject: (error: string) => void) => {
 

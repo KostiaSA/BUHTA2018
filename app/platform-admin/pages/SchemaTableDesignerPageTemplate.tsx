@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-//import * as dragula from "dragula";
 
 const Sortable = require("sortablejs");
 
@@ -40,7 +39,6 @@ import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHe
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 import {AdminTheme} from "../adminTheme";
 import isDivisibleBy = require("validator/lib/isDivisibleBy");
-//import {Drake} from "dragula";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -78,28 +76,35 @@ class TableFormPanel extends BaseFormPanel {
         }
     }
 
-    //drake: Drake;
+    columnsSortable: any;
 
-    initDragula() {
+    initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
 
-        var sortable = Sortable.create($(container).find("tbody")[0], {animation: 100,});
+        var sortable = Sortable.create($(container).find("tbody")[0], {animation: 125});
 
-        // let container = ReactDOM.findDOMNode(this);
-        // if (this.drake)
-        //     this.drake.destroy();
-        // this.drake = dragula([$(container).find("tbody")[0]], {direction: 'vertical',});
+    }
 
+    destroyColumnsSorter() {
+        if (this.columnsSortable) {
+            this.columnsSortable.destroy();
+            this.columnsSortable = null;
+        }
     }
 
     componentDidMount() {
         super.componentDidMount();
-        this.initDragula();
+        this.initColumnsSorter();
     }
 
     componentDidUpdate() {
         super.componentDidUpdate();
-        this.initDragula();
+        this.initColumnsSorter();
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+        this.destroyColumnsSorter();
     }
 
     editColumnClickHandler = (column: ISchemaTableColumnProps) => {
