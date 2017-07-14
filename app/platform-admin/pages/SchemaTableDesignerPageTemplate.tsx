@@ -83,7 +83,7 @@ class TableFormPanel extends BaseFormPanel {
     initDragula() {
         let container = ReactDOM.findDOMNode(this);
 
-        var sortable = Sortable.create($(container).find("tbody")[0], {animation: 150,});
+        var sortable = Sortable.create($(container).find("tbody")[0], {animation: 100,});
 
         // let container = ReactDOM.findDOMNode(this);
         // if (this.drake)
@@ -228,7 +228,7 @@ class TableFormPanel extends BaseFormPanel {
                                        pagination={{pageSize: 100} as any}>
                                     <Column
                                         title={(
-                                            <div style={{textAlign: "center", width: 25}}>
+                                            <div style={{textAlign: "center", minWidth: 25}}>
                                                 <i className="fa fa-long-arrow-down" aria-hidden="true"></i>
                                                 <i className="fa fa-long-arrow-up" aria-hidden="true"></i>
                                             </div>
