@@ -1,6 +1,7 @@
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 
 import {schemaObjectModel} from "../_schemaObjectModel";
+import {stringify} from "ejson";
 
 export interface _ISaveSchemaObjectApiRequest {
     object: ISchemaObjectProps;
@@ -17,7 +18,7 @@ export async function _saveSchemaObjectApiResponse(req: _ISaveSchemaObjectApiReq
         name: req.object.name,
         className: req.object.className,
         description: req.object.description,
-        jsonData: JSON.stringify(req.object)
+        jsonData: stringify(req.object)
     };
     try {
         await schemaObjectModel.upsert(row);

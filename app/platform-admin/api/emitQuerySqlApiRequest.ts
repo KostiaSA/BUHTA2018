@@ -1,5 +1,6 @@
 
-import {isString} from "util";
+import {isString} from "util"; 
+import {parse} from "ejson";
 
 import {ISchemaQueryProps} from "../../platform-core/schema/query/ISchemaQueryProps"; // emit-to-request-code
 import {SqlDialect} from "../../platform-core/schema/table/datatypes/SqlDataType";// emit-to-request-code
@@ -29,7 +30,7 @@ export function emitQuerySqlApiRequest(req: IEmitQuerySqlApiRequest): Promise<IE
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as IEmitQuerySqlApiResponse;
+                    let ansBody = parse((this as XMLHttpRequest).responseText) as IEmitQuerySqlApiResponse;
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {
@@ -46,4 +47,4 @@ export function emitQuerySqlApiRequest(req: IEmitQuerySqlApiRequest): Promise<IE
 
         });
 
-}
+}        

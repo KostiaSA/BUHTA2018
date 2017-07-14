@@ -1,5 +1,6 @@
 
 import {isString} from "util"; 
+import {parse} from "ejson";
 
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 export interface ISaveSchemaObjectApiRequest {
@@ -26,7 +27,7 @@ export function saveSchemaObjectApiRequest(req: ISaveSchemaObjectApiRequest): Pr
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as ISaveSchemaObjectApiResponse;
+                    let ansBody = parse((this as XMLHttpRequest).responseText) as ISaveSchemaObjectApiResponse;
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {

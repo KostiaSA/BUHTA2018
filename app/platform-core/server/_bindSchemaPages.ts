@@ -5,6 +5,7 @@ import {schemaObjectModel} from "../schema/_schemaObjectModel";
 import {ISchemaPageProps} from "../schema/ISchemaPage";
 import {_createIndexHtml} from "./_createIndexHtml";
 import {SchemaPage} from "../schema/SchemaPage";
+import {parse} from "ejson";
 let path = require("path");
 
 export async function _bindSchemaPages(expressApp: any) {
@@ -13,7 +14,7 @@ export async function _bindSchemaPages(expressApp: any) {
     let instance = await schemaObjectModel.findAll({where: {className: SchemaPage.classInfo.className}});
 
     for (let item of instance) {
-        let page = JSON.parse(item.get().jsonData) as ISchemaPageProps;
+        let page = parse(item.get().jsonData) as ISchemaPageProps;
         if (page.url) {
             if (!page.url.startsWith("/"))
                 page.url = "/" + page.url;

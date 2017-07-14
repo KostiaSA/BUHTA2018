@@ -24,7 +24,7 @@ export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
                     params={{}}
                     render={async () => {
 
-                        let ans = await findSchemaObjectsForLookupApiRequest({where: {type: "SchemaTable"}});
+                        let ans = await findSchemaObjectsForLookupApiRequest({where: {className: SchemaTable.classInfo.className}});
                         let values = ans.objects.map((table: any) => {
                             return {value: table.id, text: table.name}
                         });

@@ -1,5 +1,6 @@
 
 import {isString} from "util"; 
+import {parse} from "ejson";
 
 export interface ISuperPingApiRequest {
     super_login: string; // это логин
@@ -26,7 +27,7 @@ export function superPingApiRequest(req: ISuperPingApiRequest): Promise<ISuperPi
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as ISuperPingApiResponse;
+                    let ansBody = parse((this as XMLHttpRequest).responseText) as ISuperPingApiResponse;
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {

@@ -2,6 +2,7 @@ import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 import {WhereOptions} from "sequelize";  // emit-to-request-code
 
 import {schemaObjectModel} from "../_schemaObjectModel";
+import {parse} from "ejson";
 
 export interface _IFindSchemaObjectsApiRequest {
     where: WhereOptions;
@@ -16,7 +17,7 @@ export async function _findSchemaObjectsApiResponse(req: _IFindSchemaObjectsApiR
     try {
         let instance = await schemaObjectModel.findAll({where:req.where});
         if (instance) {
-            return Promise.resolve({objects: instance.map((item)=>JSON.parse(item.get().jsonData)) as any})
+            return Promise.resolve({objects: instance.map((item)=>parse(item.get().jsonData)) as any})
         }
         else
             return Promise.resolve({error: "internal error"} as any);

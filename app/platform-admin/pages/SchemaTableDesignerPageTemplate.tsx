@@ -223,6 +223,7 @@ class TableFormPanel extends BaseFormPanel {
                             <Row>
 
                                 <Table size="middle"
+                                       className="columns-table"
                                        bordered rowKey="name"
                                        dataSource={this.getFilteredColumnList()}
                                        pagination={{pageSize: 100} as any}>

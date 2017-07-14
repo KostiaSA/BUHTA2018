@@ -1,5 +1,6 @@
 
 import {isString} from "util"; 
+import {parse} from "ejson";
 
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 import {WhereOptions} from "sequelize";  // emit-to-request-code
@@ -28,7 +29,7 @@ export function findSchemaObjectsApiRequest(req: IFindSchemaObjectsApiRequest): 
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as IFindSchemaObjectsApiResponse;
+                    let ansBody = parse((this as XMLHttpRequest).responseText) as IFindSchemaObjectsApiResponse;
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {

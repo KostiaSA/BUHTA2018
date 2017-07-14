@@ -61,6 +61,7 @@ async function generateRequestFile() {
 
         let requestCode = `
 import {isString} from "util"; 
+import {parse} from "ejson";
 
 ${apiInterfaces.join("\n")}
 
@@ -79,7 +80,7 @@ export function ${requestFuncName}(req: ${reguestInterfaceName}): Promise<${resp
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as ${responseInterfaceName};
+                    let ansBody = parse((this as XMLHttpRequest).responseText) as ${responseInterfaceName};
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {

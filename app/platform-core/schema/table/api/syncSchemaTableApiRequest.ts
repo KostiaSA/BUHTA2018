@@ -1,5 +1,6 @@
 
 import {isString} from "util"; 
+import {parse} from "ejson";
 
 export interface ISyncSchemaTableApiRequest {
     schemaTableId: string;
@@ -25,7 +26,7 @@ export function syncSchemaTableApiRequest(req: ISyncSchemaTableApiRequest): Prom
                     reject("call api error ("+url+"):" + responseText);
                 else {
                     //console.log((this as any).responseText);
-                    let ansBody = JSON.parse((this as XMLHttpRequest).responseText) as ISyncSchemaTableApiResponse;
+                    let ansBody = parse((this as XMLHttpRequest).responseText) as ISyncSchemaTableApiResponse;
                     if (ansBody.error)
                         reject("call api error ("+url+"):" + ansBody.error);
                     else {

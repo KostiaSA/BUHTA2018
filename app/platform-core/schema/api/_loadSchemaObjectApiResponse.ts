@@ -1,6 +1,7 @@
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
 
 import {schemaObjectModel} from "../_schemaObjectModel";
+import {parse} from "ejson";
 
 export interface _ILoadSchemaObjectApiRequest {
     id: string
@@ -16,7 +17,7 @@ export async function _loadSchemaObjectApiResponse(req: _ILoadSchemaObjectApiReq
         let instance = await schemaObjectModel.findByPrimary(req.id);
         if (instance) {
             let row = instance.get();
-            return Promise.resolve({object: JSON.parse(row.jsonData) as any})
+            return Promise.resolve({object: parse(row.jsonData) as any})
         }
         else
             return Promise.resolve({error: "Ошибка загрузки SchemaObject ([" + req.id + "]): запись не найдена"} as any);
