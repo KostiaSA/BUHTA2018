@@ -34,6 +34,7 @@ import {CSSProperties} from "react";
 import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/syncSchemaTableApiRequest";
 import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
+import {AdminTheme} from "../adminTheme";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -101,7 +102,7 @@ class TableFormPanel extends BaseFormPanel {
     }
 
 
-    render():JSX.Element {
+    render(): JSX.Element {
         let layout = {
             labelCol: this.labelCol,
             wrapperCol: this.wrapperCol,
@@ -140,7 +141,7 @@ class TableFormPanel extends BaseFormPanel {
                     </Col>
                 </Row>
                 <Row>
-                    <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
+                    <Tabs defaultActiveKey="columns" animated={{inkBar: true, tabPane: false}}>
                         <TabPane tab="Параметры" key="main">
                             <Row>
                                 <Col>
@@ -165,7 +166,7 @@ class TableFormPanel extends BaseFormPanel {
                         </TabPane>
                         <TabPane
                             tab={"Колонки" + (this.editedTable.columns.length > 0 ? " (" + this.editedTable.columns.length + ")" : "")}
-                            key="2">
+                            key="columns">
                             <Row style={{marginBottom: 10}}>
                                 <Col span={12}>
                                     <Input.Search
@@ -225,13 +226,28 @@ class TableFormPanel extends BaseFormPanel {
                                         }}
                                     />
                                     <Column
+                                        title="Аттрибуты"
+                                        dataIndex="isHidden"
+                                        render={ (text: any, record: ISchemaTableColumnProps) => {
+                                            let attrs: string[] = [];
+                                            if (record.primaryKey)
+                                                attrs.push("primary key");
+                                            return (
+                                                <span>
+                                                        {attrs.join(", ")}
+                                                </span>
+                                            )
+                                        }}
+                                    />
+                                    <Column
                                         title="Действие"
                                         key="action"
                                         render={ (text: any, record: ISchemaTableColumnProps) => (
                                             <span>
-                                                  <a href="#" onClick={() => this.editColumnClickHandler(record)}>изм.</a>
+                                                  <a href="#"
+                                                     onClick={() => this.editColumnClickHandler(record)}>изм.</a>
                                                   <span className="ant-divider"/>
-                                                  <a href="#" style={{color:"crimson"}}>удал.</a>
+                                                  <a href="#" style={{color: "crimson"}}>удал.</a>
                                             </span>
                                         )}
                                     />
@@ -332,7 +348,7 @@ class TableColumnFormPanelW extends BaseFormPanel {
                                         label="тип данных"
                                         bindProperty="dataType.className"
                                         style={{maxWidth: 250}}
-                                        selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass:ISqlDataTypeClassInfo) => [sqlDataTypeClass.className,sqlDataTypeClass.title])}
+                                        selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass: ISqlDataTypeClassInfo) => [sqlDataTypeClass.className, sqlDataTypeClass.title])}
                                         rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
                                     />
                                     {dataTypeEditor}
@@ -377,8 +393,8 @@ export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTem
         return (
 
             <div>
-                { this.schemaPage.props.title ? <h1>{this.schemaPage.props.title}</h1> : null}
-                ДИЗАЙНЕР ТАБЛИЦЫ
+                <h2 style={{color: AdminTheme.schemaTableColor}}>таблица: {this.designedObject.props.name}</h2>
+
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>
                         <FormPanel editedObject={this.designedObject.props} onSave={this.onSaveButtonClick}

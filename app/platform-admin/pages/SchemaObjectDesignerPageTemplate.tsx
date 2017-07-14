@@ -98,7 +98,6 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
     renderTop(): JSX.Element {
         return (
             <div>{super.renderTop()}дизайнер schema object НАЧАЛО:
-                <h2>{this.designedObject.props.name}</h2>
             </div>
         );
     }

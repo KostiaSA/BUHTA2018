@@ -43,6 +43,7 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
         return (
             <div>
                 {super.renderTop()}
+                <h2>Список объектов конфигурации</h2>
                 <QueryGrid queryId={SchemaQuery.classInfo.recordIdPrefix+":"+ AdminConst.SchemaObjectListQueryObjectId}/>
             </div>
         );
