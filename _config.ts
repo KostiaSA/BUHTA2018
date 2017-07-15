@@ -29,12 +29,12 @@ let home: _IConfig = {
     sqlServerPort: 1433,
     sqlLogin: "sa",
     sqlPassword: "sonyk",
-    sqlDatabase: "Buhta2018",
+    sqlDatabase: "MAG3305",
     sqlDialect: "mssql",
     port:3001,
     projectRootPath:"C:/----BUHTA----"
 };
 
 
-export let _config :_IConfig = office;
+export let _config :_IConfig = home;
 //изменено 888-999

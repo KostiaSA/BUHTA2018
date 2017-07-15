@@ -86,12 +86,19 @@ class TableFormPanel extends BaseFormPanel {
     initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
 
-        var sortable = Sortable.create($(container).find("tbody")[0], {
+        let sortable = Sortable.create($(container).find("tbody")[0], {
             animation: 125,
             handle: ".fa-bars",
             onEnd: (evt: any) => {
                 console.log(evt.oldIndex, evt.newIndex);
-                //arrayExchangeItems(this.editedTable.columns, evt.oldIndex, evt.newIndex);
+                let a = this.editedTable.columns;
+                let _old = evt.oldIndex;
+                let _new = evt.newIndex;
+                if (_new > _old)
+                    this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
+                else
+                    this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new , _old), ...a.slice(_old + 1)];
+
                 this.forceUpdate();
             },
 

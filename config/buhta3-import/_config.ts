@@ -16,27 +16,18 @@ let office: _IConfig = {
     sqlPassword: "sonyk",
     sqlDatabase: "MAG3305",
     sqlDialect: "mssql",
-    // sqlServerAddress: "localhost",
-    // sqlServerInstance: "",
-    // sqlServerPort: 1433,
-    // sqlLogin: "sa",
-    // sqlPassword: "sonyk",
-    // sqlDatabase: "MAG3305",
-    // sqlDialect: "mssql",
 };
 
-// let home: _IConfig = {
-//     sqlServerAddress: "localhost",
-//     sqlServerInstance: "",
-//     sqlServerPort: 1433,
-//     sqlLogin: "sa",
-//     sqlPassword: "sonyk",
-//     sqlDatabase: "Buhta2018",
-//     sqlDialect: "mssql",
-//     port:3001,
-//     projectRootPath:"C:/----BUHTA----"
-// };
+let home: _IConfig = {
+    sqlServerAddress: "localhost",
+    sqlServerInstance: "",
+    sqlServerPort: 1433,
+    sqlLogin: "sa",
+    sqlPassword: "sonyk",
+    sqlDatabase: "MAG3305",
+    sqlDialect: "mssql",
+};
 
 
-export let _config :_IConfig = office;
+export let _config: _IConfig = home;
 //изменено 888-999
