@@ -83,6 +83,29 @@ class TableFormPanel extends BaseFormPanel {
 
     columnsSortable: any;
 
+    initTableHeadersSorter() {
+        let container = ReactDOM.findDOMNode(this);
+
+        let sortable = Sortable.create($(container).find("theader?")[0], {
+            animation: 125,
+            handle: ".fa-bars",
+            onEnd: (evt: any) => {
+                console.log(evt.oldIndex, evt.newIndex);
+                let a = this.editedTable.columns;
+                let _old = evt.oldIndex;
+                let _new = evt.newIndex;
+                if (_new > _old)
+                    this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
+                else
+                    this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new , _old), ...a.slice(_old + 1)];
+
+                this.forceUpdate();
+            },
+
+        });
+
+    }
+
     initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
 
