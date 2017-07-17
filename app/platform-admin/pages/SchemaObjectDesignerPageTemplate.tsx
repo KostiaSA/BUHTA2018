@@ -38,6 +38,7 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
     }
 
     //orginalObjectPropsJson: string;
+    isInsertMode: boolean;
     designedObject: SchemaObject<ISchemaObjectProps>;
 
     // private history: string[] = [];
@@ -119,32 +120,15 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
     renderBottom(): JSX.Element {
         return (
             <div>дизайнер schema object КОНЕЦ
-                {/*<Button*/}
-                {/*onClick={this.handleSaveButtonClick}>*/}
-                {/*Сохранить*/}
-                {/*</Button>*/}
-                {/*<Button*/}
-                {/*disabled={this.history.length < 2}*/}
-                {/*onClick={() => {*/}
-                {/*this.doUndo()*/}
-                {/*}}>*/}
-                {/*Undo*/}
-                {/*</Button>*/}
-                {/*<Button*/}
-                {/*onClick={() => {*/}
-                {/*//this.props.form!.setFieldsValue({name:"xxcc"});*/}
-                {/*this.props.form!.validateFields((err, values) => {*/}
-                {/*if (!err) {*/}
-                {/*console.log('Received values of form: ', values);*/}
-                {/*}*/}
-                {/*});*/}
-                {/*}}>*/}
-                {/*TEST VALIDATE*/}
-                {/*</Button>*/}
                 {super.renderBottom()}
             </div>
         );
     }
+
+    async createNewDesignedObject(): Promise<SchemaObject<any>> {
+        throw "abstract error";
+    }
+
 
     async loadData() {
 
@@ -156,6 +140,10 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
                 this.designedObject = await SchemaHelper.createSchemaObject(designedObjectId);
                 //setInterval(this.trackChanges, 100);
                 //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
+            }
+            else {
+                this.isInsertMode = true;
+                this.designedObject = await this.createNewDesignedObject();
             }
         }
     }

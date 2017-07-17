@@ -250,7 +250,8 @@ class QueryFormPanel extends BaseFormPanel {
                 </Row>
                 <Row>
                     <Tabs
-                        defaultActiveKey="columns"
+                        defaultActiveKey={this.props.isInsertMode ? "main" : "columns"}
+
                         animated={{inkBar: true, tabPane: false}}
                         onChange={this.handleTabChange}
                     >
@@ -474,6 +475,7 @@ class QueryFormPanel extends BaseFormPanel {
 
                         }}
                         editedObject={this.editedColumn}
+                        isInsertMode={false}
                     />
                 </Modal>
                 {/* ----------------------- список колонок для добавления --------------------------------------  */}
@@ -663,7 +665,9 @@ export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTem
                 <h2 style={{color: AdminTheme.schemaQueryColor}}>запрос: {this.designedObject.props.name}</h2>
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>
-                        <FormPanel editedObject={this.designedObject.props} onSave={this.onSaveButtonClick}
+                        <FormPanel editedObject={this.designedObject.props}
+                                   isInsertMode={this.isInsertMode}
+                                   onSave={this.onSaveButtonClick}
                                    onFieldsChange={() => {
                                        this.forceUpdate()
                                    }}/>

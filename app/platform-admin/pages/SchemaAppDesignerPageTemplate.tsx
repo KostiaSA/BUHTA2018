@@ -78,7 +78,7 @@ export class SchemaAppDesignerPageTemplate extends SchemaObjectDesignerPageTempl
                 <a href="/">на главную {(new Date()).toString()}</a>
                 <Row gutter={0}>
                     <Col className="gutter-row" span={12}>
-                        <FormPanel editedObject={this.designedObject.props} onSave={this.onSaveButtonClick} onFieldsChange={()=>{this.forceUpdate()}}/>
+                        <FormPanel editedObject={this.designedObject.props}  isInsertMode={this.isInsertMode} onSave={this.onSaveButtonClick} onFieldsChange={()=>{this.forceUpdate()}}/>
                     </Col>
                 </Row>
             </div>

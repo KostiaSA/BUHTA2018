@@ -27,6 +27,7 @@ import {AdminConst} from "../AdminConst";
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
 import {appState} from "../../platform-core/AppState";
+import {SchemaPage} from "../../platform-core/schema/SchemaPage";
 let Highlighter = require("react-highlight-words");
 
 export interface ISchemaAddNewObjectPageTemplateProps {
@@ -43,8 +44,11 @@ export class SchemaAddNewObjectPageTemplate extends AdminMainPageTemplate {
 
     };
 
-    createClickHandler = (record: ISchemaObjectClassInfo<any>) => {
-
+    async createClickHandler(record: ISchemaObjectClassInfo<any>): Promise<any> {
+        if (record.editOptions && (record.editOptions.addPageId || record.editOptions.editPageId)) {
+            let page = await SchemaHelper.createSchemaObject<SchemaPage>(record.editOptions.addPageId! || record.editOptions.editPageId!);
+            page.openInCurrentTab();
+        }
     };
 
     searchValue: string;

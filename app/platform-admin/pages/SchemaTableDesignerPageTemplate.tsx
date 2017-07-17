@@ -40,6 +40,11 @@ import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplat
 import {AdminTheme} from "../adminTheme";
 import isDivisibleBy = require("validator/lib/isDivisibleBy");
 import {arrayExchangeItems} from "../../platform-core/utils/arrayExchangeItems";
+import {SchemaObject} from "../../platform-core/schema/SchemaObject";
+import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
+import {getRandomString} from "../../platform-core/utils/getRandomString";
+import {StringSqlDataType} from "../../platform-core/schema/table/datatypes/StringSqlDataType";
+import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IStringSqlDataTypeProps";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -97,7 +102,7 @@ class TableFormPanel extends BaseFormPanel {
                 if (_new > _old)
                     this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
                 else
-                    this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new , _old), ...a.slice(_old + 1)];
+                    this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new, _old), ...a.slice(_old + 1)];
 
                 this.forceUpdate();
             },
@@ -108,24 +113,26 @@ class TableFormPanel extends BaseFormPanel {
 
     initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
+        let tbody=$(container).find("tbody")[0];
+        if (tbody) {
+            let sortable = Sortable.create($(container).find("tbody")[0], {
+                animation: 125,
+                handle: ".fa-bars",
+                onEnd: (evt: any) => {
+                    console.log(evt.oldIndex, evt.newIndex);
+                    let a = this.editedTable.columns;
+                    let _old = evt.oldIndex;
+                    let _new = evt.newIndex;
+                    if (_new > _old)
+                        this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
+                    else
+                        this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new, _old), ...a.slice(_old + 1)];
 
-        let sortable = Sortable.create($(container).find("tbody")[0], {
-            animation: 125,
-            handle: ".fa-bars",
-            onEnd: (evt: any) => {
-                console.log(evt.oldIndex, evt.newIndex);
-                let a = this.editedTable.columns;
-                let _old = evt.oldIndex;
-                let _new = evt.newIndex;
-                if (_new > _old)
-                    this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
-                else
-                    this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new , _old), ...a.slice(_old + 1)];
+                    this.forceUpdate();
+                },
 
-                this.forceUpdate();
-            },
-
-        });
+            });
+        }
 
     }
 
@@ -218,7 +225,8 @@ class TableFormPanel extends BaseFormPanel {
                     </Col>
                 </Row>
                 <Row>
-                    <Tabs defaultActiveKey="columns" animated={{inkBar: true, tabPane: false}}>
+                    <Tabs defaultActiveKey={this.props.isInsertMode ? "main" : "columns"}
+                          animated={{inkBar: true, tabPane: false}}>
                         <TabPane tab="Параметры" key="main">
                             <Row>
                                 <Col>
@@ -393,6 +401,7 @@ class TableFormPanel extends BaseFormPanel {
 
                         }}
                         editedObject={this.editedColumn}
+                        isInsertMode={false}
                     />
                 </Modal>
             </div>
@@ -492,8 +501,32 @@ export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTem
 
     };
 
+    async createNewDesignedObject(): Promise<SchemaObject<any>> {
+        let obj = new SchemaTable();
+        obj.props = {
+            id: SchemaTable.classInfo.recordIdPrefix + ":" + getRandomString(),
+            className: SchemaTable.classInfo.className,
+            name: "Новая таблица",
+            description: "",
+            columns: [
+                {
+                    name: "id",
+                    primaryKey: true,
+                    //position:0,
+                    dataType: {
+                        className: StringSqlDataType.classInfo.className,
+                        maxLen: 127
+                    } as IStringSqlDataTypeProps
+
+                },
+            ]
+        };
+        return obj;
+    }
+
 
     renderChildren(): JSX.Element {
+        console.log("renderChildren - mode",this,this.isInsertMode);
 
         return (
 
@@ -502,7 +535,9 @@ export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTem
 
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>
-                        <FormPanel editedObject={this.designedObject.props} onSave={this.onSaveButtonClick}
+                        <FormPanel editedObject={this.designedObject.props}
+                                   isInsertMode={this.isInsertMode}
+                                   onSave={this.onSaveButtonClick}
                                    onFieldsChange={() => {
                                        this.forceUpdate()
                                    }}/>

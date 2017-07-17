@@ -6,6 +6,7 @@ var objectPath = require("object-path");
 
 export interface IFormPanelProps {
     editedObject: any;
+    isInsertMode:boolean;
     onFieldsChange?: (fields: Array<any>) => void;
     onSave?: () => void;
     onCancel?: () => void;
@@ -95,6 +96,7 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
         return {
             form: this.props.form,
             bindObject: this.props.editedObject,
+            isInsertMode: this.props.isInsertMode,
             onClickSaveButton: this.onClickSaveButton
         };
     }
@@ -102,6 +104,7 @@ export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
     static childContextTypes = {
         form: PropTypes.object,
         bindObject: PropTypes.object,
+        isInsertMode: PropTypes.bool,
         onClickSaveButton: PropTypes.func,
     };
 

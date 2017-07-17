@@ -16,9 +16,9 @@ export class SchemaPage extends SchemaObject<ISchemaPageProps> {
     //static designerUrl = "admin/schema-page-designer";
 
     static classInfo: ISchemaPageClassInfo = {
-        title:"Страница",
+        title: "Страница",
         className: "platform-core:SchemaPage",
-        description:"Страница приложения",
+        description: "Страница приложения",
         constructor: SchemaPage,
         //designerUrl: "admin/schema-page-designer",
         recordIdPrefix: "schema-page"
@@ -28,7 +28,16 @@ export class SchemaPage extends SchemaObject<ISchemaPageProps> {
         let paramsStr = "";
         if (params)
             paramsStr = "?" + objectToUrlParams(params);
-        let win = window.open(this.props.url + paramsStr, '_blank');
+        let win = window.open(this.props.url + paramsStr, "_blank");
+    }
+
+    openInCurrentTab(params?: any) {
+        let paramsStr = "";
+        if (params)
+            paramsStr = "?" + objectToUrlParams(params);
+        console.log(this.props.url);
+
+        let win = window.open(this.props.url + paramsStr, "_self");
     }
 }
 

@@ -15,6 +15,7 @@ export class FormSaveButton extends React.Component<IFormSaveButtonProps, any> {
 
     static contextTypes = {
         onClickSaveButton: PropTypes.func,
+        isInsertMode:PropTypes.bool,
     };
 
 
