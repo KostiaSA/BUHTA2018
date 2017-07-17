@@ -113,7 +113,7 @@ class TableFormPanel extends BaseFormPanel {
 
     initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
-        let tbody=$(container).find("tbody")[0];
+        let tbody = $(container).find("tbody")[0];
         if (tbody) {
             let sortable = Sortable.create($(container).find("tbody")[0], {
                 animation: 125,
@@ -157,6 +157,24 @@ class TableFormPanel extends BaseFormPanel {
         super.componentWillUnmount();
         this.destroyColumnsSorter();
     }
+
+
+    get editedColumnIsNew(): boolean {
+        return !this.editedColumnCloned;
+    }
+
+    addColumnClickHandler = () => {
+        this.editedColumn = {
+            name: "новая колока",
+            dataType: {
+                className: StringSqlDataType.classInfo.className,
+                maxLen: 50
+            } as IStringSqlDataTypeProps
+        };
+        this.editedColumnCloned = undefined as any;
+        this.forceUpdate();
+        console.log("add");
+    };
 
     editColumnClickHandler = (column: ISchemaTableColumnProps) => {
         this.editedColumn = column;
@@ -274,7 +292,7 @@ class TableFormPanel extends BaseFormPanel {
                                     />
                                 </Col>
                                 <Col span={12}>
-                                    <Button style={{float: "right"}}>Новая колонка</Button>
+                                    <Button style={{float: "right"}} onClick={() => this.addColumnClickHandler()}>Новая колонка</Button>
                                 </Col>
                             </Row>
                             <Row>
@@ -378,6 +396,9 @@ class TableFormPanel extends BaseFormPanel {
                     onOk={() => {
                         this.tableColumnFormPanel.validateFieldsOk().then((ok) => {
                             if (ok) {
+                                if (this.editedColumnIsNew) {
+                                    this.editedTable.columns.push(this.editedColumn);
+                                }
                                 this.tableColumnFormPanel.onClickSaveButton();
                                 this.editedColumn = undefined as any;
                                 this.forceUpdate();
@@ -387,167 +408,170 @@ class TableFormPanel extends BaseFormPanel {
                             }
                         });
                     }}
-                    onCancel={() => {
+                        onCancel={() => {
+                        if (!this.editedColumnIsNew) {
                         let colIndex = this.editedTable.columns.indexOf(this.editedColumn);
                         this.editedTable.columns[colIndex] = this.editedColumnCloned;
+                    }
                         this.editedColumn = undefined as any;
                         this.forceUpdate();
                     }}
-                >
-                    <TableColumnFormPanel
+                        >
+                        <TableColumnFormPanel
                         panelRef={(panel: BaseFormPanel) => {
-                            this.tableColumnFormPanel = panel;
-                            //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
+                        this.tableColumnFormPanel = panel;
+                        //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
 
-                        }}
+                    }}
                         editedObject={this.editedColumn}
-                        isInsertMode={false}
-                    />
-                </Modal>
-            </div>
-        )
-    }
-}
+                        isInsertMode={this.editedColumnIsNew}
+                        />
+                        </Modal>
+                        </div>
+                        )
+                    }
+                }
 
-const FormPanel = Form.create
-    < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
+                const FormPanel=Form.create
+                < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
 
-class TableColumnFormPanelW extends BaseFormPanel {
-    labelCol: FormItemColOption = {
-        xs: {span: 24},
-        sm: {span: 6},
-    } as FormItemColOption;
+                    class TableColumnFormPanelW extends BaseFormPanel {
+                        labelCol: FormItemColOption = {
+                        xs: {span: 24},
+                        sm: {span: 6},
+                    } as FormItemColOption;
 
-    wrapperCol: FormItemColOption = {
-        xs: {span: 24},
-        sm: {span: 18},
-    } as FormItemColOption;
+                        wrapperCol: FormItemColOption = {
+                        xs: {span: 24},
+                        sm: {span: 18},
+                    } as FormItemColOption;
 
 
-    render() {
-        let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
-        if (!editedTableColumn)
-            return null;
+                        render() {
+                        let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
+                        if (!editedTableColumn)
+                        return null;
 
-        let layout = {
-            labelCol: this.labelCol,
-            wrapperCol: this.wrapperCol,
-        };
+                        let layout = {
+                        labelCol: this.labelCol,
+                        wrapperCol: this.wrapperCol,
+                    };
 
-        const TabPane = Tabs.TabPane;
+                        const TabPane = Tabs.TabPane;
 
-        let dataTypeEditor: any = null;
+                        let dataTypeEditor: any = null;
 
-        if (editedTableColumn.dataType) {
-            dataTypeEditor = appState.getRegisteredClassInfo<ISqlDataTypeClassInfo>(editedTableColumn.dataType.className).renderEditor(editedTableColumn, layout);
-        }
+                        if (editedTableColumn.dataType) {
+                        dataTypeEditor = appState.getRegisteredClassInfo<ISqlDataTypeClassInfo>(editedTableColumn.dataType.className).renderEditor(editedTableColumn, layout);
+                    }
 
-        return (
-            <Row>
-                <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
-                    <TabPane tab="SQL" key="main">
+                        return (
                         <Row>
-                            <Col>
-                                <Form layout="horizontal">
-                                    <FormInput
-                                        {...layout}
-                                        mode="input"
-                                        label="имя колонки"
-                                        bindProperty="name"
-                                        rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
-                                    />
-                                    <FormInput
-                                        {...layout}
-                                        mode="select"
-                                        label="тип данных"
-                                        bindProperty="dataType.className"
-                                        style={{maxWidth: 250}}
-                                        selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass: ISqlDataTypeClassInfo) => [sqlDataTypeClass.className, sqlDataTypeClass.title])}
-                                        rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
-                                    />
-                                    {dataTypeEditor}
-                                    <FormInput
-                                        {...layout}
-                                        mode="checkbox"
-                                        label="первичный ключ"
-                                        bindProperty="primaryKey"
-                                    />
-                                </Form>
-                            </Col>
+                        <Tabs defaultActiveKey="main" animated={{inkBar: true, tabPane: false}}>
+                        <TabPane tab="SQL" key="main">
+                        <Row>
+                        <Col>
+                        <Form layout="horizontal">
+                        <FormInput
+                        {...layout}
+                        mode="input"
+                        label="имя колонки"
+                        bindProperty="name"
+                        rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
+                        />
+                        <FormInput
+                        {...layout}
+                        mode="select"
+                        label="тип данных"
+                        bindProperty="dataType.className"
+                        style={{maxWidth: 250}}
+                        selectValues={appState.getRegisteredSqlDataTypes().map((sqlDataTypeClass: ISqlDataTypeClassInfo) => [sqlDataTypeClass.className, sqlDataTypeClass.title])}
+                        rules={[{required: true, message: "тип данных должнен быть заполнен"}]}
+                        />
+                        {dataTypeEditor}
+                        <FormInput
+                        {...layout}
+                        mode="checkbox"
+                        label="первичный ключ"
+                        bindProperty="primaryKey"
+                        />
+                        </Form>
+                        </Col>
                         </Row>
-                    </TabPane>
-                    <TabPane tab="В таблицах" key="2">
+                        </TabPane>
+                        <TabPane tab="В таблицах" key="2">
                         XXX
-                    </TabPane>
-                    <TabPane tab="В формах" key="3">Content of Tab Pane 3</TabPane>
-                </Tabs>
-            </Row>
-        )
-    }
-}
+                        </TabPane>
+                        <TabPane tab="В формах" key="3">Content of Tab Pane 3</TabPane>
+                        </Tabs>
+                        </Row>
+                        )
+                    }
+                    }
 
-const TableColumnFormPanel = Form.create
-    < IFormPanelProps > (TableColumnFormPanelW.formOptions)(TableColumnFormPanelW as any) as typeof TableColumnFormPanelW;
+                    const TableColumnFormPanel = Form.create
+                    < IFormPanelProps > (TableColumnFormPanelW.formOptions)(TableColumnFormPanelW as any) as typeof
+                        TableColumnFormPanelW;
 
-export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
+                        export class SchemaTableDesignerPageTemplate extends SchemaObjectDesignerPageTemplate {
 
-    //static className: string = "platform-admin:SchemaTableDesignerPageTemplate";
-    //static pageTemplateName: string = "шаблон дизайнера SchemaTable";
+                            //static className: string = "platform-admin:SchemaTableDesignerPageTemplate";
+                            //static pageTemplateName: string = "шаблон дизайнера SchemaTable";
 
-    static classInfo: IPageTemplateClassInfo = {
-        className: "platform-admin:SchemaTableDesignerPageTemplate",
-        constructor: SchemaTableDesignerPageTemplate,
-        pageTemplateName: "шаблон дизайнера SchemaTable"
+                            static classInfo: IPageTemplateClassInfo = {
+                            className: "platform-admin:SchemaTableDesignerPageTemplate",
+                            constructor: SchemaTableDesignerPageTemplate,
+                            pageTemplateName: "шаблон дизайнера SchemaTable"
 
-    };
+                        };
 
-    async createNewDesignedObject(): Promise<SchemaObject<any>> {
-        let obj = new SchemaTable();
-        obj.props = {
-            id: SchemaTable.classInfo.recordIdPrefix + ":" + getRandomString(),
-            className: SchemaTable.classInfo.className,
-            name: "Новая таблица",
-            description: "",
-            columns: [
-                {
-                    name: "id",
-                    primaryKey: true,
-                    //position:0,
-                    dataType: {
-                        className: StringSqlDataType.classInfo.className,
-                        maxLen: 127
-                    } as IStringSqlDataTypeProps
+                            async createNewDesignedObject(): Promise<SchemaObject<any>> {
+                            let obj = new SchemaTable();
+                            obj.props = {
+                            id: SchemaTable.classInfo.recordIdPrefix + ":" + getRandomString(),
+                            className: SchemaTable.classInfo.className,
+                            name: "Новая таблица",
+                            description: "",
+                            columns: [
+                        {
+                            name: "id",
+                            primaryKey: true,
+                            //position:0,
+                            dataType: {
+                            className: StringSqlDataType.classInfo.className,
+                            maxLen: 127
+                        } as IStringSqlDataTypeProps
 
-                },
-            ]
-        };
-        return obj;
-    }
-
-
-    renderChildren(): JSX.Element {
-        console.log("renderChildren - mode",this,this.isInsertMode);
-
-        return (
-
-            <div>
-                <h2 style={{color: AdminTheme.schemaTableColor}}>таблица: {this.designedObject.props.name}</h2>
-
-                <Row gutter={0}>
-                    <Col className="gutter-row" span={18}>
-                        <FormPanel editedObject={this.designedObject.props}
-                                   isInsertMode={this.isInsertMode}
-                                   onSave={this.onSaveButtonClick}
-                                   onFieldsChange={() => {
-                                       this.forceUpdate()
-                                   }}/>
-                    </Col>
-                </Row>
-            </div>
-
-        )
-    }
+                        },
+                            ]
+                        };
+                            return obj;
+                        }
 
 
-}
+                            renderChildren(): JSX.Element {
+                            console.log("renderChildren - mode", this, this.isInsertMode);
+
+                            return (
+
+                            <div>
+                            <h2 style={{color: AdminTheme.schemaTableColor}}>таблица: {this.designedObject.props.name}</h2>
+
+                            <Row gutter={0}>
+                            <Col className="gutter-row" span={18}>
+                            <FormPanel editedObject={this.designedObject.props}
+                            isInsertMode={this.isInsertMode}
+                            onSave={this.onSaveButtonClick}
+                            onFieldsChange={() => {
+                                this.forceUpdate()
+                            }}/>
+                            </Col>
+                            </Row>
+                            </div>
+
+                            )
+                        }
+
+
+                        }
 
