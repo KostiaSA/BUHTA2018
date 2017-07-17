@@ -46,6 +46,7 @@ import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplat
 import {emitQuerySqlApiRequest, IEmitQuerySqlApiResponse} from "../api/emitQuerySqlApiRequest";
 import {reassignObject} from "../../platform-core/utils/reassignObject";
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
+import {QueryGrid} from "../../platform-core/components/QueryGrid";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -81,6 +82,9 @@ class QueryFormPanel extends BaseFormPanel {
     queryColumnFormPanel: BaseFormPanel;
     editedColumn: ISchemaQueryColumnProps;
     editedColumnCloned: ISchemaQueryColumnProps;
+
+    testQueryId: string;
+    testQueryRandom: string;
 
     sqlCodeMirrorSource: string = "";
 
@@ -197,6 +201,12 @@ class QueryFormPanel extends BaseFormPanel {
         });
     }
 
+    handleTestQuery = () => {
+        this.testQueryId = this.editedQuery.id;
+        this.testQueryRandom = getRandomString();
+        this.forceUpdate();
+    };
+
     handleTabChange = (activeTabKey: string) => {
         if (activeTabKey === "sql") {
 
@@ -211,6 +221,7 @@ class QueryFormPanel extends BaseFormPanel {
                     this.forceUpdate();
                 });
         }
+
     };
 
     render(): JSX.Element {
@@ -231,10 +242,7 @@ class QueryFormPanel extends BaseFormPanel {
         return (
             <div>
                 <Row>
-                    <Col span={12}>
-                        <Button>тест</Button>
-                    </Col>
-                    <Col span={12}>
+                    <Col span={24}>
                         <div style={{float: "right"}}>
                             <FormSaveButton style={buttonStyle} text="Сохранить"/>
                         </div>
@@ -418,6 +426,19 @@ class QueryFormPanel extends BaseFormPanel {
                                     options={{mode: "sql", viewportMargin: Infinity}}
                                 />
                             </Row>
+                        </TabPane>
+                        <TabPane tab="Тест" key="test" style={{display: "table-cell"}}>
+
+                            <Button style={{marginBottom: 15}} onClick={this.handleTestQuery}>
+                                Выполнить тестовый запрос
+                            </Button>
+                            <span style={{marginLeft:15, color:"green"}}> Сохраните запрос перед выполнением теста.</span>
+
+                            <QueryGrid
+                                queryId={this.testQueryId}
+                                random={this.testQueryRandom}
+                            />
+
                         </TabPane>
                     </Tabs>
                 </Row>

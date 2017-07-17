@@ -15,6 +15,7 @@ import {SchemaQueryHelper} from "../schema/query/SchemaQueryHelper";
 
 export interface IQueryGridProps {
     queryId: string;
+    random?: string;
 }
 
 
@@ -29,10 +30,13 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
     loadDataError: string;
     dataSource: any[];
     columns: ColumnProps<any>[];
+    random?: string;
 
     async loadData() {
-        if (!this.query) {
+        if (!this.query || this.props.random !== this.random) {
+            console.log("load data");
             try {
+                this.random = this.props.random;
                 this.query = await SchemaHelper.createSchemaObject<SchemaQuery>(this.props.queryId);
                 await this.createColumns();
                 this.dataSource = await this.query.loadData();
@@ -40,6 +44,7 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
             }
             catch (error) {
                 this.loadDataError = error.toString();
+                this.random = this.props.random;
                 console.error(error);
             }
         }
@@ -78,7 +83,7 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
                               изм.
                           </a>
                           <span className="ant-divider"/>
-                          <a href="#" style={{color:"crimson"}}>удал.</a>
+                          <a href="#" style={{color: "crimson"}}>удал.</a>
                     </span>
                 )
             }
@@ -111,33 +116,53 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
 
     componentDidMount() {
         //console.log("page T didMount");
-        this.loadData()
-            .then(() => {
-                this.forceUpdate();
-            })
-            .catch((err: any) => {
-                this.loadDataError = err.toString();
-                this.forceUpdate();
-            });
+        if (this.props.queryId) {
+            this.loadData()
+                .then(() => {
+                    this.forceUpdate();
+                })
+                .catch((err: any) => {
+                    this.loadDataError = err.toString();
+                    this.forceUpdate();
+                });
+        }
+
+    }
+
+    componentDidUpdate() {
+        //console.log("page T didMount");
+        if (this.props.queryId && (!this.query || this.props.random !== this.random)) {
+
+            this.loadData()
+                .then(() => {
+                    this.forceUpdate();
+                })
+                .catch((err: any) => {
+                    this.loadDataError = err.toString();
+                    this.forceUpdate();
+                });
+        }
 
     }
 
     render() {
         let Column = Table.Column;
-        if (this.loadDataError)
+        if (!this.props.queryId)
+            return null;
+        else if (this.loadDataError)
             return <div style={{color: "red"}}>ошибка:{this.loadDataError}</div>;
         else if (!this.query)
             return <div>загрузка...</div>;
         else
             return (
-                <div>
-                    <Table size="middle"
-                           bordered rowKey="name"
-                           dataSource={this.dataSource}
-                           columns={this.columns}
-                           pagination={{pageSize: 100} as any}>
-                    </Table>
-                </div>
+
+                <Table size="middle"
+                       bordered rowKey="name"
+                       dataSource={this.dataSource}
+                       columns={this.columns}
+                       pagination={{pageSize: 100} as any}>
+                </Table>
+
             );
     }
 
