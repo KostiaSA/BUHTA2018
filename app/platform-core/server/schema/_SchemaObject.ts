@@ -57,6 +57,6 @@ export async function _loadSchemaObject<T extends _SchemaObject<ISchemaObjectPro
         return obj;
     }
     else
-        throw "Ошибка загрузки _SchemaObject ([" + id + "]): запись не найдена";
+        throw "Ошибка загрузки _SchemaObject (id:" + id + "): запись не найдена";
 }
 

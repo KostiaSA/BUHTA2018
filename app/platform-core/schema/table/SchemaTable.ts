@@ -14,13 +14,13 @@ export interface ISchemaTableClassInfo extends ISchemaObjectClassInfo<typeof Sch
 export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISchemaTableRow {
 
     static classInfo: ISchemaTableClassInfo = {
-        title:"Таблица",
+        title: "Таблица",
         className: "platform-core:SchemaTable",
         constructor: SchemaTable,
         recordIdPrefix: "schema-table",
     };
 
-    async openChangeRecordPage(recordId: string):Promise<void> {
+    async openChangeRecordPage(recordId: string): Promise<void> {
 
         if (SchemaTable.classInfo.editOptions && SchemaTable.classInfo.editOptions.editPageId) {
             let page = await SchemaHelper.createSchemaObject<SchemaPage>(SchemaTable.classInfo.editOptions.editPageId);
@@ -80,5 +80,20 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
 
     }
 
+    async handleAddRecordClick() {
 
+        if (this.props.editOptions) {
+            if (this.props.editOptions.addPageId) {
+                let editPpage = await SchemaHelper.createSchemaObject<SchemaPage>(this.props.editOptions.addPageId);
+                editPpage.openInNewTab();
+            }
+            else
+                alert("ошибка вызова редактора 999");
+        }
+        else {
+            alert("вызов стандартного редактора 999-00");
+        }
+
+
+    }
 }

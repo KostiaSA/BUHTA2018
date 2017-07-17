@@ -83,4 +83,11 @@ export class SchemaQuery extends SchemaObject<ISchemaQueryProps> implements ISch
         let rootTable = await this.getRootTable();
         rootTable.handleChangeRecordClick(recordId)
     }
+
+    async handleAddRecordClick() {
+        let rootTable = await this.getRootTable();
+
+        rootTable.handleAddRecordClick()
+    }
+
 }

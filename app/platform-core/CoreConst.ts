@@ -1,6 +1,6 @@
 
 
 export class CoreConst {
-    static SchemaTableObjectId = "RZPxH2M8NGnmWEj22fBt";
+    static SchemaTable_TableId = "RZPxH2M8NGnmWEj22fBt";
     static SchemaObjectTypeTableObjectId = "NmNkMzIxZjI2NmMxZWI2";
 }

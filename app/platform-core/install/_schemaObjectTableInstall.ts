@@ -11,7 +11,7 @@ export async function _schemaObjectTableInstall() {
 
     // ------------------ SchemaTable организация ------------------
     let tableProps: ISchemaTableProps = {
-        id: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaTableObjectId,
+        id: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaTable_TableId,
         className: _SchemaTable.classInfo.className,
         name: "__SchemaObject__",
         description: "объекты конфигурации",

@@ -10,7 +10,6 @@ export interface IAdminMainPageTemplateProps extends IPageTemplateProps {
 }
 
 
-
 export class AdminMainPageTemplate extends PageTemplate {
 
     //static className: string = "platform-admin:AdminMainPageTemplate";
@@ -24,15 +23,21 @@ export class AdminMainPageTemplate extends PageTemplate {
     }
 
     renderTop(): JSX.Element {
-        return (
-            <div>админка НАЧАЛО главная страница: {this.schemaPage.props.title}</div>
-        );
+        if (this.schemaPage)
+            return (
+                <div>админка НАЧАЛО главная страница: {this.schemaPage.props.title}</div>
+            );
+        else
+            return null as any;
     }
 
     renderBottom(): JSX.Element {
-        return (
-            <div>админка КОНЕЦ главная страница: {this.schemaPage.props.title}</div>
-        );
+        if (this.schemaPage)
+            return (
+                <div>админка КОНЕЦ главная страница: {this.schemaPage.props.title}</div>
+            );
+        else
+            return null as any;
     }
 
 

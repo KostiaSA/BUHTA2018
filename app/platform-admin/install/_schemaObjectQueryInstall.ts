@@ -11,12 +11,12 @@ export async function _schemaObjectQueryInstall() {
     // ------------------ SchemaTable организация ------------------
     let queryProps: ISchemaQueryProps = {
 
-        id: SchemaQuery.classInfo.recordIdPrefix+":"+ AdminConst.SchemaObjectListQueryObjectId,
+        id: SchemaQuery.classInfo.recordIdPrefix+":"+ AdminConst.SchemaObjectListQueryId,
         key: "ODNhMGI4MWFiZTZjYTRk",
         className: SchemaQuery.classInfo.className,
         name: "Список объектов конфигурации",
         description: "Запрос список объектов конфигурации",
-        tableId: SchemaTable.classInfo.recordIdPrefix+":"+CoreConst.SchemaTableObjectId,
+        tableId: SchemaTable.classInfo.recordIdPrefix+":"+CoreConst.SchemaTable_TableId,
         children: [
             {
                 "key": "MDU4ODdjZmVmZjIyNzdj",

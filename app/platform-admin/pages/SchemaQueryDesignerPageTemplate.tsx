@@ -432,7 +432,7 @@ class QueryFormPanel extends BaseFormPanel {
                             <Button style={{marginBottom: 15}} onClick={this.handleTestQuery}>
                                 Выполнить тестовый запрос
                             </Button>
-                            <span style={{marginLeft:15, color:"green"}}> Сохраните запрос перед выполнением теста.</span>
+                            <span style={{marginLeft:15, color:"green"}}>Сохраните запрос перед выполнением теста.</span>
 
                             <QueryGrid
                                 queryId={this.testQueryId}

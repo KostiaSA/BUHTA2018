@@ -14,7 +14,7 @@ export async function _schemaTableDesignerPageInstall() {
 
     // ------------------ SchemaTable организация ------------------
     let pageProps:ISchemaPageProps = {
-        id: SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaTableDesignerPageObjectId,
+        id: SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaTableDesignerPageId,
         className: SchemaPage.classInfo.className,
         name: "Дизайнер SchemaTable",
         title: "дизайнер таблицы",

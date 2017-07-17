@@ -10,17 +10,18 @@ import {SchemaTable} from "../platform-core/schema/table/SchemaTable";
 import {AdminConst} from "./AdminConst";
 import {SchemaPage} from "../platform-core/schema/SchemaPage";
 import {SchemaQuery} from "../platform-core/schema/query/SchemaQuery";
+import {SchemaAddNewObjectPageTemplate} from "./pages/SchemaAddNewObjectPageTemplate";
 
 export async function clientStartup() {
 
     SchemaTable.classInfo.editOptions = {
         ...SchemaTable.classInfo.editOptions,
-        editPageId: SchemaPage.classInfo.recordIdPrefix + ":" + AdminConst.SchemaTableDesignerPageObjectId
+        editPageId: SchemaPage.classInfo.recordIdPrefix + ":" + AdminConst.SchemaTableDesignerPageId
 
     };
     SchemaQuery.classInfo.editOptions = {
         ...SchemaQuery.classInfo.editOptions,
-        editPageId: SchemaPage.classInfo.recordIdPrefix + ":" + AdminConst.SchemaQueryDesignerPageObjectId
+        editPageId: SchemaPage.classInfo.recordIdPrefix + ":" + AdminConst.SchemaQueryDesignerPageId
     };
 
     appState.registerClassInfo(AdminMainPageTemplate.classInfo);
@@ -29,6 +30,8 @@ export async function clientStartup() {
     appState.registerClassInfo(SchemaTableDesignerPageTemplate.classInfo);
     appState.registerClassInfo(SchemaQueryDesignerPageTemplate.classInfo);
     appState.registerClassInfo(SchemaObjectListPageTemplate.classInfo);
+
+    appState.registerClassInfo(SchemaAddNewObjectPageTemplate.classInfo);
 
     appState.registerClassInfo(OpenSchemaObjectDesignerAction.classInfo);
 

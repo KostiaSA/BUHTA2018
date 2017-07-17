@@ -8,7 +8,7 @@ import {SchemaQueryDesignerPageTemplate} from "../pages/SchemaQueryDesignerPageT
 export async function _schemaQueryDesignerPageInstall() {
 
     let pageProps:ISchemaPageProps = {
-        id: SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaQueryDesignerPageObjectId,
+        id: SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaQueryDesignerPageId,
         className: SchemaPage.classInfo.className,
         name: "Дизайнер SchemaQuery",
         title: "дизайнер запроса",

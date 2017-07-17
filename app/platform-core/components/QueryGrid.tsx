@@ -3,19 +3,22 @@ import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
 import {SchemaPage} from "../schema/SchemaPage";
-import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
+import {Table, Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {WrappedFormUtils} from "antd/es/form/Form";
 import {SchemaHelper} from "../schema/SchemaHelper";
 import {IClassInfo} from "../IClassInfo";
 import {SchemaQuery} from "../schema/query/SchemaQuery";
-import {Table} from "antd";
 import {ColumnProps} from "antd/es/table/Column";
 import {SchemaQueryHelper} from "../schema/query/SchemaQueryHelper";
-//const ColumnProps=Table.Col
+import {CSSProperties} from "react";
 
 export interface IQueryGridProps {
     queryId: string;
     random?: string;
+    showRefreshButton?: boolean;
+    showAddButton?: boolean;
+    addButtonText?: string | JSX.Element;
+    refreshButtonText?: string | JSX.Element;
 }
 
 
@@ -145,8 +148,37 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
 
     }
 
+    handleRefreshButtonClick = () => {
+        delete this.query;
+        this.forceUpdate();
+    };
+
+    handleAddButtonClick = () => {
+        this.query.handleAddRecordClick();
+    };
+
+
     render() {
-        let Column = Table.Column;
+        //let Column = Table.Column;
+        let buttonStyle: CSSProperties = {marginBottom: 12, marginLeft: 12};
+
+        let refreshButtonText = <span><i className="fa fa-refresh" aria-hidden="true"></i><span style={{marginLeft: 5}}>Обновить</span></span>;
+        let refreshButton = (
+            <Button style={buttonStyle} onClick={this.handleRefreshButtonClick}>
+                { this.props.refreshButtonText || refreshButtonText}
+            </Button>
+        );
+        if (!this.props.showRefreshButton)
+            refreshButton = null as any;
+
+        let addButton = (
+            <Button style={buttonStyle} onClick={this.handleAddButtonClick}>
+                { this.props.addButtonText || "Добавить"}
+            </Button>
+        );
+        if (!this.props.showAddButton)
+            addButton = null as any;
+
         if (!this.props.queryId)
             return null;
         else if (this.loadDataError)
@@ -155,14 +187,24 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
             return <div>загрузка...</div>;
         else
             return (
-
-                <Table size="middle"
-                       bordered rowKey="name"
-                       dataSource={this.dataSource}
-                       columns={this.columns}
-                       pagination={{pageSize: 100} as any}>
-                </Table>
-
+                <div>
+                    <Row>
+                        <Col span={24} style={{textAlign: "right"}}>
+                            {addButton}
+                            {refreshButton}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <Table size="middle"
+                                   bordered rowKey="name"
+                                   dataSource={this.dataSource}
+                                   columns={this.columns}
+                                   pagination={{pageSize: 100} as any}>
+                            </Table>
+                        </Col>
+                    </Row>
+                </div>
             );
     }
 

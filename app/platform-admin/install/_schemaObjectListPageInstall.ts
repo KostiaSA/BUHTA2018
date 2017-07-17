@@ -8,7 +8,7 @@ export async function _schemaObjectListPageInstall() {
 
 
     let pageProps: ISchemaPageProps = {
-        id: _SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaObjectListPageObjectId,
+        id: _SchemaPage.classInfo.recordIdPrefix+":"+AdminConst.SchemaObjectListPageId,
         className: SchemaPage.classInfo.className,
         name: "Просмотр списка объектов конфигурации",
         title: "Список объектов конфигурации",

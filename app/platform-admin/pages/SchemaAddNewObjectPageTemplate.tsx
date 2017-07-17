@@ -24,17 +24,17 @@ import {QueryGrid} from "../../platform-core/components/QueryGrid";
 import {AdminConst} from "../AdminConst";
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 
-export interface ISchemaObjectListPageTemplateProps {
+export interface ISchemaAddNewObjectPageTemplateProps {
 
 }
 
-export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
+export class SchemaAddNewObjectPageTemplate extends AdminMainPageTemplate {
 
 
     static classInfo: IPageTemplateClassInfo = {
-        className: "platform-admin:SchemaObjectListPageTemplate",
-        constructor: SchemaObjectListPageTemplate,
-        pageTemplateName: "шаблон страницы просмотра объектов конфигурации"
+        className: "platform-admin:SchemaAddNewObjectPageTemplate",
+        constructor: SchemaAddNewObjectPageTemplate,
+        pageTemplateName: "шаблон страницы добавления нового объекта конфигурации"
 
     };
 
@@ -43,12 +43,7 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
         return (
             <div>
                 {super.renderTop()}
-                <h2>Список объектов конфигурации</h2>
-                <QueryGrid
-                    queryId={SchemaQuery.classInfo.recordIdPrefix+":"+ AdminConst.SchemaObjectListQueryId}
-                    showRefreshButton
-                    showAddButton
-                />
+                <h2>Создание нового объекта конфигурации</h2>
             </div>
         );
         // return (

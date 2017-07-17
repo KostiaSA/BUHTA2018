@@ -10,13 +10,12 @@ import {IClassInfo} from "../IClassInfo";
 
 export interface IPageTemplateProps {
     //schemaPageId: string;
-    form:WrappedFormUtils;
+    form: WrappedFormUtils;
 }
 
 export interface IPageTemplateClassInfo extends IClassInfo<typeof PageTemplate> {
-    pageTemplateName:string;
+    pageTemplateName: string;
 }
-
 
 
 export class PageTemplate extends React.Component<IPageTemplateProps, any> {
@@ -36,6 +35,8 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
     loadDataError: string;
 
     async loadData() {
+
+
         if (!this.schemaPage) {
             this.schemaPage = await SchemaHelper.createSchemaObject<SchemaPage>((document as any).schemaPageId);
             //await this.schemaPage.load((document as any).schemaPageId);
@@ -90,6 +91,7 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
             })
             .catch((err: any) => {
                 this.loadDataError = err.toString();
+                console.error(err);
                 this.forceUpdate();
             });
 
@@ -123,7 +125,10 @@ export class PageTemplate extends React.Component<IPageTemplateProps, any> {
     }
 
     renderChildren(): JSX.Element {
-        return this.props.children as any;
+        if (this.props)
+            return this.props.children as any;
+        else
+            return null as any;
     }
 
     render() {
