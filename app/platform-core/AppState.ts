@@ -1,5 +1,6 @@
 import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/datatypes/SqlDataType";
 import {IClassInfo} from "./IClassInfo";
+import {ISchemaObjectClassInfo, SchemaObject} from "./schema/SchemaObject";
 
 export class AppState {
 
@@ -184,6 +185,17 @@ export class AppState {
         for (let infoName in this.registeredClassInfos) {
             let info = this.registeredClassInfos[infoName];
             if (info.constructor.prototype instanceof SqlDataType)
+                ret.push(info as any);
+        }
+        return ret;
+    }
+
+    getRegisteredSchemaObjectTypes(): ISchemaObjectClassInfo<any>[] {
+        //return [];
+        let ret: ISchemaObjectClassInfo<any>[] = [];
+        for (let infoName in this.registeredClassInfos) {
+            let info = this.registeredClassInfos[infoName];
+            if (info.constructor.prototype instanceof SchemaObject)
                 ret.push(info as any);
         }
         return ret;

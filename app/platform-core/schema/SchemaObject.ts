@@ -6,6 +6,7 @@ import {ISchemaTableEditOptions} from "./table/ISchemaTableEditOptions";
 export interface ISchemaObjectClassInfo<T> extends IClassInfo<T> {
     //designerUrl: string;
     title:string;
+    description:string;
     designerPageId?: string;
     editOptions?:ISchemaTableEditOptions;
 }

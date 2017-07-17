@@ -15,6 +15,7 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
 
     static classInfo: ISchemaTableClassInfo = {
         title: "Таблица",
+        description:"Sql - таблица",
         className: "platform-core:SchemaTable",
         constructor: SchemaTable,
         recordIdPrefix: "schema-table",

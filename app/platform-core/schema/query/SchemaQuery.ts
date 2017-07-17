@@ -18,6 +18,7 @@ export class SchemaQuery extends SchemaObject<ISchemaQueryProps> implements ISch
 
     static classInfo: ISchemaQueryClassInfo = {
         title: "Запрос",
+        description:"Sql - запрос, построенный на основании таблицы",
         className: "platform-core:SchemaQuery",
         constructor: SchemaQuery,
         //designerUrl: "+++++++++++++++admin/schema-query-designer",

@@ -95,10 +95,10 @@ class QueryFormPanel extends BaseFormPanel {
         getFilteredColumnList(): ISchemaTableColumnProps[] {
             if (!this.sourceTable || !this.sourceTable.columns)
                 return [];
-            else if (this.columnSearchValue === "")
+            else if (this.searchValue === "")
                 return this.sourceTable.columns;
             else {
-                let value = this.columnSearchValue.toLocaleLowerCase();
+                let value = this.searchValue.toLocaleLowerCase();
                 return this.sourceTable.columns.filter((col: ISchemaTableColumnProps) => {
                     return col.name.toLocaleLowerCase().indexOf(value) >= 0;
                 });
