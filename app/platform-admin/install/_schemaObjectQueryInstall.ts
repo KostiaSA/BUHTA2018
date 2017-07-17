@@ -19,9 +19,17 @@ export async function _schemaObjectQueryInstall() {
         tableId: SchemaTable.classInfo.recordIdPrefix+":"+CoreConst.SchemaTable_TableId,
         children: [
             {
-                "key": "MDU4ODdjZmVmZjIyNzdj",
-                "fieldSource": "id",
-                "fieldCaption": "id"
+                "key": "j5jdo0xqqm4u2p4xn7p5",
+                "fieldCaption": "className",
+                "fieldSource": "className",
+                "tableId": SchemaTable.classInfo.recordIdPrefix+":"+CoreConst.SchemaObjectTypeTableObjectId,
+                "children": [
+                    {
+                        "key": "ijzwsjc3opdfmsj34dxb",
+                        "fieldCaption": "Тип объекта",
+                        "fieldSource": "title"
+                    }
+                ]
             },
             {
                 "key": "MGQ2ODExYzQxZjMzNDFl",
@@ -33,11 +41,7 @@ export async function _schemaObjectQueryInstall() {
                 "fieldSource": "description",
                 "fieldCaption": "Описание"
             },
-            {
-                "key": "ZjMyZjc0Yjk5NGQxOWM5",
-                "fieldSource": "className",
-                "fieldCaption": "тип"
-            },
+
         ]
     };
 

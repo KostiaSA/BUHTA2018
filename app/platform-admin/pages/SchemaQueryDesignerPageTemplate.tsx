@@ -95,7 +95,7 @@ class QueryFormPanel extends BaseFormPanel {
         getFilteredColumnList(): ISchemaTableColumnProps[] {
             if (!this.sourceTable || !this.sourceTable.columns)
                 return [];
-            else if (this.searchValue === "")
+            else if (!this.searchValue || this.searchValue === "")
                 return this.sourceTable.columns;
             else {
                 let value = this.searchValue.toLocaleLowerCase();
@@ -433,7 +433,10 @@ class QueryFormPanel extends BaseFormPanel {
                             <Button style={{marginBottom: 15}} onClick={this.handleTestQuery}>
                                 Выполнить тестовый запрос
                             </Button>
-                            <span style={{marginLeft:15, color:"green"}}>Сохраните запрос перед выполнением теста.</span>
+                            <span style={{
+                                marginLeft: 15,
+                                color: "green"
+                            }}>Сохраните запрос перед выполнением теста.</span>
 
                             <QueryGrid
                                 queryId={this.testQueryId}
@@ -540,12 +543,14 @@ class QueryFormPanel extends BaseFormPanel {
                             dataIndex="dataType"
                             width={200}
                             render={ (text: any, record: ISchemaTableColumnProps) => {
+                                let dataTypeInstance = createSqlDataTypeObject(record.dataType);
                                 return (
                                     <span>
-                                        {"record.dataType"}
+                                        {dataTypeInstance.dataTypeUserFriendly(this)}
                                     </span>
                                 )
                             }}
+
                         />
                     </Table>
                     <Row >

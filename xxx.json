@@ -1,11 +1,38 @@
 {
-  "id": "31CA8AEB0552",
-  "className": "platform-core:SchemaPage",
-  "type": "SchemaPage",
-  "name": "страница 2",
-  "title": "страница 2 N31CA8AEB0552",
-  "description": "",
-  "template": "platform-core/templates/MainPageTemplate",
-  "url": "/page2",
-  "mainMenuId": "EC69BFBB1D35"
+  "id": "schema-query:YTY3YjNhMmVlMDhlYzE0",
+  "key": "ODNhMGI4MWFiZTZjYTRk",
+  "className": "platform-core:SchemaQuery",
+  "name": "Список объектов конфигурации",
+  "description": "Запрос список объектов конфигурации",
+  "tableId": "schema-table:RZPxH2M8NGnmWEj22fBt",
+  "children": [
+    {
+      "key": "MDU4ODdjZmVmZjIyNzdj",
+      "fieldSource": "id",
+      "fieldCaption": "id"
+    },
+    {
+      "key": "MGQ2ODExYzQxZjMzNDFl",
+      "fieldSource": "name",
+      "fieldCaption": "Название"
+    },
+    {
+      "key": "ZjMzMjQyNWU0ZGFiYzNi",
+      "fieldSource": "description",
+      "fieldCaption": "Описание"
+    },
+    {
+      "key": "j5jdo0xqqm4u2p4xn7p5",
+      "fieldCaption": "className",
+      "fieldSource": "className",
+      "tableId": "schema-table:NmNkMzIxZjI2NmMxZWI2",
+      "children": [
+        {
+          "key": "ijzwsjc3opdfmsj34dxb",
+          "fieldCaption": "title",
+          "fieldSource": "title"
+        }
+      ]
+    }
+  ]
 }
