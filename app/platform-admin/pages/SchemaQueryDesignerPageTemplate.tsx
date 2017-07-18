@@ -581,14 +581,15 @@ class QueryFormPanel extends BaseFormPanel {
                     visible={!this.editedQuery.tableId}
                     width={750}
                     onOk={() => {
-                            if (this.editedQuery.tableId) {
-                                this.forceUpdate();
-                            }
-                            else {
-                                message.error("Таблица не заполнена");
-                            }
+                        if (this.editedQuery.tableId) {
+                            this.forceUpdate();
+                        }
+                        else {
+                            message.error("Таблица не заполнена");
+                        }
 
                     }}
+                    cancelText={null as any}
                     onCancel={() => {
                         delete this.editedQuery.tableId;
                         this.forceUpdate();
@@ -610,7 +611,7 @@ class QueryFormPanel extends BaseFormPanel {
                                     bindProperty="tableId"
                                     style={{width: 500}}
                                     selectValues={values}
-                                    rules={[{required: true, message: "таблица должнена быть заполнена"}]}
+                                    rules={[{required: true, message: "таблица должна быть заполнена"}]}
                                 />
                             )
                         }}

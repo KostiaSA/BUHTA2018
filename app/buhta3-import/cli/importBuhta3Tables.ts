@@ -21,7 +21,7 @@ export async function importBuhta3Tables() {
         return _getSHA256base64Id("imported-from-buhta3-" + name);
     }
 
-    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'Орг%' OR TableName like '===Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
+    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'ТМЦ%' OR TableName like '===Сот%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
 
 //    console.log(tables);
 

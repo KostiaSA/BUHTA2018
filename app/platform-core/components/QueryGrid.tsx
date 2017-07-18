@@ -34,18 +34,22 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
     dataSource: any[];
     columns: ColumnProps<any>[];
     random?: string;
+    loading: boolean = false;
 
     async loadData() {
         if (!this.query || this.props.random !== this.random) {
             console.log("load data");
             try {
+                this.loading=true;
                 this.random = this.props.random;
                 this.query = await SchemaHelper.createSchemaObject<SchemaQuery>(this.props.queryId);
                 await this.createColumns();
                 this.dataSource = await this.query.loadData();
                 delete this.loadDataError;
+                this.loading=false;
             }
             catch (error) {
+                this.loading=false;
                 this.loadDataError = error.toString();
                 this.random = this.props.random;
                 console.error(error);
