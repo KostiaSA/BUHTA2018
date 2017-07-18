@@ -5,6 +5,8 @@ import {_IntegerSqlDataType} from "./server/schema/table/sql/_IntegerSqlDataType
 import {_FkSqlDataType} from "./server/schema/table/sql/_FkSqlDataType";
 import {_SchemaQuery} from "./server/schema/query/_SchemaQuery";
 import {_SchemaTable} from "./server/schema/table/_SchemaTable";
+import {_SchemaForm} from "./server/schema/form/_SchemaForm";
+import {_SchemaPage} from "./server/schema/page/_SchemaPage";
 
 export async function _serverStartup() {
     await _sequelizeInit();
@@ -12,6 +14,8 @@ export async function _serverStartup() {
 
     serverState.registerClassInfo(_SchemaQuery.classInfo);
     serverState.registerClassInfo(_SchemaTable.classInfo);
+    serverState.registerClassInfo(_SchemaForm.classInfo);
+    serverState.registerClassInfo(_SchemaPage.classInfo);
 
     serverState.registerExternalScript(`<script src="/platform-core/static/js/jquery.min.js"></script>`);
     serverState.registerExternalScript(`<script src="/platform-core/static/js/react.min.js"></script>`);
