@@ -47,6 +47,8 @@ import {emitQuerySqlApiRequest, IEmitQuerySqlApiResponse} from "../api/emitQuery
 import {reassignObject} from "../../platform-core/utils/reassignObject";
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 import {QueryGrid} from "../../platform-core/components/QueryGrid";
+import {SchemaObject} from "../../platform-core/schema/SchemaObject";
+import {findSchemaObjectsForLookupApiRequest} from "../../platform-core/schema/api/findSchemaObjectsForLookupApiRequest";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -87,6 +89,19 @@ class QueryFormPanel extends BaseFormPanel {
     testQueryRandom: string;
 
     sqlCodeMirrorSource: string = "";
+
+    getRootTableModal = {
+        tableSearchValue: "",
+        async getFilteredTableList(): Promise<{ tableId: string, tableName: string }[]> {
+
+            let ans = await findSchemaObjectsForLookupApiRequest({where: {className: SchemaTable.classInfo.className}});
+            let values = ans.objects.map((table: any) => {
+                return {tableId: table.id, tableName: table.name}
+            });
+
+            return values;
+        },
+    }
 
     addColumnsModal: IAddColumnsModal = {
         visible: false,
@@ -558,6 +573,52 @@ class QueryFormPanel extends BaseFormPanel {
                             кол.</span>
                     </Row>
                 </Modal>
+
+                {/* ----------------------- выбор корневой таблицы --------------------------------------  */}
+                <Modal
+                    title={
+                        <span>выберите корневую таблицу</span>}
+                    visible={!this.editedQuery.tableId}
+                    width={750}
+                    onOk={() => {
+                            if (this.editedQuery.tableId) {
+                                this.forceUpdate();
+                            }
+                            else {
+                                message.error("Таблица не заполнена");
+                            }
+
+                    }}
+                    onCancel={() => {
+                        delete this.editedQuery.tableId;
+                        this.forceUpdate();
+                    }}
+                >
+                    <LazyRender
+                        params={{}}
+                        render={async () => {
+
+                            let ans = await findSchemaObjectsForLookupApiRequest({where: {className: SchemaTable.classInfo.className}});
+                            let values = ans.objects.map((table: any) => {
+                                return {value: table.id, text: table.name}
+                            });
+
+                            return (
+                                <FormInput
+                                    mode="lookup"
+                                    label="запрос по таблице"
+                                    bindProperty="tableId"
+                                    style={{width: 500}}
+                                    selectValues={values}
+                                    rules={[{required: true, message: "таблица должнена быть заполнена"}]}
+                                />
+                            )
+                        }}
+                    >
+                    </LazyRender>
+
+                </Modal>
+
             </div>
         )
     }
@@ -661,6 +722,18 @@ export class SchemaQueryDesignerPageTemplate extends SchemaObjectDesignerPageTem
 
     };
 
+    async createNewDesignedObject(): Promise<SchemaObject<any>> {
+        let obj = new SchemaQuery();
+        obj.props = {
+            id: SchemaQuery.classInfo.recordIdPrefix + ":" + getRandomString(),
+            key: getRandomString(),
+            className: SchemaQuery.classInfo.className,
+            name: "Новый запрос",
+            description: "",
+            children: []
+        };
+        return obj;
+    }
 
     renderChildren(): JSX.Element {
 
