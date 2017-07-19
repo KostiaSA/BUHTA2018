@@ -7,6 +7,7 @@ import {SchemaPage} from "../SchemaPage";
 import {ISchemaTableRow, SchemaTableRow} from "./SchemaTableRow";
 import {CoreConst} from "../../CoreConst";
 import {tableGetRowApiRequest} from "./api/tableGetRowApiRequest";
+import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
 
 
 export interface ISchemaTableClassInfo extends ISchemaObjectClassInfo<typeof SchemaTable> {
@@ -22,6 +23,15 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
         constructor: SchemaTable,
         recordIdPrefix: "schema-table",
     };
+
+    getColumnByName(colName: string): ISchemaTableColumnProps | undefined {
+        if (this.props.columns) {
+            let index = this.props.columns.findIndex((col) => col.name === colName);
+            return this.props.columns[index];
+        }
+        else
+            return undefined;
+    }
 
     async openChangeRecordPage(recordId: string): Promise<void> {
 

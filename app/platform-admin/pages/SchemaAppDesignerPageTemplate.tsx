@@ -13,7 +13,7 @@ export interface IPageTemplateProps {
 
 }
 
-class AppFormPanel extends BaseFormPanel {
+class AppFormPanel extends BaseFormPanel<IFormPanelProps> {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},

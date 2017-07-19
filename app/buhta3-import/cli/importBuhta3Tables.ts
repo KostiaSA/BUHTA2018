@@ -56,6 +56,7 @@ export async function importBuhta3Tables() {
         let index = 0;
         for (let col of columns) {
 
+            // todo точки в именах колонок глючат
             if (col["FieldName"].toString().indexOf(".")==-1) {
 
                 let dataType: string;

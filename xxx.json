@@ -1,38 +1,388 @@
 {
-  "id": "schema-query:YTY3YjNhMmVlMDhlYzE0",
-  "key": "ODNhMGI4MWFiZTZjYTRk",
-  "className": "platform-core:SchemaQuery",
-  "name": "Список объектов конфигурации",
-  "description": "Запрос список объектов конфигурации",
-  "tableId": "schema-table:RZPxH2M8NGnmWEj22fBt",
-  "children": [
+  "id": "schema-table:db93rN1PNn0kVfqMRtY3",
+  "className": "platform-core:SchemaTable",
+  "name": "Организация",
+  "description": "",
+  "columns": [
     {
-      "key": "MDU4ODdjZmVmZjIyNzdj",
-      "fieldSource": "id",
-      "fieldCaption": "id"
+      "name": "Ключ",
+      "primaryKey": true,
+      "dataType": {
+        "className": "platform-core:IntegerSqlDataType",
+        "size": "32"
+      },
+      "description": "pos 0"
     },
     {
-      "key": "MGQ2ODExYzQxZjMzNDFl",
-      "fieldSource": "name",
-      "fieldCaption": "Название"
+      "name": "Номер",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 1"
     },
     {
-      "key": "ZjMzMjQyNWU0ZGFiYzNi",
-      "fieldSource": "description",
-      "fieldCaption": "Описание"
+      "name": "Название",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 100
+      },
+      "description": "pos 2"
     },
     {
-      "key": "j5jdo0xqqm4u2p4xn7p5",
-      "fieldCaption": "className",
-      "fieldSource": "className",
-      "tableId": "schema-table:NmNkMzIxZjI2NmMxZWI2",
-      "children": [
-        {
-          "key": "ijzwsjc3opdfmsj34dxb",
-          "fieldCaption": "title",
-          "fieldSource": "title"
-        }
-      ]
+      "name": "Номер и название",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 96
+      },
+      "description": "pos 3"
+    },
+    {
+      "name": "Вид",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:eE8rFZ5uTdCnPcuoQEOg"
+      },
+      "description": "pos 4"
+    },
+    {
+      "name": "ИНН",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 15
+      },
+      "description": "pos 5"
+    },
+    {
+      "name": "Город",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 6"
+    },
+    {
+      "name": "Страна",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 7"
+    },
+    {
+      "name": "Телефон",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 8"
+    },
+    {
+      "name": "Телефон по юр.адресу",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 9"
+    },
+    {
+      "name": "Телефон бухгалтера",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 10"
+    },
+    {
+      "name": "Факс",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 11"
+    },
+    {
+      "name": "ОКОНХ",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 10
+      },
+      "description": "pos 12"
+    },
+    {
+      "name": "ОКПО",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 30
+      },
+      "description": "pos 13"
+    },
+    {
+      "name": "ОКФС",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:WehT8BQQrcATHTAR09lc"
+      },
+      "description": "pos 14"
+    },
+    {
+      "name": "Регион",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 15"
+    },
+    {
+      "name": "ОКОПФ",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:jxAxxVGTsjzp7rkPC12e"
+      },
+      "description": "pos 16"
+    },
+    {
+      "name": "Отрасль",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 17"
+    },
+    {
+      "name": "Ответственный",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:WG9lq9AjR9Erxw33AElM"
+      },
+      "description": "pos 18"
+    },
+    {
+      "name": "Номер договора",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 50
+      },
+      "description": "pos 19"
+    },
+    {
+      "name": "Директор",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 20"
+    },
+    {
+      "name": "Телефон директора",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 21"
+    },
+    {
+      "name": "Фин. директор",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 22"
+    },
+    {
+      "name": "Телефон фин. директора",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 23"
+    },
+    {
+      "name": "Секретарь",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 50
+      },
+      "description": "pos 24"
+    },
+    {
+      "name": "Телефон секретаря",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 25"
+    },
+    {
+      "name": "Представитель 1",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 26"
+    },
+    {
+      "name": "Телефон представителя 1",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 27"
+    },
+    {
+      "name": "Представитель 2",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 28"
+    },
+    {
+      "name": "Телефон представителя 2",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 29"
+    },
+    {
+      "name": "Представитель 3",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 30"
+    },
+    {
+      "name": "Телефон представителя 3",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 60
+      },
+      "description": "pos 31"
+    },
+    {
+      "name": "Расходный ордер кто",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 50
+      },
+      "description": "pos 32"
+    },
+    {
+      "name": "Расходный ордер паспорт",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 100
+      },
+      "description": "pos 33"
+    },
+    {
+      "name": "Клиентская группа",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 32
+      },
+      "description": "pos 34"
+    },
+    {
+      "name": "Автономер",
+      "dataType": {
+        "className": "platform-core:IntegerSqlDataType",
+        "size": "32"
+      },
+      "description": "pos 35"
+    },
+    {
+      "name": "Email",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 40
+      },
+      "description": "pos 36"
+    },
+    {
+      "name": "Сектор развозки",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:XGKwPPCdXUTgbOLEQUFv"
+      },
+      "description": "pos 37"
+    },
+    {
+      "name": "Способ оплаты",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 20
+      },
+      "description": "pos 38"
+    },
+    {
+      "name": "Пол клиента",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 10
+      },
+      "description": "pos 39"
+    },
+    {
+      "name": "Вид клиента",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 15
+      },
+      "description": "pos 40"
+    },
+    {
+      "name": "Валюта товарного кредита",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:iH4h0IxyvkIDtoQ2TKPp"
+      },
+      "description": "pos 41"
+    },
+    {
+      "name": "Головная организация",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:db93rN1PNn0kVfqMRtY3"
+      },
+      "description": "pos 42"
+    },
+    {
+      "name": "Кпп",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 12
+      },
+      "description": "pos 43"
+    },
+    {
+      "name": "Правовая форма",
+      "dataType": {
+        "className": "platform-core:FkSqlDataType",
+        "fkTableId": "schema-table:KIRe1xojSiNhSTq67t1j"
+      },
+      "description": "pos 44"
+    },
+    {
+      "name": "Интерес",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 50
+      },
+      "description": "pos 45"
+    },
+    {
+      "name": "_SAPID",
+      "dataType": {
+        "className": "platform-core:StringSqlDataType",
+        "maxLen": 50
+      },
+      "description": "pos 46"
     }
-  ]
+  ],
+  "editOptions": {
+    "editFormId": "schema-form:MGQ5OTM1MDRlN2Q4NmVl"
+  }
 }

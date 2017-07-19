@@ -21,6 +21,10 @@ import {CSSProperties, PropTypes} from "react";
 import {isArray, isNumber, isString} from "util";
 var objectPath = require("object-path");
 
+
+export type InputMode= "input" | "select" | "radio" | "checkbox" | "lookup";
+
+
 export interface IFormInput {
     label?: string | JSX.Element,
     bindProperty: string;
@@ -28,7 +32,7 @@ export interface IFormInput {
     labelCol?: FormItemColOption;
     wrapperCol?: FormItemColOption;
     rules?: ValidationRule[];
-    mode: "input" | "select" | "radio" | "checkbox" | "lookup";
+    mode: InputMode;
     selectValues?: any[];
     style?: CSSProperties;
     defaultValue?: any;

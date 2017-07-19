@@ -25,12 +25,18 @@ export async function create_Организация_form() {
             {
                 key: "ODk5ZThlNmQ5OGM2ZGQ2",
                 type:"field",
-                fieldName: "Название"
+                fieldName: "Название",
+                formInputOptions:{
+                    label:"да, название"
+                }
             },
             {
                 key: "OTY4ZTIwZWJkOWEyM2Qy",
                 type:"field",
                 fieldName: "ИНН",
+                formInputOptions:{
+                    label:"инн"
+                }
             },
         ]
     };

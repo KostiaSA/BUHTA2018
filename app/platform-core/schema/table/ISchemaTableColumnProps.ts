@@ -3,6 +3,7 @@ import {SchemaObject} from "../SchemaObject";
 import {IStringSqlDataTypeProps} from "./datatypes/IStringSqlDataTypeProps";
 import {IIntegerSqlDataTypeProps} from "./datatypes/IIntegerSqlDataTypeProps";
 import {ISqlDataTypeProps} from "./datatypes/ISqlDataTypeProps";
+import {IFormInputOptions} from "../form/IFormInputOptions";
 
 export interface ISchemaTableColumnProps {
     name: string;
@@ -10,5 +11,6 @@ export interface ISchemaTableColumnProps {
     primaryKey?: boolean;
     description?: string;
     position?: number;
+    formInputOptions?: IFormInputOptions;
 }
 

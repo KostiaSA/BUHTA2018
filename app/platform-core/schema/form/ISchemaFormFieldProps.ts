@@ -1,3 +1,5 @@
+import {IFormInputOptions} from "./IFormInputOptions";
+
 export interface ISchemaFormFieldProps {
     type: "root" | "tab" | "group" | "field"
     key: string;
@@ -5,5 +7,6 @@ export interface ISchemaFormFieldProps {
     isDisabled?: boolean;
     isHidden?: boolean;
     children?: ISchemaFormFieldProps[];
+    formInputOptions?: IFormInputOptions;
 }
 

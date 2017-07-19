@@ -45,6 +45,8 @@ import {ISchemaTableRow, SchemaTableRow} from "../schema/table/SchemaTableRow";
 import {getParamFromUrl} from "../utils/getQueryParamFromUrl";
 import {SchemaHelper} from "../schema/SchemaHelper";
 import {SchemaForm} from "../schema/form/SchemaForm";
+import {IFormInputOptions} from "../schema/form/IFormInputOptions";
+
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -53,7 +55,13 @@ export interface IPageTemplateProps {
 
 }
 
-class TableFormPanel extends BaseFormPanel {
+export interface IRowFormPanelProps extends IFormPanelProps {
+    schemaTable: SchemaTable;
+    schemaForm: SchemaForm;
+}
+
+
+class RowFormPanel extends BaseFormPanel<IRowFormPanelProps> {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -63,7 +71,6 @@ class TableFormPanel extends BaseFormPanel {
         xs: {span: 24},
         sm: {span: 18},
     } as FormItemColOption;
-
 
 
     componentDidMount() {
@@ -79,6 +86,38 @@ class TableFormPanel extends BaseFormPanel {
     }
 
 
+    renderRootFields(attrs?: any): JSX.Element[] {
+        let ret: JSX.Element[] = [];
+        if (this.props.schemaForm && this.props.schemaForm.props.children) {
+            for (let field of this.props.schemaForm.props.children) {
+                if (field.type === "field") {
+
+                    let tableCol = this.props.schemaTable.getColumnByName(field.fieldName);
+                    if (!tableCol) {
+                        let msg = `в таблице '${this.props.schemaTable.props.name}' не найдена колонка '${field.fieldName}'`;
+                        console.error(msg);
+                        throw msg + ", " + __filename;
+                    }
+                    let opt: IFormInputOptions = {...tableCol.formInputOptions};
+                    opt = {...opt, ...field.formInputOptions};
+
+                    ret.push(
+                        <FormInput
+                            {...attrs}
+                            mode={opt.mode || "input"}
+                            label={opt.label || field.fieldName}
+                            placeholder={opt.placeholder}
+                            bindProperty={field.fieldName}
+                            rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
+                        />
+                    )
+                }
+            }
+        }
+
+        return ret;
+    }
+
     render(): JSX.Element {
         let layout = {
             labelCol: this.labelCol,
@@ -92,32 +131,23 @@ class TableFormPanel extends BaseFormPanel {
             marginBottom: 12
         };
 
-        console.log("render designer");
         return (
             <div>
                 <Row>
                     <Col span={12}>
-                        <Button>тест</Button>
+
                     </Col>
                     <Col span={12}>
                         <div style={{float: "right"}}>
-                            <Popconfirm
-                                title="Сохранить таблицу и синхронизировать с БД?"
-                                onConfirm={() => {
-                                    //this.synchronizeHandler()
-                                }}
-                                okText="Да" cancelText="Нет">
-                                <Button
-                                    style={buttonStyle}
-                                >
-                                    Синхронизация
-                                </Button>
-                            </Popconfirm>
                             <FormSaveButton style={buttonStyle} text="Сохранить"/>
                         </div>
                     </Col>
                 </Row>
                 <Row>
+                    <Form layout="horizontal">
+                        {this.renderRootFields(layout)}
+                    </Form>
+
                 </Row>
 
             </div>
@@ -125,14 +155,11 @@ class TableFormPanel extends BaseFormPanel {
     }
 }
 
-const FormPanel = Form.create
-    < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
+const FormPanel = Form.create<IRowFormPanelProps>(RowFormPanel.formOptions)(RowFormPanel as any) as typeof RowFormPanel;
 
 
 export class SchemaFormPageTemplate extends PageTemplate {
 
-    //static className: string = "platform-admin:SchemaTableDesignerPageTemplate";
-    //static pageTemplateName: string = "шаблон дизайнера SchemaTable";
 
     static classInfo: IPageTemplateClassInfo = {
         className: "platform-core:SchemaFormPageTemplate",
@@ -141,9 +168,9 @@ export class SchemaFormPageTemplate extends PageTemplate {
 
     };
 
-    form:SchemaForm;
-    table:SchemaTable;
-    editedObject:SchemaTableRow<any>;
+    form: SchemaForm;
+    table: SchemaTable;
+    editedObject: SchemaTableRow<any>;
     isInsertMode: boolean = false;
 
     async loadData() {
@@ -151,13 +178,13 @@ export class SchemaFormPageTemplate extends PageTemplate {
         await super.loadData();
         console.log("load row");
         if (!this.editedObject) {
-            let form=await SchemaHelper.createSchemaObject<SchemaForm>(getParamFromUrl("formId"));
-            let table=await SchemaHelper.createSchemaObject<SchemaTable>(getParamFromUrl("tableId"));
+            this.form = await SchemaHelper.createSchemaObject<SchemaForm>(getParamFromUrl("formId"));
+            this.table = await SchemaHelper.createSchemaObject<SchemaTable>(getParamFromUrl("tableId"));
 
             let editedObjectId = getParamFromUrl("objectId");
 
             if (editedObjectId) {
-                this.editedObject = await table.getRow(editedObjectId);
+                this.editedObject = await this.table.getRow(editedObjectId);
                 //setInterval(this.trackChanges, 100);
                 //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
             }
@@ -206,7 +233,7 @@ export class SchemaFormPageTemplate extends PageTemplate {
 
 
     renderChildren(): JSX.Element {
-        console.log("renderChildren - mode", this, this.isInsertMode);
+        //console.log("renderChildren - mode", this, this.isInsertMode);
 
         return (
 
@@ -216,6 +243,8 @@ export class SchemaFormPageTemplate extends PageTemplate {
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>
                         <FormPanel editedObject={this.editedObject.props}
+                                   schemaForm={this.form}
+                                   schemaTable={this.table}
                                    isInsertMode={this.isInsertMode}
                                    onSave={this.onSaveButtonClick}
                                    onFieldsChange={() => {

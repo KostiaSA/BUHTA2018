@@ -45,6 +45,7 @@ import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 import {getRandomString} from "../../platform-core/utils/getRandomString";
 import {StringSqlDataType} from "../../platform-core/schema/table/datatypes/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IStringSqlDataTypeProps";
+
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -53,7 +54,7 @@ export interface IPageTemplateProps {
 
 }
 
-class TableFormPanel extends BaseFormPanel {
+class TableFormPanel extends BaseFormPanel<IFormPanelProps> {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -65,7 +66,7 @@ class TableFormPanel extends BaseFormPanel {
     } as FormItemColOption;
 
 
-    tableColumnFormPanel: BaseFormPanel;
+    tableColumnFormPanel: BaseFormPanel<IFormPanelProps>;
     editedColumn: ISchemaTableColumnProps;
     editedColumnCloned: ISchemaTableColumnProps;
 
@@ -311,7 +312,7 @@ class TableFormPanel extends BaseFormPanel {
                                             </div>
                                         )}
                                         key="move"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => (
+                                        render={(text: any, record: ISchemaTableColumnProps) => (
                                             <div style={{textAlign: "center", cursor: "move"}}>
                                                 <i className="fa fa-bars" aria-hidden="true"></i>
                                             </div>
@@ -320,7 +321,7 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Позиция"
                                         key="position"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => (
+                                        render={(text: any, record: ISchemaTableColumnProps) => (
                                             <div style={{textAlign: "center", cursor: "move"}}>
                                                 <span>{record.position}</span>
                                             </div>
@@ -329,7 +330,7 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Имя колонки"
                                         dataIndex="name"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => {
+                                        render={(text: any, record: ISchemaTableColumnProps) => {
                                             let dataTypeInstance = createSqlDataTypeObject(record.dataType);
                                             return (
                                                 <Highlighter
@@ -344,7 +345,7 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Тип данных"
                                         dataIndex="dataType"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => {
+                                        render={(text: any, record: ISchemaTableColumnProps) => {
                                             let dataTypeInstance = createSqlDataTypeObject(record.dataType);
                                             return (
                                                 <span>
@@ -360,7 +361,7 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Аттрибуты"
                                         dataIndex="isHidden"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => {
+                                        render={(text: any, record: ISchemaTableColumnProps) => {
                                             let attrs: string[] = [];
                                             if (record.primaryKey)
                                                 attrs.push("primary key");
@@ -374,7 +375,7 @@ class TableFormPanel extends BaseFormPanel {
                                     <Column
                                         title="Действие"
                                         key="action"
-                                        render={ (text: any, record: ISchemaTableColumnProps) => (
+                                        render={(text: any, record: ISchemaTableColumnProps) => (
                                             <span>
                                                   <a href="#"
                                                      onClick={() => this.editColumnClickHandler(record)}>изм.</a>
@@ -419,7 +420,7 @@ class TableFormPanel extends BaseFormPanel {
                     }}
                 >
                     <TableColumnFormPanel
-                        panelRef={(panel: BaseFormPanel) => {
+                        panelRef={(panel: BaseFormPanel<IFormPanelProps>) => {
                             this.tableColumnFormPanel = panel;
                             //   console.log("this.tableColumnFormPanel",this.tableColumnFormPanel)
 
@@ -436,7 +437,7 @@ class TableFormPanel extends BaseFormPanel {
 const FormPanel = Form.create
     < IFormPanelProps > (TableFormPanel.formOptions)(TableFormPanel as any) as typeof TableFormPanel;
 
-class TableColumnFormPanelW extends BaseFormPanel {
+class TableColumnFormPanelW extends BaseFormPanel<IFormPanelProps> {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -450,8 +451,12 @@ class TableColumnFormPanelW extends BaseFormPanel {
 
     render() {
         let editedTableColumn = this.props.editedObject as ISchemaTableColumnProps;
+
         if (!editedTableColumn)
             return null;
+
+        if (!editedTableColumn.formInputOptions)
+            editedTableColumn.formInputOptions = {};
 
         let layout = {
             labelCol: this.labelCol,
@@ -503,7 +508,25 @@ class TableColumnFormPanelW extends BaseFormPanel {
                     <TabPane tab="В таблицах" key="2">
                         XXX
                     </TabPane>
-                    <TabPane tab="В формах" key="3">Content of Tab Pane 3</TabPane>
+                    <TabPane tab="В формах" key="3">
+                        <Col>
+                            <Form layout="horizontal">
+                                <FormInput
+                                    {...layout}
+                                    mode="input"
+                                    label="подпись в форме"
+                                    bindProperty="formInputOptions.label"
+                                />
+                                <FormInput
+                                    {...layout}
+                                    mode="input"
+                                    label="placeholder"
+                                    bindProperty="formInputOptions.placeholder"
+                                />
+                            </Form>
+                        </Col>
+
+                    </TabPane>
                 </Tabs>
             </Row>
         )

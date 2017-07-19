@@ -11,11 +11,11 @@ export interface IFormPanelProps {
     onSave?: () => void;
     onCancel?: () => void;
     form?: WrappedFormUtils;
-    panelRef?: (formPanel: BaseFormPanel) => void;
+    panelRef?: (formPanel: BaseFormPanel<IFormPanelProps>) => void;
 
 }
 
-export class BaseFormPanel extends React.Component<IFormPanelProps, any> {
+export class BaseFormPanel<P extends IFormPanelProps> extends React.Component<P, any> {
 
     static formOptions: FormCreateOption = {
         onFieldsChange: (props: IFormPanelProps, fields: any) => {

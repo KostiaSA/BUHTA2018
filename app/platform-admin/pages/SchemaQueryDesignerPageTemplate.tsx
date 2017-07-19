@@ -69,7 +69,7 @@ interface IAddColumnsModal {
     handleCancel: () => void;
 }
 
-class QueryFormPanel extends BaseFormPanel {
+class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
@@ -81,7 +81,7 @@ class QueryFormPanel extends BaseFormPanel {
     } as FormItemColOption;
 
 
-    queryColumnFormPanel: BaseFormPanel;
+    queryColumnFormPanel: BaseFormPanel<IFormPanelProps>;
     editedColumn: ISchemaQueryColumnProps;
     editedColumnCloned: ISchemaQueryColumnProps;
 
@@ -487,7 +487,7 @@ class QueryFormPanel extends BaseFormPanel {
                     }}
                 >
                     <QueryColumnFormPanel
-                        panelRef={(panel: BaseFormPanel) => {
+                        panelRef={(panel: BaseFormPanel<IFormPanelProps>) => {
                             this.queryColumnFormPanel = panel;
                             //   console.log("this.queryColumnFormPanel",this.queryColumnFormPanel)
 
@@ -628,7 +628,7 @@ class QueryFormPanel extends BaseFormPanel {
 const FormPanel = Form.create
     < IFormPanelProps > (QueryFormPanel.formOptions)(QueryFormPanel as any) as typeof QueryFormPanel;
 
-class QueryColumnFormPanelW extends BaseFormPanel {
+class QueryColumnFormPanelW extends BaseFormPanel<IFormPanelProps> {
     labelCol: FormItemColOption = {
         xs: {span: 24},
         sm: {span: 6},
