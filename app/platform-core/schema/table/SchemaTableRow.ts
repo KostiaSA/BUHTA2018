@@ -2,6 +2,7 @@ import {appState} from "../../AppState";
 import {IClassInfo} from "../../IClassInfo";
 import {ISchemaTableRowProps} from "./ISchemaTableRowProps";
 import {SchemaTable} from "./SchemaTable";
+import {saveTableRowApiRequest} from "./api/saveTableRowApiRequest";
 
 export interface ISchemaTableRow {
     openChangeRecordPage(recordId: string): Promise<void>;
@@ -31,7 +32,7 @@ export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTa
 
     }
 
-    async save(initialProps: T): Promise<void> {
+    async save(initialProps: T) {
 
         let propsToSave: any = {};
 
@@ -43,9 +44,13 @@ export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTa
             }
         }
 
-        let msg = "save not yet implemented";
-        console.error(msg, propsToSave);
-        throw msg + ", " + __filename;
+        ! ошибка сохранение не показывается !
+
+        return saveTableRowApiRequest({tableId: this.table.props.id, row: propsToSave})
+
+        // let msg = "save not yet implemented";
+        // console.error(msg, propsToSave);
+        // throw msg + ", " + __filename;
 
     }
 
