@@ -135,9 +135,7 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
 
     async getRow(recordId: any): Promise<SchemaTableRow<any>> {
         let rowProps = (await tableGetRowApiRequest({tableId: this.props.id, recordId: recordId})).row;
-        let row = new SchemaTableRow();
-        row.props = rowProps;
-        return row;
+        return new SchemaTableRow(this, rowProps);
     }
 
 }

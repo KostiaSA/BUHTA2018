@@ -6,5 +6,7 @@ export interface IFormInputOptions {
     readOnly?: boolean;
     mode?: InputMode;
     maxWidth?: number;
+    required?:boolean;
+    requiredMessage?:string;
 }
 

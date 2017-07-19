@@ -46,6 +46,7 @@ import {getParamFromUrl} from "../utils/getQueryParamFromUrl";
 import {SchemaHelper} from "../schema/SchemaHelper";
 import {SchemaForm} from "../schema/form/SchemaForm";
 import {IFormInputOptions} from "../schema/form/IFormInputOptions";
+import {ValidationRule} from "antd/es/form/Form";
 
 let Highlighter = require("react-highlight-words");
 
@@ -108,6 +109,11 @@ class RowFormPanel extends BaseFormPanel<IRowFormPanelProps> {
                     if (opt.maxWidth)
                         _attrs.style.maxWidth = Number.parseInt(opt.maxWidth.toString());
 
+                    let rules: ValidationRule[] = [];
+
+                    if (opt.required)
+                        rules.push({required: true, message: opt.requiredMessage || "должно быть заполнено"});
+
                     ret.push(
                         <FormInput
                             {..._attrs}
@@ -115,7 +121,7 @@ class RowFormPanel extends BaseFormPanel<IRowFormPanelProps> {
                             label={opt.label || field.fieldName}
                             placeholder={opt.placeholder}
                             bindProperty={field.fieldName}
-                            rules={[{required: true, message: "имя таблицы должно быть заполнено"}]}
+                            rules={rules}
                         />
                     )
                 }
@@ -179,6 +185,7 @@ export class SchemaFormPageTemplate extends PageTemplate {
     table: SchemaTable;
     editedObject: SchemaTableRow<any>;
     isInsertMode: boolean = false;
+    initialEditedObjectProps: any;
 
     async loadData() {
 
@@ -192,6 +199,7 @@ export class SchemaFormPageTemplate extends PageTemplate {
 
             if (editedObjectId) {
                 this.editedObject = await this.table.getRow(editedObjectId);
+                this.initialEditedObjectProps = {...this.editedObject.props};
                 //setInterval(this.trackChanges, 100);
                 //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
             }
@@ -231,7 +239,7 @@ export class SchemaFormPageTemplate extends PageTemplate {
     };
 
     async saveDesignedObject() {
-        await this.editedObject.save();
+        await this.editedObject.save(this.initialEditedObjectProps);
         this.forceUpdate();
         console.log("Запись сохранена");
         message.success("Запись сохранена");
@@ -245,7 +253,7 @@ export class SchemaFormPageTemplate extends PageTemplate {
         return (
 
             <div>
-                <h2 style={{color: "green"}}>запись: {"this.designedObject.props.name"}</h2>
+                <h2 style={{color: "green"}}>{this.table.props.name}</h2>
 
                 <Row gutter={0}>
                     <Col className="gutter-row" span={18}>

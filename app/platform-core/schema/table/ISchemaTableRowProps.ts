@@ -1,5 +1,7 @@
 
- export interface ISchemaTableRowProps {
-     __recordId__?: string;
- }
+export interface ISchemaTableRowProps {
+    __recordId__?: string;
+
+    [fieldName: string]: any;
+}
 

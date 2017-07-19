@@ -525,11 +525,25 @@ class TableColumnFormPanelW extends BaseFormPanel<IFormPanelProps> {
                                 />
                                 <FormInput
                                     {...layout}
-                                    style={{maxWidth:200}}
+                                    style={{maxWidth: 200}}
                                     mode="input"
                                     label="макс. ширина (px)"
                                     bindProperty="formInputOptions.maxWidth"
                                 />
+                                <FormInput
+                                    {...layout}
+                                    mode="checkbox"
+                                    label="должно быть заполнено"
+                                    bindProperty="formInputOptions.required"
+                                />
+                                <FormInput
+                                    {...layout}
+                                    hidden={!editedTableColumn.formInputOptions.required}
+                                    mode="input"
+                                    label="сообщение об ошибке"
+                                    bindProperty="formInputOptions.requiredMessage"
+                                />
+
                             </Form>
                         </Col>
 

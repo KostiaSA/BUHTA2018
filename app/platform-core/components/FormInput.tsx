@@ -19,10 +19,11 @@ import {FormItemColOption} from "antd/es/form/FormItem";
 import {ValidationRule, WrappedFormUtils} from "antd/es/form/Form";
 import {CSSProperties, PropTypes} from "react";
 import {isArray, isNumber, isString} from "util";
+
 var objectPath = require("object-path");
 
 
-export type InputMode= "input" | "select" | "radio" | "checkbox" | "lookup";
+export type InputMode = "input" | "select" | "radio" | "checkbox" | "lookup";
 
 
 export interface IFormInput {
@@ -31,6 +32,7 @@ export interface IFormInput {
     placeholder?: string;
     labelCol?: FormItemColOption;
     wrapperCol?: FormItemColOption;
+    hidden?: boolean;
     rules?: ValidationRule[];
     mode: InputMode;
     selectValues?: any[];
@@ -196,10 +198,10 @@ export class FormInput extends React.Component<IFormInput, any> {
         // if (!initValue)
         //     initValue = this.props.defaultValue;
 
-        if (bindObject) {
+        if (bindObject && !this.props.hidden) {
             return (
                 <Form.Item
-                    labelCol={ labelCol}
+                    labelCol={labelCol}
                     wrapperCol={wrapperCol}
                     label={label}
                 >
