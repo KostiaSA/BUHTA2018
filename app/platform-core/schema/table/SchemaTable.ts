@@ -4,8 +4,9 @@ import {appState} from "../../AppState";
 import {isString} from "util";
 import {SchemaHelper} from "../SchemaHelper";
 import {SchemaPage} from "../SchemaPage";
-import {ISchemaTableRow} from "./SchemaTableRow";
+import {ISchemaTableRow, SchemaTableRow} from "./SchemaTableRow";
 import {CoreConst} from "../../CoreConst";
+import {tableGetRowApiRequest} from "./api/tableGetRowApiRequest";
 
 
 export interface ISchemaTableClassInfo extends ISchemaObjectClassInfo<typeof SchemaTable> {
@@ -120,6 +121,13 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
             alert("вызов стандартного редактора 999-00");
         }
 
-
     }
+
+    async getRow(recordId: any): Promise<SchemaTableRow<any>> {
+        let rowProps = (await tableGetRowApiRequest({tableId: this.props.id, recordId: recordId})).row;
+        let row = new SchemaTableRow();
+        row.props = rowProps;
+        return row;
+    }
+
 }

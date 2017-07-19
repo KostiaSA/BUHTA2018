@@ -22,7 +22,8 @@ export async function importBuhta3Tables() {
         return _getSHA256base64Id("imported-from-buhta3-" + name);
     }
 
-    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'ТМЦ%' OR TableName like 'Сот%' OR TableName like 'Орг%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
+//    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable WHERE TableName like 'ТМЦ%' OR TableName like 'Сот%' OR TableName like 'Орг%'", {type: _buhta3Sequelize.QueryTypes.SELECT});
+    let tables = await _buhta3Sequelize.query("SELECT * FROM SchemaTable ", {type: _buhta3Sequelize.QueryTypes.SELECT});
 
 //    console.log(tables);
 
@@ -54,40 +55,44 @@ export async function importBuhta3Tables() {
 
         let index = 0;
         for (let col of columns) {
-            let dataType: string;
 
-            let newcol: ISchemaTableColumnProps & IStringSqlDataTypeProps = {} as any;
+            if (col["FieldName"].toString().indexOf(".")==-1) {
 
-            newcol.name = col["FieldName"];
-            if (newcol.name === table["KeyFieldName"])
-                newcol.primaryKey = true;
+                let dataType: string;
 
-            if (col["DataType"] === "Строка") {
-                let dataType: IStringSqlDataTypeProps = {
-                    className: StringSqlDataType.classInfo.className,
-                    maxLen: col["DataSize"]
-                };
-                newcol.dataType = dataType;
-                obj.columns.push(newcol);
-                newcol.description = "pos " + index++;
-            }
-            else if (col["DataType"] === "Целое") {
-                let dataType: IIntegerSqlDataTypeProps = {
-                    className: IntegerSqlDataType.classInfo.className,
-                    size: "32"
-                };
-                newcol.dataType = dataType;
-                obj.columns.push(newcol);
-                newcol.description = "pos " + index++;
-            }
-            else if (col["DataType"] === "Ссылка") {
-                let dataType: IFkSqlDataTypeProps = {
-                    className: FkSqlDataType.classInfo.className,
-                    fkTableId: SchemaTable.classInfo.recordIdPrefix + ":" + getIdFromTableName(col["ForeignTable"])
-                };
-                newcol.dataType = dataType;
-                obj.columns.push(newcol);
-                newcol.description = "pos " + index++;
+                let newcol: ISchemaTableColumnProps & IStringSqlDataTypeProps = {} as any;
+
+                newcol.name = col["FieldName"];
+                if (newcol.name === table["KeyFieldName"])
+                    newcol.primaryKey = true;
+
+                if (col["DataType"] === "Строка") {
+                    let dataType: IStringSqlDataTypeProps = {
+                        className: StringSqlDataType.classInfo.className,
+                        maxLen: col["DataSize"]
+                    };
+                    newcol.dataType = dataType;
+                    obj.columns.push(newcol);
+                    newcol.description = "pos " + index++;
+                }
+                else if (col["DataType"] === "Целое") {
+                    let dataType: IIntegerSqlDataTypeProps = {
+                        className: IntegerSqlDataType.classInfo.className,
+                        size: "32"
+                    };
+                    newcol.dataType = dataType;
+                    obj.columns.push(newcol);
+                    newcol.description = "pos " + index++;
+                }
+                else if (col["DataType"] === "Ссылка") {
+                    let dataType: IFkSqlDataTypeProps = {
+                        className: FkSqlDataType.classInfo.className,
+                        fkTableId: SchemaTable.classInfo.recordIdPrefix + ":" + getIdFromTableName(col["ForeignTable"])
+                    };
+                    newcol.dataType = dataType;
+                    obj.columns.push(newcol);
+                    newcol.description = "pos " + index++;
+                }
             }
         }
 

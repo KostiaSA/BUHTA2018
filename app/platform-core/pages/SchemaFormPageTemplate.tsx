@@ -42,6 +42,9 @@ import {getRandomString} from "../../platform-core/utils/getRandomString";
 import {StringSqlDataType} from "../../platform-core/schema/table/datatypes/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../../platform-core/schema/table/datatypes/IStringSqlDataTypeProps";
 import {ISchemaTableRow, SchemaTableRow} from "../schema/table/SchemaTableRow";
+import {getParamFromUrl} from "../utils/getQueryParamFromUrl";
+import {SchemaHelper} from "../schema/SchemaHelper";
+import {SchemaForm} from "../schema/form/SchemaForm";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -138,8 +141,33 @@ export class SchemaFormPageTemplate extends PageTemplate {
 
     };
 
+    form:SchemaForm;
+    table:SchemaTable;
     editedObject:SchemaTableRow<any>;
     isInsertMode: boolean = false;
+
+    async loadData() {
+
+        await super.loadData();
+        console.log("load row");
+        if (!this.editedObject) {
+            let form=await SchemaHelper.createSchemaObject<SchemaForm>(getParamFromUrl("formId"));
+            let table=await SchemaHelper.createSchemaObject<SchemaTable>(getParamFromUrl("tableId"));
+
+            let editedObjectId = getParamFromUrl("objectId");
+
+            if (editedObjectId) {
+                this.editedObject = await table.getRow(editedObjectId);
+                //setInterval(this.trackChanges, 100);
+                //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);
+            }
+            else {
+                this.isInsertMode = true;
+                //this.editedObject = await this.createNewDesignedObject();
+            }
+        }
+    }
+
 
     async createNewDesignedObject(): Promise<SchemaObject<any>> {
         let obj = new SchemaTable();

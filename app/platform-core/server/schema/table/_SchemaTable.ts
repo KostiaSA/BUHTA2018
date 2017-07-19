@@ -28,6 +28,8 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
 
         }
 
+        console.log("attrs",attrs);
+
         let model = _sequelize.define(this.props.name, attrs, {
             freezeTableName: true,
             createdAt: false,
@@ -39,6 +41,7 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
 
     async sync() {
         let model = await this.getSequelizeModel();
+        console.log("model-xxx",model);
         await model.sync({alter: true});
     }
 
@@ -59,6 +62,13 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
         let model = await this.getSequelizeModel();
         for (let row of props)
             await model.upsert(row);
+    }
+
+    async getRow(recordId:any): Promise<any> {
+        let model = await this.getSequelizeModel();
+        let instance= await model.findByPrimary(recordId);
+        console.log("instance",instance.get());
+        return instance.get();
     }
 
 }
