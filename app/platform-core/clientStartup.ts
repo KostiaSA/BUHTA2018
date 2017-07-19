@@ -1,7 +1,7 @@
 import {appState} from "./AppState";
-import {MainPageTemplate} from "./templates/MainPageTemplate";
+import {MainPageTemplate} from "./pages/MainPageTemplate";
 import {OpenSchemaPageAction} from "./actions/OpenSchemaPageAction";
-import {MainMenuTemplate} from "./templates/MainMenuTemplate";
+import {MainMenuTemplate} from "./pages/MainMenuTemplate";
 import {PageTemplate} from "./components/PageTemplate";
 import {SchemaPage} from "./schema/SchemaPage";
 import {SchemaApp} from "./schema/SchemaApp";
@@ -13,14 +13,15 @@ import {FkSqlDataType} from "./schema/table/datatypes/FkSqlDataType";
 import {SchemaQuery} from "./schema/query/SchemaQuery";
 import {getSHA256base64Id} from "./utils/getSHA256base64Id";
 import {SchemaForm} from "./schema/form/SchemaForm";
+import {SchemaFormPageTemplate} from "./pages/SchemaFormPageTemplate";
 
 export async function clientStartup() {
     let fake= getSHA256base64Id(""); // не убирать
 
     appState.registerClassInfo(PageTemplate.classInfo);
     appState.registerClassInfo(MainPageTemplate.classInfo);
-
     appState.registerClassInfo(MainMenuTemplate.classInfo);
+    appState.registerClassInfo(SchemaFormPageTemplate.classInfo);
 
     appState.registerClassInfo(OpenSchemaPageAction.classInfo);
 

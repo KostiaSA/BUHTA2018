@@ -5,6 +5,7 @@ import {isString} from "util";
 import {SchemaHelper} from "../SchemaHelper";
 import {SchemaPage} from "../SchemaPage";
 import {ISchemaTableRow} from "./SchemaTableRow";
+import {CoreConst} from "../../CoreConst";
 
 
 export interface ISchemaTableClassInfo extends ISchemaObjectClassInfo<typeof SchemaTable> {
@@ -15,7 +16,7 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
 
     static classInfo: ISchemaTableClassInfo = {
         title: "Таблица",
-        description:"Sql - таблица",
+        description: "Sql - таблица",
         className: "platform-core:SchemaTable",
         constructor: SchemaTable,
         recordIdPrefix: "schema-table",
@@ -35,6 +36,7 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
     }
 
     async handleChangeRecordClick(recordId: any) {
+        console.log("handleChangeRecordClick(recordId: any)", recordId, this.props);
         if (isString(recordId)) {
 
             let classInfo = appState.getRegisteredClassInfoByPrefix(recordId);
@@ -62,20 +64,43 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
 
         }
         else {
-            if (this.props.editOptions) {
-                if (this.props.editOptions.editPageId) {
+            let pageId: string;
+            if (this.props.editOptions && this.props.editOptions.editPageId)
+                pageId = this.props.editOptions.editPageId;
+            else
+                pageId = SchemaPage.classInfo.recordIdPrefix + ":" + CoreConst.FormPageObjectId;
+            let editPpage = await SchemaHelper.createSchemaObject<SchemaPage>(pageId);
 
-                    let editPpage = await SchemaHelper.createSchemaObject<SchemaPage>(this.props.editOptions.editPageId);
 
+            let formId: string = undefined as any;
+            if (this.props.editOptions && this.props.editOptions.editFormId)
+                formId = this.props.editOptions.editFormId;
 
-                    editPpage.openInNewTab({objectId: recordId});
-                }
-                else
-                    alert("ошибка вызова редактора 111");
-            }
-            else {
-                alert("вызов стандартного редактора");
-            }
+            let params: any = {objectId: recordId, tableId: this.props.id};
+            if (formId)
+                params.formId = formId;
+
+            editPpage.openInNewTab(params);
+
+            // if (this.props.editOptions) {
+            //     if (this.props.editOptions.editPageId) {
+            //
+            //         let editPpage = await SchemaHelper.createSchemaObject<SchemaPage>(this.props.editOptions.editPageId);
+            //
+            //         let params: any = {objectId: recordId};
+            //         if (this.props.editOptions.editFormId)
+            //             params.formId = this.props.editOptions.editFormId;
+            //
+            //         editPpage.openInNewTab(params);
+            //     }
+            //     else
+            //         alert("ошибка вызова редактора 111");
+            // }
+            // else {
+            //     alert("вызов стандартного редактора");
+            //     let editPpage = await SchemaHelper.createSchemaObject<SchemaPage>(SchemaPage.classInfo.recordIdPrefix + ":" + CoreConst.FormPageObjectId);
+            //     editPpage.openInNewTab({objectId: recordId});
+            // }
 
         }
 

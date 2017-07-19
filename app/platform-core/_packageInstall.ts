@@ -6,6 +6,7 @@ import {_loadSchemaObject} from "./server/schema/_SchemaObject";
 import {CoreConst} from "./CoreConst";
 import {_SchemaQuery} from "./server/schema/query/_SchemaQuery";
 import {_SchemaPage} from "./server/schema/page/_SchemaPage";
+import {_formPageInstall} from "./install/_formPageInstall";
 
 export async function packageInstall() {
     await _serverStartup();
@@ -31,6 +32,9 @@ export async function packageInstall() {
             prefix: _SchemaPage.classInfo.recordIdPrefix,
         },
     ]);
+
+    await _formPageInstall();
+
 }
 
 packageInstall().then(() => {

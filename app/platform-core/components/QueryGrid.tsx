@@ -58,6 +58,8 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
     }
 
     async handleChangeRecordClick(record: any) {
+        console.log("record",record);
+
         this.query.handleChangeRecordClick(record.__recordId__);
     };
 
@@ -87,7 +89,7 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
                               this.handleChangeRecordClick(record);
                               //console.log("edit", record)
                           }}>
-                              изм.
+                              изм.1
                           </a>
                           <span className="ant-divider"/>
                           <a href="#" style={{color: "crimson"}}>удал.</a>

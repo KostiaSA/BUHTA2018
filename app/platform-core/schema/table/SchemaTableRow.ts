@@ -29,5 +29,13 @@ export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTa
 
     }
 
+    async save():Promise<void> {
+
+        let msg="save not yet implemented";
+        console.error(msg);
+        throw msg+", "+__filename;
+
+    }
+
 
 }

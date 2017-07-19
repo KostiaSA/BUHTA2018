@@ -12,8 +12,8 @@ import {
     OpenSchemaObjectDesignerAction
 } from "../app/platform-admin/actions/OpenSchemaObjectDesignerAction";
 import {OpenSchemaPageAction} from "../app/platform-core/actions/OpenSchemaPageAction";
-import {MainMenuTemplate} from "../app/platform-core/templates/MainMenuTemplate";
-import {MainPageTemplate} from "../app/platform-core/templates/MainPageTemplate";
+import {MainMenuTemplate} from "../app/platform-core/pages/MainMenuTemplate";
+import {MainPageTemplate} from "../app/platform-core/pages/MainPageTemplate";
 import {SchemaTable} from "../app/platform-core/schema/table/SchemaTable";
 import {ISchemaTableProps} from "../app/platform-core/schema/table/ISchemaTableProps";
 import {SchemaTableDesignerPageTemplate} from "../app/platform-admin/pages/SchemaTableDesignerPageTemplate";
