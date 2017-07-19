@@ -523,6 +523,13 @@ class TableColumnFormPanelW extends BaseFormPanel<IFormPanelProps> {
                                     label="placeholder"
                                     bindProperty="formInputOptions.placeholder"
                                 />
+                                <FormInput
+                                    {...layout}
+                                    style={{maxWidth:200}}
+                                    mode="input"
+                                    label="макс. ширина (px)"
+                                    bindProperty="formInputOptions.maxWidth"
+                                />
                             </Form>
                         </Col>
 

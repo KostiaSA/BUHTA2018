@@ -5,5 +5,6 @@ export interface IFormInputOptions {
     placeholder?: string;
     readOnly?: boolean;
     mode?: InputMode;
+    maxWidth?: number;
 }
 

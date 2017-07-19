@@ -101,9 +101,16 @@ class RowFormPanel extends BaseFormPanel<IRowFormPanelProps> {
                     let opt: IFormInputOptions = {...tableCol.formInputOptions};
                     opt = {...opt, ...field.formInputOptions};
 
+                    let _attrs: any = {...attrs};
+                    if (!_attrs.style)
+                        _attrs.style = {};
+
+                    if (opt.maxWidth)
+                        _attrs.style.maxWidth = Number.parseInt(opt.maxWidth.toString());
+
                     ret.push(
                         <FormInput
-                            {...attrs}
+                            {..._attrs}
                             mode={opt.mode || "input"}
                             label={opt.label || field.fieldName}
                             placeholder={opt.placeholder}
