@@ -14,6 +14,7 @@ import {SchemaQuery} from "./schema/query/SchemaQuery";
 import {getSHA256base64Id} from "./utils/getSHA256base64Id";
 import {SchemaForm} from "./schema/form/SchemaForm";
 import {SchemaFormPageTemplate} from "./pages/SchemaFormPageTemplate";
+import {SchemaDatabase} from "./schema/database/SchemaDatabase";
 
 export async function clientStartup() {
     let fake= getSHA256base64Id(""); // не убирать
@@ -31,6 +32,7 @@ export async function clientStartup() {
     appState.registerClassInfo(SchemaMenu.classInfo);
     appState.registerClassInfo(SchemaQuery.classInfo);
     appState.registerClassInfo(SchemaForm.classInfo);
+    appState.registerClassInfo(SchemaDatabase.classInfo);
 
     appState.registerClassInfo(StringSqlDataType.classInfo);
     appState.registerClassInfo(IntegerSqlDataType.classInfo);

@@ -1,12 +1,9 @@
 import * as  React from "react";
 import * as  ReactDOM from "react-dom";
-import {findSchemaObjectsApiRequest} from "./schema/api/findSchemaObjectsApiRequest";
 import {appState} from "./AppState";
-import {ISchemaAppProps} from "./schema/ISchemaApp";
-import {ISchemaPageClassInfo, SchemaPage} from "./schema/SchemaPage";
 import {IPageTemplateClassInfo, IPageTemplateProps} from "./components/PageTemplate";
-import {ISchemaPageProps} from "./schema/ISchemaPage";
 import {SchemaHelper} from "./schema/SchemaHelper";
+import {SchemaPage} from "./schema/SchemaPage";
 
 
 async function start() {

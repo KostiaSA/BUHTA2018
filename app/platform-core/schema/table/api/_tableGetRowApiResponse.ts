@@ -1,5 +1,5 @@
 
-import {_loadSchemaObject} from "../../../server/schema/_SchemaObject";
+import {_loadSchemaObject} from "../../../server/schema/_loadSchemaObject";
 import {_SchemaTable} from "../../../server/schema/table/_SchemaTable";
 
 export interface _ITableGetRowApiRequest {

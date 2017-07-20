@@ -2,7 +2,7 @@ import {_createSqlDataTypeObject, _SqlDataType} from "./_SqlDataType";
 import {DataTypeAbstract} from "sequelize";
 import * as Sequelize from "sequelize";
 import {IFkSqlDataTypeProps} from "../../../../schema/table/datatypes/IFkSqlDataTypeProps";
-import {_loadSchemaObject} from "../../_SchemaObject";
+import {_loadSchemaObject} from "../../_loadSchemaObject";
 import {_SchemaTable} from "../_SchemaTable";
 import {clone} from "ejson";
 import {FkSqlDataType} from "../../../../schema/table/datatypes/FkSqlDataType";

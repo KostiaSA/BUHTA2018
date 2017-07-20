@@ -2,7 +2,7 @@ import {_schemaObjectTableInstall} from "./install/_schemaObjectTableInstall";
 import {_serverStartup} from "./_serverStartup";
 import {_schemaObjectTypeTableInstall} from "./install/_schemaObjectTypeTableInstall";
 import {_SchemaTable} from "./server/schema/table/_SchemaTable";
-import {_loadSchemaObject} from "./server/schema/_SchemaObject";
+import {_loadSchemaObject} from "./server/schema/_loadSchemaObject";
 import {CoreConst} from "./CoreConst";
 import {_SchemaQuery} from "./server/schema/query/_SchemaQuery";
 import {_SchemaPage} from "./server/schema/page/_SchemaPage";

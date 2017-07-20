@@ -1,5 +1,5 @@
 
-import {_loadSchemaObject} from "../../server/schema/_SchemaObject";
+import {_loadSchemaObject} from "../../server/schema/_loadSchemaObject";
 import {_SchemaQuery} from "../../server/schema/query/_SchemaQuery";
 
 export interface _IExecuteSchemaQueryApiRequest {

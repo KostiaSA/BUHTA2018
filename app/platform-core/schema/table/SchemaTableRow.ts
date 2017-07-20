@@ -44,7 +44,6 @@ export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTa
             }
         }
 
-        ! ошибка сохранение не показывается !
 
         return saveTableRowApiRequest({tableId: this.table.props.id, row: propsToSave})
 

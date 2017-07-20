@@ -239,10 +239,17 @@ export class SchemaFormPageTemplate extends PageTemplate {
     };
 
     async saveDesignedObject() {
-        await this.editedObject.save(this.initialEditedObjectProps);
-        this.forceUpdate();
-        console.log("Запись сохранена");
-        message.success("Запись сохранена");
+        try {
+            await this.editedObject.save(this.initialEditedObjectProps);
+            this.forceUpdate();
+            console.log("Запись сохранена");
+            message.success("Запись сохранена");
+
+        }
+        catch (error) {
+            console.error(error);
+            message.error(error.toString(),4);
+        }
 
     };
 

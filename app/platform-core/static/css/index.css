@@ -11,8 +11,13 @@ body {
     /*background-color: #0000cc;*/
 /*}*/
 
+.ant-message-notice .ant-message-error{
+    color: red;
+}
 
-
+.ant-message-notice-content {
+    background: #fffbef;
+}
 
 [draggable="true"].sortable-ghost{
     background-color: #f8f8f8;

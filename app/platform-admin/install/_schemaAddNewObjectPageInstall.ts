@@ -8,7 +8,7 @@ import {SchemaTableDesignerPageTemplate} from "../pages/SchemaTableDesignerPageT
 import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 import {_SchemaPage} from "../../platform-core/server/schema/page/_SchemaPage";
 import {ISchemaPageProps} from "../../platform-core/schema/ISchemaPage";
-import {_loadSchemaObject} from "../../platform-core/server/schema/_SchemaObject";
+import {_loadSchemaObject} from "../../platform-core/server/schema/_loadSchemaObject";
 import {_SchemaTable} from "../../platform-core/server/schema/table/_SchemaTable";
 import {SchemaAddNewObjectPageTemplate} from "../pages/SchemaAddNewObjectPageTemplate";
 

@@ -4,10 +4,11 @@ import {getRandomString} from "./getRandomString";
 
 export function getSHA256base64Id(body: string): string {
     const hash = SHA256(body);
-    return replaceAll(replaceAll(btoa(hash), "/", ""), "+", "").substr(0, 20);
+    return replaceAll(replaceAll(btoa(hash), "/", ""), "+", "").substr(5, 20);
 }
 
 
 (window as any).getRandomId = (): string => {
     return getSHA256base64Id(getRandomString())
+    //return getRandomString();
 };

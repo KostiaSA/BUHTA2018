@@ -10,7 +10,7 @@ export class IntegerSqlDataType extends SqlDataType<IIntegerSqlDataTypeProps> {
         className: "platform-core:IntegerSqlDataType",
         constructor: IntegerSqlDataType,
         title: "целое",
-        renderEditor:(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
+        renderEditor: (columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
             return [
                 <FormInput
                     {...attrs}
@@ -26,6 +26,13 @@ export class IntegerSqlDataType extends SqlDataType<IIntegerSqlDataTypeProps> {
                     label="unsigned (без знака, 0..max)"
                     defaultValue={false}
                     bindProperty="dataType.unsigned"
+                />,
+                <FormInput
+                    {...attrs}
+                    mode="checkbox"
+                    label="auto increment"
+                    defaultValue={false}
+                    bindProperty="dataType.autoIncrement"
                 />
             ]
         }
@@ -35,7 +42,7 @@ export class IntegerSqlDataType extends SqlDataType<IIntegerSqlDataTypeProps> {
     dataTypeUserFriendly(parentReactComp: React.Component<any, any>): string | JSX.Element {
         return (
             <span
-                style={{color: "teal"}}>{(this.props.unsigned ? "+" : "") + "целое" + this.props.size}
+                style={{color: "teal"}}>{(this.props.unsigned ? "+" : "") + "целое" + this.props.size + (this.props.autoIncrement ? ", autoInc" : "")}
             </span>
         );
 

@@ -2,7 +2,7 @@ import {ISchemaQueryColumnProps} from "../../../schema/query/ISchemaQueryColumnP
 import {ISchemaQueryProps} from "../../../schema/query/ISchemaQueryProps";
 import {getRandomString} from "../../../utils/getRandomString";
 import {_SchemaTable} from "../table/_SchemaTable";
-import {_loadSchemaObject} from "../_SchemaObject";
+import {_loadSchemaObject} from "../_loadSchemaObject";
 
 
 export class _SchemaQueryHelperColumn {

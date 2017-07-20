@@ -1,3 +1,5 @@
+import {SqlDialect} from "../../app/platform-core/schema/table/datatypes/SqlDataType";
+
 export interface _IConfig {
     sqlServerAddress: string;
     sqlServerInstance: string;
@@ -5,7 +7,7 @@ export interface _IConfig {
     sqlLogin: string;
     sqlPassword: string;
     sqlDatabase: string;
-    sqlDialect: string;
+    sqlDialect: SqlDialect;
 }
 
 let office: _IConfig = {

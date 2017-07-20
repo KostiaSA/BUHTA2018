@@ -108,12 +108,21 @@ export class SchemaObjectDesignerPageTemplate extends AdminMainPageTemplate {
     };
 
     async saveDesignedObject() {
-        await this.designedObject.save();
-        //this.history.length = 0;
-        //this.needSave = false;
-        this.forceUpdate();
-        console.log("объект сохранен");
-        message.success("Объект '" + this.designedObject.props.name + "' сохранен");
+        try {
+            await this.designedObject.save();
+            //this.history.length = 0;
+            //this.needSave = false;
+            this.forceUpdate();
+            console.log("объект сохранен");
+            message.success("Объект '" + this.designedObject.props.name + "' сохранен");
+        }
+        catch (error) {
+            console.error(error);
+            message.error(error.toString(),4);
+        }
+
+
+
 
     };
 
