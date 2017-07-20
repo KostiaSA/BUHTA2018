@@ -1,7 +1,13 @@
 import {_ISqlDriver} from "./_ISqlDriver";
+import {config} from "mssql";
+import {ISchemaDatabaseProps} from "../../../schema/database/ISchemaDatabaseProps";
 
 export class _MsSqlDriver implements _ISqlDriver{
-    get mssql_config(): config {
+    constructor(public props:ISchemaDatabaseProps){
+
+    }
+
+    get sql_config(): config {
         return {
             driver: "?",
             user: this.props.sqlLogin,
@@ -41,8 +47,8 @@ export class _MsSqlDriver implements _ISqlDriver{
         }
     }
 
-    async executeSqlBatch_mssql(sql: string[]): Promise<any[][]> {
-
+    async executeSqlBatch(sql: string[]): Promise<any[][]> {
+        throw  ""
     }
 
 }

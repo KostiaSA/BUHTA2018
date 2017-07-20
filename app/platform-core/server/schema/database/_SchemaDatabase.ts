@@ -4,6 +4,7 @@ import {ISchemaDatabaseProps} from "../../../schema/database/ISchemaDatabaseProp
 import * as mssql from "mssql";
 import {config} from "mssql";
 import {_ISqlDriver} from "./_ISqlDriver";
+import {_MsSqlDriver} from "./_MsSqlDriver";
 
 export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     static classInfo = {...SchemaDatabase.classInfo, constructor: _SchemaDatabase};
@@ -14,9 +15,9 @@ export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     async initDriver() {
         if (!this.driver) {
             if (this.props.sqlDialect === "mssql")
-                return this.executeSqlBatch_mssql(sql);
+                return  this.driver=new _MsSqlDriver(this.props);
             else {
-                let msg = "executeSqlBatch(): invalid sql dialect " + this.props.sqlDialect;
+                let msg = "initDriver(): invalid sql dialect " + this.props.sqlDialect;
                 console.error(msg);
                 throw msg + ", " + __filename;
             }
