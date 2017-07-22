@@ -5,6 +5,7 @@ import * as mssql from "mssql";
 import {config} from "mssql";
 import {_ISqlDriver} from "./_ISqlDriver";
 import {_MsSqlDriver} from "./_MsSqlDriver";
+import {_ISqlTable} from "./_SqlTable";
 
 export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     static classInfo = {...SchemaDatabase.classInfo, constructor: _SchemaDatabase};
@@ -31,7 +32,11 @@ export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
         return this.driver.executeSqlBatch(sql);
     }
 
+    async createTable(table: _ISqlTable): Promise<void>{
+        await this.initDriver();
+        return this.driver.createTable(table);
 
+    }
 
 
 }

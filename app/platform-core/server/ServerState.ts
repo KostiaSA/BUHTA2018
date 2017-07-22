@@ -1,4 +1,4 @@
-import {_SqlDataType} from "./schema/table/sql/_SqlDataType";
+//import {_SqlDataType} from "./schema/table/sql/_SqlDataType";
 import {_SchemaObject} from "./schema/_SchemaObject";
 import {IClassInfo} from "../IClassInfo";
 

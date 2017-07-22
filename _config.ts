@@ -38,5 +38,5 @@ let home: _IConfig = {
 };
 
 
-export let _config :_IConfig = office;
+export let _config :_IConfig = home;
 //изменено 888-999
