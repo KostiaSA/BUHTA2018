@@ -82,16 +82,16 @@ export class Test {
 
     static  test_row = {
         pkColumn: 0,
-        byteColumn: 0,
-        sbyteColumn: -255,
-        shortColumn: -32000,
-        ushortColumn: 0,
-        intColumn: -1024*32+1,
-        uintColumn: 1024*64,
+        byteColumn: 255,
+        sbyteColumn: -127,
+        shortColumn: -32768,
+        ushortColumn: 32767,
+        intColumn: -2147483648,
+        uintColumn: 2147483647*2,
         longColumn: Number.MIN_SAFE_INTEGER,
         ulongColumn: Number.MAX_SAFE_INTEGER,
-        stringColumn: "getTestString().substr(0, 4000)",
-        textColumn: "",
+        stringColumn: getTestString().substr(0, 4000),
+        textColumn: getLongTestString(2),
     };
 
 
@@ -132,8 +132,8 @@ export class Test {
 
     @test
     async drop_table() {
-        //let emitter = new _SqlDropTableEmitter(Test.dialect, Test.table);
-        //let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
+        let emitter = new _SqlDropTableEmitter(Test.dialect, Test.table);
+        let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
     }
 }
 
