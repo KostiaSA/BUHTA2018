@@ -1,4 +1,8 @@
 import {SqlDialect} from "../../schema/table/datatypes/SqlDataType";
+import {_ISqlTable, _ISqlTableColumn, _SqlDataType} from "../schema/database/_SqlTable";
+import * as uuid from "uuid";
+import * as moment from "moment";
+import {isDate, isNumber} from "util";
 
 export class _SqlEmitter {
     constructor(public dialect: SqlDialect) {
@@ -54,6 +58,17 @@ export class _SqlEmitter {
         });
     }
 
+
+    toHexString(bytes: any) {
+        return bytes.map(function (byte: any) {
+            return ("00" + (byte & 0xFF).toString(16)).slice(-2);
+        }).join("");
+    }
+
+    mysql_guid_to_str(guid: any): string {
+        return "0x" + this.toHexString(guid);
+    }
+
     nullToSql(): string {
 
         if (this.dialect === "mssql")
@@ -69,6 +84,14 @@ export class _SqlEmitter {
         }
 
     }
+
+    tableNameToSql(table: _ISqlTable): string {
+        if (table.isTemp && this.dialect === "mssql")
+            return this.identifierToSql("#" + table.name);
+        else
+            return this.identifierToSql(table.name);
+    }
+
 
     identifierToSql(name: string): string {
 
@@ -101,6 +124,78 @@ export class _SqlEmitter {
                 console.error(msg);
                 throw msg + ", " + __filename;
             }
+        }
+    }
+
+    guidToSql(value: string): string {
+
+        if (this.dialect === "mssql")
+            return "CONVERT(UNIQUEIDENTIFIER,'" + value + "')";
+        else if (this.dialect === "postgres")
+            return "UUID '" + value + "'";
+        else if (this.dialect === "mysql")
+            return "convert(" + this.mysql_guid_to_str((uuid as any).parse(value)) + ",binary(16))";
+        else {
+            let msg = "invalid sql dialect " + this.dialect;
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+    }
+
+    datatimeToSql(value: Date): string {
+        if (this.dialect === "mssql")
+            return "CONVERT(DATETIME2,'" + moment(value).format("YYYYMMDD HH:mm:ss.SSS") + "')";
+        else if (this.dialect === "postgres")
+            return "TIMESTAMP(3)'" + moment(value).format("YYYY-MM-DD HH:mm:ss.SSS") + "'";
+        else if (this.dialect === "mysql")
+        // timezone не воспринимает
+            return "STR_TO_DATE('" + moment(value).format("YYYY-MM-DD HH:mm:ss.SSS") + "','%Y-%c-%d %k:%i:%s.%f')";
+        else {
+            let msg = "invalid sql dialect " + this.dialect;
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+
+    }
+
+    isNumericDataType(dataType: _SqlDataType) {
+        return (
+            dataType === "byte" ||
+            dataType === "sbyte" ||
+            dataType === "short" ||
+            dataType === "ushort" ||
+            dataType === "int" ||
+            dataType === "uint" ||
+            dataType === "long" ||
+            dataType === "ulong" ||
+            dataType === "float" ||
+            dataType === "double" ||
+            dataType === "decimal"
+        );
+    }
+
+    valueToSql(column: _ISqlTableColumn, value: any): string {
+        if (this.isNumericDataType(column.dataType)) {
+            if (isNumber(value))
+                return value.toString();
+            else
+                return Number.parseFloat(value.toString()).toString();
+        }
+        if (column.dataType === "string" || column.dataType === "text") {
+            return this.stringToSql(value.toString());
+        }
+        else if (column.dataType === "datetime") {
+            if (isDate(value)) {
+                return this.datatimeToSql(value);
+            }
+            else {
+                return this.datatimeToSql(new Date(value.toString()));
+            }
+        }
+        else {
+            let msg = "invalid dataType " + column.dataType;
+            console.error(msg);
+            throw msg + ", " + __filename;
         }
     }
 

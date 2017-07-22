@@ -61,7 +61,6 @@ export class _MsSqlDriver implements _ISqlDriver {
         if (!this.pool.connected) {
             await this.pool.connect();
         }
-        console.log("******"+sql.join(";\n")+"********");
         let result = await this.pool.request().query(sql.join(";\n"));
 
         return result.recordsets;

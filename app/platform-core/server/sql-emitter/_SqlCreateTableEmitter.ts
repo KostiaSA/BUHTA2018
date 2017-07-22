@@ -10,8 +10,6 @@ export class _SqlCreateTableEmitter extends _SqlEmitter {
         super(dialect);
     }
 
-//    sql: string[] = [];
-
     emitColumnDataType(col: _ISqlTableColumn): string {
         if (this.dialect === "mssql")
             return this.emitColumnDataType_mssql(col);
@@ -174,10 +172,7 @@ export class _SqlCreateTableEmitter extends _SqlEmitter {
         else
             sql.push("CREATE TABLE ");
 
-        if (this.table.isTemp && this.dialect === "mssql")
-            sql.push(this.identifierToSql("#" + this.table.name));
-        else
-            sql.push(this.identifierToSql(this.table.name));
+        sql.push(this.tableNameToSql(this.table));
 
         sql.push("(\n");
 

@@ -9,6 +9,8 @@ import {_ISqlTable} from "../../schema/database/_SqlTable";
 import {_SqlCreateTableEmitter} from "../../sql-emitter/_SqlCreateTableEmitter";
 import {SqlDialect} from "../../../schema/table/datatypes/SqlDataType";
 import {getRandomString} from "../../../utils/getRandomString";
+import {_SqlDropTableEmitter} from "../../sql-emitter/_SqlDropTableEmitter";
+import {_SqlInsertTableRowEmitter} from "../../sql-emitter/_SqlInsertTableRowEmitter";
 
 type Done = () => void;
 
@@ -25,7 +27,7 @@ export class Test {
     }
 
 
-    table: _ISqlTable = {
+    static table: _ISqlTable = {
         name: "__test_table__" + getRandomString(),
         columns: [
             {
@@ -56,6 +58,14 @@ export class Test {
             {
                 name: "uintColumn1",
                 dataType: "uint"
+            },
+            {
+                name: "longColumn1",
+                dataType: "long"
+            },
+            {
+                name: "ulongColumn1",
+                dataType: "ulong"
             }
         ]
     }
@@ -76,19 +86,27 @@ export class Test {
 
     @test
     async create_table() {
-        let emitter = new _SqlCreateTableEmitter(Test.dialect, this.table);
-        //console.log(emitter.toSql());
-
+        let emitter = new _SqlCreateTableEmitter(Test.dialect, Test.table);
         let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
-        // console.log(result);
-        // assert.equal(result[0][0].p101, "101");
-        // assert.equal(result[1][0].p202, "202");
     }
 
     @test
+    async insert() {
+
+        let row={
+            pkColumn:0,
+            byteColumn:0,
+            sbyteColumn:-255,
+        };
+
+        let emitter = new _SqlInsertTableRowEmitter(Test.dialect, Test.table,row);
+        let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
+    }
+
+
+    @test
     async drop_table() {
-        let emitter = new _SqlDropTableEmitter(Test.dialect, this.table);
-        console.log(emitter.toSql());
+        let emitter = new _SqlDropTableEmitter(Test.dialect, Test.table);
         let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
     }
 }
