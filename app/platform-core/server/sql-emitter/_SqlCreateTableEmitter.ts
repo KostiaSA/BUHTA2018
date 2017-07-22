@@ -41,7 +41,7 @@ export class _SqlCreateTableEmitter extends _SqlEmitter {
             case "long":
                 return ("BIGINT");
             case "ulong":
-                return ("DECIMAL(38)");
+                return ("BIGINT");
             case "float":
                 return ("REAL");
             case "double":

@@ -1,6 +1,6 @@
 import {_ISqlDriver} from "./_ISqlDriver";
 import * as mssql from "mssql";
-import {config, ConnectionPool} from "mssql";
+import {config, ConnectionPool, IRecordSet} from "mssql";
 import {ISchemaDatabaseProps} from "../../../schema/database/ISchemaDatabaseProps";
 import {_ISqlTable} from "./_SqlTable";
 import {_SqlCreateTableEmitter} from "../../sql-emitter/_SqlCreateTableEmitter";
@@ -57,12 +57,27 @@ export class _MsSqlDriver implements _ISqlDriver {
         }
     }
 
+    // поля BigInt приходят в виде строк, превращаем в Number
+    postProcessResultRecordsets(recordsets: IRecordSet<any>[]) {
+        for (let recordset of recordsets) {
+            for (let columnName in recordset.columns) {
+                let colMetadata = recordset.columns[columnName];
+                if ((colMetadata.type as any).name === "BigInt") {
+                    for (let row of recordset) {
+                        row[columnName] = Number.parseInt(row[columnName]);
+                    }
+                }
+            }
+        }
+    }
+
     async executeSqlBatch(sql: string[]): Promise<any[][]> {
         if (!this.pool.connected) {
             await this.pool.connect();
         }
         let result = await this.pool.request().query(sql.join(";\n"));
 
+        this.postProcessResultRecordsets(result.recordsets);
         return result.recordsets;
     }
 

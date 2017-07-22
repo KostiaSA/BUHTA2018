@@ -21,14 +21,14 @@ export class _SqlInsertTableRowEmitter extends _SqlEmitter {
         sql.push(this.tableNameToSql(this.table));
 
         for (let col of this.table.columns) {
-            if (this.row[col.name]) {
+            if (this.row[col.name] !== undefined) {
                 colNames.push(this.identifierToSql(col.name));
-                colValues.push(this.valueToSql(col,this.row[col.name]));
+                colValues.push(this.valueToSql(col, this.row[col.name]));
             }
         }
 
-        sql.push(" ("+colNames.join(",")+")");
-        sql.push(" VALUES ("+colValues.join(",")+")");
+        sql.push(" (" + colNames.join(",") + ")");
+        sql.push(" VALUES (" + colValues.join(",") + ")");
 
 
         return sql.join("");
