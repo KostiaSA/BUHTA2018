@@ -28,7 +28,7 @@ export class _MsSqlDriver implements _ISqlDriver {
                 abortTransactionOnError: true,
                 trustedConnection: false,
                 //encrypt?: boolean;
-                //useUTC?: boolean;
+                useUTC: false,
                 //tdsVersion?: string;
             },
             pool: {

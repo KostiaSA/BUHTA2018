@@ -68,30 +68,41 @@ export class Test {
                 name: "ulongColumn",
                 dataType: "ulong"
             },
+            // {
+            //     name: "stringColumn",
+            //     dataType: "string",
+            //     dataLen: 4000,
+            // },
+            // {
+            //     name: "textColumn",
+            //     dataType: "text"
+            // },
             {
-                name: "stringColumn",
-                dataType: "string",
-                dataLen: 4000,
+                name: "dateTimeColumn",
+                dataType: "datetime"
             },
             {
-                name: "textColumn",
-                dataType: "text"
-            }
+                name: "dateColumn",
+                dataType: "date"
+            },
+
         ]
     }
 
-    static  test_row = {
+    static test_row = {
         pkColumn: 0,
         byteColumn: 255,
         sbyteColumn: -127,
         shortColumn: -32768,
         ushortColumn: 32767,
         intColumn: -2147483648,
-        uintColumn: 2147483647*2,
+        uintColumn: 2147483647 * 2,
         longColumn: Number.MIN_SAFE_INTEGER,
         ulongColumn: Number.MAX_SAFE_INTEGER,
-        stringColumn: getTestString().substr(0, 4000),
-        textColumn: getLongTestString(2),
+        //stringColumn: getTestString().substr(0, 4000),
+        //textColumn: getLongTestString(2),
+        dateTimeColumn: new Date(),
+        dateColumn: new Date(1968,12,12)
     };
 
 
@@ -116,7 +127,7 @@ export class Test {
 
     @test
     async insert() {
-        let emitter = new _SqlInsertTableRowEmitter(Test.dialect, Test.table,Test.test_row);
+        let emitter = new _SqlInsertTableRowEmitter(Test.dialect, Test.table, Test.test_row);
         let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
     }
 

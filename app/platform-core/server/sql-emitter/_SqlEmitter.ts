@@ -142,7 +142,7 @@ export class _SqlEmitter {
         }
     }
 
-    datatimeToSql(value: Date): string {
+    datetimeToSql(value: Date): string {
         if (this.dialect === "mssql")
             return "CONVERT(DATETIME2,'" + moment(value).format("YYYYMMDD HH:mm:ss.SSS") + "')";
         else if (this.dialect === "postgres")
@@ -150,6 +150,22 @@ export class _SqlEmitter {
         else if (this.dialect === "mysql")
         // timezone не воспринимает
             return "STR_TO_DATE('" + moment(value).format("YYYY-MM-DD HH:mm:ss.SSS") + "','%Y-%c-%d %k:%i:%s.%f')";
+        else {
+            let msg = "invalid sql dialect " + this.dialect;
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+
+    }
+
+    dateToSql(value: Date): string {
+        if (this.dialect === "mssql")
+            return "CONVERT(DATE,'" + moment(value).format("YYYYMMDD") + "')";
+        else if (this.dialect === "postgres")
+            return "TIMESTAMP(3)'" + moment(value).format("YYYY-MM-DD") + "'";
+        else if (this.dialect === "mysql")
+        // timezone не воспринимает
+            return "STR_TO_DATE('" + moment(value).format("YYYY-MM-DD") + "','%Y-%c-%d')";
         else {
             let msg = "invalid sql dialect " + this.dialect;
             console.error(msg);
@@ -186,10 +202,18 @@ export class _SqlEmitter {
         }
         else if (column.dataType === "datetime") {
             if (isDate(value)) {
-                return this.datatimeToSql(value);
+                return this.datetimeToSql(value);
             }
             else {
-                return this.datatimeToSql(new Date(value.toString()));
+                return this.datetimeToSql(new Date(value.toString()));
+            }
+        }
+        else if (column.dataType === "date") {
+            if (isDate(value)) {
+                return this.dateToSql(value);
+            }
+            else {
+                return this.dateToSql(new Date(value.toString()));
             }
         }
         else {
