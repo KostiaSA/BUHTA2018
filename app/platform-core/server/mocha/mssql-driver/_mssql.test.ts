@@ -68,15 +68,15 @@ export class Test {
                 name: "ulongColumn",
                 dataType: "ulong"
             },
-            // {
-            //     name: "stringColumn",
-            //     dataType: "string",
-            //     dataLen: 4000,
-            // },
-            // {
-            //     name: "textColumn",
-            //     dataType: "text"
-            // },
+            {
+                name: "stringColumn",
+                dataType: "string",
+                dataLen: 4000,
+            },
+            {
+                name: "textColumn",
+                dataType: "text"
+            },
             {
                 name: "dateTimeColumn",
                 dataType: "datetime"
@@ -85,9 +85,24 @@ export class Test {
                 name: "dateColumn",
                 dataType: "date"
             },
+            // {
+            //     name: "floatColumn",
+            //     dataType: "float"
+            // },
+            {
+                name: "doubleColumn",
+                dataType: "double"
+            },
+            {
+                name: "decimalColumn",
+                dataType: "decimal",
+                dataLen: 15,
+                decimals: 2
+            },
 
         ]
     }
+
 
     static test_row = {
         pkColumn: 0,
@@ -99,10 +114,14 @@ export class Test {
         uintColumn: 2147483647 * 2,
         longColumn: Number.MIN_SAFE_INTEGER,
         ulongColumn: Number.MAX_SAFE_INTEGER,
-        //stringColumn: getTestString().substr(0, 4000),
-        //textColumn: getLongTestString(2),
+        stringColumn: getTestString().substr(0, 4000),
+        textColumn: getLongTestString(2),
         dateTimeColumn: new Date(),
-        dateColumn: new Date(1968,12,12)
+        dateColumn: new Date(1968, 12, 12),
+        //floatColumn: 3.40282e38,
+        doubleColumn: 1.797693134862315e+308, // Number.MAX_VALUE postgres не тянет, пришлось убрать одну цифру;
+        decimalColumn: -9007199254740.99
+
     };
 
 
@@ -114,7 +133,8 @@ export class Test {
 
     @test
     async execute_101_202() {
-        let result = await Test.driver.executeSqlBatch(["SELECT '101' as p101", "SELECT '202' as p202"]);
+        let result = await
+            Test.driver.executeSqlBatch(["SELECT '101' as p101", "SELECT '202' as p202"]);
         assert.equal(result[0][0].p101, "101");
         assert.equal(result[1][0].p202, "202");
     }
