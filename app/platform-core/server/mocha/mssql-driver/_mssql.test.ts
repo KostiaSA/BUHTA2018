@@ -14,6 +14,7 @@ import {_SqlInsertTableRowEmitter} from "../../sql-emitter/_SqlInsertTableRowEmi
 import {_SqlSelectTableRowEmitter} from "../../sql-emitter/_SqlSelectTableRowEmitter";
 import {_SqlUpdateTableRowEmitter} from "../../sql-emitter/_SqlUpdateTableRowEmitter";
 import {_SqlUpsertTableRowEmitter} from "../../sql-emitter/_SqlUpsertTableRowEmitter";
+import {_SqlDeleteTableRowEmitter} from "../../sql-emitter/_SqlDeleteTableRowEmitter";
 
 type Done = () => void;
 
@@ -211,6 +212,19 @@ export class Test {
         let result2 = await Test.driver.executeSqlBatch([emitter2.toSql()]);
         let row = result2[0][0];
         assert.deepEqual(row, Test.test_upsert2_row);
+    }
+
+    @test
+    async delete() {
+        let emitter = new _SqlDeleteTableRowEmitter(Test.dialect, Test.table, Test.test_update_row);
+        let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
+
+        emitter = new _SqlDeleteTableRowEmitter(Test.dialect, Test.table, Test.test_upsert2_row);
+        result = await Test.driver.executeSqlBatch([emitter.toSql()]);
+
+        let result2 = await Test.driver.executeSqlBatch(["SELECT COUNT(*) cnt FROM "+emitter.tableNameToSql(Test.table)]);
+        let row = result2[0][0];
+        assert.equal(0, row["cnt"]);
     }
 
     @test
