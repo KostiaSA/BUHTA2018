@@ -12,6 +12,7 @@ import {getRandomString} from "../../../utils/getRandomString";
 import {_SqlDropTableEmitter} from "../../sql-emitter/_SqlDropTableEmitter";
 import {_SqlInsertTableRowEmitter} from "../../sql-emitter/_SqlInsertTableRowEmitter";
 import {_SqlSelectTableRowEmitter} from "../../sql-emitter/_SqlSelectTableRowEmitter";
+import {_SqlUpdateTableRowEmitter} from "../../sql-emitter/_SqlUpdateTableRowEmitter";
 
 type Done = () => void;
 
@@ -124,6 +125,12 @@ export class Test {
 
     };
 
+    static test_update_row = {
+        pkColumn: 0,
+        shortColumn: 32767,
+        stringColumn: getTestString().substr(0, 1000),
+    };
+
 
     @test
     async connection() {
@@ -156,9 +163,21 @@ export class Test {
 
         let emitter = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, 0);
         let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
-        console.log(emitter.toSql());
         let row = result[0][0];
         assert.deepEqual(row, Test.test_row);
+    }
+
+    @test
+    async update() {
+        let emitter = new _SqlUpdateTableRowEmitter(Test.dialect, Test.table, Test.test_update_row);
+        let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
+
+        let emitter2 = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, 0,["pkColumn","shortColumn","stringColumn"]);
+        let result2 = await Test.driver.executeSqlBatch([emitter2.toSql()]);
+        let row = result2[0][0];
+        assert.deepEqual(row, Test.test_update_row);
+
+
     }
 
     @test
