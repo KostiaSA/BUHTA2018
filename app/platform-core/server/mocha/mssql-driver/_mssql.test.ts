@@ -13,6 +13,7 @@ import {_SqlDropTableEmitter} from "../../sql-emitter/_SqlDropTableEmitter";
 import {_SqlInsertTableRowEmitter} from "../../sql-emitter/_SqlInsertTableRowEmitter";
 import {_SqlSelectTableRowEmitter} from "../../sql-emitter/_SqlSelectTableRowEmitter";
 import {_SqlUpdateTableRowEmitter} from "../../sql-emitter/_SqlUpdateTableRowEmitter";
+import {_SqlUpsertTableRowEmitter} from "../../sql-emitter/_SqlUpsertTableRowEmitter";
 
 type Done = () => void;
 
@@ -131,6 +132,18 @@ export class Test {
         stringColumn: getTestString().substr(0, 1000),
     };
 
+    static test_upsert1_row = {
+        pkColumn: 0,
+        shortColumn: 32767,
+        stringColumn: getTestString().substr(0, 1000),
+    };
+
+    static test_upsert2_row = {
+        pkColumn: 100,
+        shortColumn: 2767,
+        stringColumn: getTestString().substr(0, 1000),
+    };
+
 
     @test
     async connection() {
@@ -161,7 +174,7 @@ export class Test {
     @test
     async select() {
 
-        let emitter = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, 0);
+        let emitter = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, Test.test_row.pkColumn);
         let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
         let row = result[0][0];
         assert.deepEqual(row, Test.test_row);
@@ -172,12 +185,32 @@ export class Test {
         let emitter = new _SqlUpdateTableRowEmitter(Test.dialect, Test.table, Test.test_update_row);
         let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
 
-        let emitter2 = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, 0,["pkColumn","shortColumn","stringColumn"]);
+        let emitter2 = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, Test.test_update_row.pkColumn,["pkColumn","shortColumn","stringColumn"]);
         let result2 = await Test.driver.executeSqlBatch([emitter2.toSql()]);
         let row = result2[0][0];
         assert.deepEqual(row, Test.test_update_row);
+    }
 
+    @test
+    async upsert1() {
+        let emitter = new _SqlUpsertTableRowEmitter(Test.dialect, Test.table, Test.test_upsert1_row);
+        let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
 
+        let emitter2 = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, Test.test_upsert1_row.pkColumn,["pkColumn","shortColumn","stringColumn"]);
+        let result2 = await Test.driver.executeSqlBatch([emitter2.toSql()]);
+        let row = result2[0][0];
+        assert.deepEqual(row, Test.test_upsert1_row);
+    }
+
+    @test
+    async upsert2() {
+        let emitter = new _SqlUpsertTableRowEmitter(Test.dialect, Test.table, Test.test_upsert2_row);
+        let result = await Test.driver.executeSqlBatch([emitter.toSql()]);
+
+        let emitter2 = new _SqlSelectTableRowEmitter(Test.dialect, Test.table, Test.test_upsert2_row.pkColumn,["pkColumn","shortColumn","stringColumn"]);
+        let result2 = await Test.driver.executeSqlBatch([emitter2.toSql()]);
+        let row = result2[0][0];
+        assert.deepEqual(row, Test.test_upsert2_row);
     }
 
     @test
