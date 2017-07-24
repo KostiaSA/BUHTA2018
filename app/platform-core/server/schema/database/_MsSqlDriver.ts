@@ -49,14 +49,19 @@ export class _MsSqlDriver implements _ISqlDriver {
         }
     }
 
-    pool: ConnectionPool;
+    config_id: string;
+
+    static pool: { [config_id: string]: ConnectionPool; }={};
 
     async connect() {
-        if (!this.pool) {
-            this.pool = await ((mssql as any).connect(this.config));
+        if (!this.config_id)
+            this.config_id = JSON.stringify(this.config);
+
+        if (!_MsSqlDriver.pool[this.config_id]) {
+            _MsSqlDriver.pool[this.config_id] = await ((mssql as any).connect(this.config));
         }
-        if (!this.pool.connected) {
-            await this.pool.connect();
+        if (!_MsSqlDriver.pool[this.config_id].connected) {
+            await _MsSqlDriver.pool[this.config_id].connect();
         }
     }
 
@@ -77,7 +82,7 @@ export class _MsSqlDriver implements _ISqlDriver {
     async executeSqlBatch(sql: string[]): Promise<any[][]> {
         await this.connect();
 
-        let result = await this.pool.request().query(sql.join(";\n"));
+        let result = await _MsSqlDriver.pool[this.config_id].request().query(sql.join(";\n"));
 
         this.postProcessResultRecordsets(result.recordsets);
         return result.recordsets;

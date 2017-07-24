@@ -1,7 +1,6 @@
 import {_SchemaObject} from "./_SchemaObject";
 import {ISchemaObjectProps} from "../../schema/ISchemaObject";
 import {SchemaDatabase} from "../../schema/database/SchemaDatabase";
-import {CoreConst} from "../../CoreConst";
 import {_SchemaDatabase} from "./database/_SchemaDatabase";
 import {_config} from "../../../../_config";
 import {parse} from "ejson";
@@ -15,6 +14,7 @@ import {FkSqlDataType} from "../../schema/table/datatypes/FkSqlDataType";
 import {IFkSqlDataTypeProps} from "../../schema/table/datatypes/IFkSqlDataTypeProps";
 import {_getSchemaObjectTable} from "./_getSchemaObjectTable";
 import {_getSchemaDatabase} from "./_getSchemaDatabase";
+import {CoreConst} from "../../CoreConst";
 
 export async function _loadSchemaObject<T extends _SchemaObject<ISchemaObjectProps>>(id: string): Promise<T> {
 
@@ -96,10 +96,15 @@ export async function _loadSchemaObject<T extends _SchemaObject<ISchemaObjectPro
             return table as any;
         }
         else {
+            console.log("load 1",id);
+
             let table = await _getSchemaObjectTable();
+            console.log("load 1.5",id);
             let db = await _getSchemaDatabase();
+            console.log("load 2");
 
             let row = await db.selectTableRow(table, id, ["jsonData"]);
+            console.log("load 3");
 
             if (row) {
                 let props = parse(row.jsonData) as ISchemaObjectProps;
