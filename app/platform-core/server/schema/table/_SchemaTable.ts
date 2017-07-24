@@ -85,10 +85,10 @@ export class _SchemaTable extends _SchemaObject<ISchemaTableProps> {
         //     await model.upsert(row);
     }
 
-    async getRow(recordId: any): Promise<any> {
-        // let model = await this.getSequelizeModel();
-        // let instance = await model.findByPrimary(recordId);
-        // return instance.get();
-    }
+    // async getRow(recordId: any): Promise<any> {
+    //     // let model = await this.getSequelizeModel();
+    //     // let instance = await model.findByPrimary(recordId);
+    //     // return instance.get();
+    // }
 
 }

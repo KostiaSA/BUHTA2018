@@ -47,6 +47,7 @@ import {SchemaHelper} from "../schema/SchemaHelper";
 import {SchemaForm} from "../schema/form/SchemaForm";
 import {IFormInputOptions} from "../schema/form/IFormInputOptions";
 import {ValidationRule} from "antd/es/form/Form";
+import {SchemaDatabase} from "../schema/database/SchemaDatabase";
 
 let Highlighter = require("react-highlight-words");
 
@@ -181,6 +182,7 @@ export class SchemaFormPageTemplate extends PageTemplate {
 
     };
 
+    db: SchemaDatabase;
     form: SchemaForm;
     table: SchemaTable;
     editedObject: SchemaTableRow<any>;
@@ -194,11 +196,12 @@ export class SchemaFormPageTemplate extends PageTemplate {
         if (!this.editedObject) {
             this.form = await SchemaHelper.createSchemaObject<SchemaForm>(getParamFromUrl("formId"));
             this.table = await SchemaHelper.createSchemaObject<SchemaTable>(getParamFromUrl("tableId"));
+            this.db = await SchemaHelper.createSchemaObject<SchemaDatabase>(getParamFromUrl("dbId"));
 
             let editedObjectId = getParamFromUrl("objectId");
 
             if (editedObjectId) {
-                this.editedObject = await this.table.getRow(editedObjectId);
+                this.editedObject = await this.table.getRow(this.db.props.id, editedObjectId);
                 this.initialEditedObjectProps = {...this.editedObject.props};
                 //setInterval(this.trackChanges, 100);
                 //this.orginalObjectPropsJson = JSON.stringify(this.designedObject.props);

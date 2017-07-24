@@ -27,9 +27,8 @@ export class _SqlUpdateTableRowEmitter extends _SqlEmitter {
         for (let col of this.table.columns) {
             if (col.primaryKey)
                 primaryKeyColumn = col;
-
-            if (this.row[col.name] !== undefined) {
-                colNames.push(this.identifierToSql(col.name)+"="+this.valueToSql(col, this.row[col.name]));
+            else if (this.row[col.name] !== undefined) {
+                colNames.push(this.identifierToSql(col.name) + "=" + this.valueToSql(col, this.row[col.name]));
             }
         }
         if (!primaryKeyColumn) {
@@ -41,7 +40,6 @@ export class _SqlUpdateTableRowEmitter extends _SqlEmitter {
         sql.push(colNames.join(","));
 
         sql.push(" WHERE " + this.identifierToSql(primaryKeyColumn.name) + "=" + this.valueToSql(primaryKeyColumn, this.row[primaryKeyColumn.name]));
-
 
 
         return sql.join("");

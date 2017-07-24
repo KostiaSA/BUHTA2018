@@ -1,8 +1,6 @@
 import {_SqlEmitter} from "./_SqlEmitter";
 import {_ISqlTable, _ISqlTableColumn, _SqlDataType} from "../schema/database/_SqlTable";
 import {SqlDialect} from "../../schema/table/datatypes/SqlDataType";
-//import {_SqlDataType} from "../schema/table/sql/_SqlDataType";
-import {_ISqlDataType} from "../schema/database/datatype/_BaseSqlDataType";
 
 export class _SqlUpsertTableRowEmitter extends _SqlEmitter {
 
@@ -24,7 +22,8 @@ export class _SqlUpsertTableRowEmitter extends _SqlEmitter {
                 primaryKeyColumn = col;
 
             if (this.row[col.name] !== undefined) {
-                colSet.push(this.identifierToSql(col.name)+"="+this.valueToSql(col, this.row[col.name]));
+                if (!col.primaryKey)
+                    colSet.push(this.identifierToSql(col.name) + "=" + this.valueToSql(col, this.row[col.name]));
                 colNames.push(this.identifierToSql(col.name));
                 colValues.push(this.valueToSql(col, this.row[col.name]));
             }
@@ -36,7 +35,7 @@ export class _SqlUpsertTableRowEmitter extends _SqlEmitter {
         }
 
         sql.push("BEGIN TRAN\n");
-        sql.push("  IF EXISTS(SELECT 1 FROM "+this.tableNameToSql(this.table)+" WHERE " + this.identifierToSql(primaryKeyColumn.name) + "=" + this.valueToSql(primaryKeyColumn, this.row[primaryKeyColumn.name])+")");
+        sql.push("  IF EXISTS(SELECT 1 FROM " + this.tableNameToSql(this.table) + " WHERE " + this.identifierToSql(primaryKeyColumn.name) + "=" + this.valueToSql(primaryKeyColumn, this.row[primaryKeyColumn.name]) + ")");
         sql.push("\n");
         sql.push("    UPDATE ");
         sql.push(this.tableNameToSql(this.table));

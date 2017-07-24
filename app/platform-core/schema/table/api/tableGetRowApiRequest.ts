@@ -3,6 +3,7 @@ import {isString} from "util";
 import {parse} from "ejson";
 
 export interface ITableGetRowApiRequest {
+    dbId: string;
     tableId: string;
     recordId: any;
 }

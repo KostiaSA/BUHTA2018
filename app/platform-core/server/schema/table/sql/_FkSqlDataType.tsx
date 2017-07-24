@@ -20,7 +20,7 @@ export class _FkSqlDataType extends _SqlDataType<IFkSqlDataTypeProps> {
 
             return fkPkSqlColumns.map((fkPrimaryCol: _ISqlTableColumn) => {
                 return {
-                    name: colProps.name + "_" + fkPrimaryCol.name,
+                    name: fkPkSqlColumns.length > 1 ? colProps.name + "_" + fkPrimaryCol.name : colProps.name,
                     dataType: fkPrimaryCol.dataType,
                     notNull: fkPrimaryCol.notNull,
                     dataLen: fkPrimaryCol.dataLen,

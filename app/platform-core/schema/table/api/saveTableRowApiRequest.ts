@@ -3,6 +3,7 @@ import {isString} from "util";
 import {parse} from "ejson";
 
 export interface ISaveTableRowApiRequest {
+    dbId: string;
     tableId: string;
     row: any;
 }

@@ -8,6 +8,7 @@ import {ISchemaTableRow, SchemaTableRow} from "./SchemaTableRow";
 import {CoreConst} from "../../CoreConst";
 import {tableGetRowApiRequest} from "./api/tableGetRowApiRequest";
 import {ISchemaTableColumnProps} from "./ISchemaTableColumnProps";
+import {SchemaDatabase} from "../database/SchemaDatabase";
 
 
 export interface ISchemaTableClassInfo extends ISchemaObjectClassInfo<typeof SchemaTable> {
@@ -87,7 +88,12 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
             if (this.props.editOptions && this.props.editOptions.editFormId)
                 formId = this.props.editOptions.editFormId;
 
-            let params: any = {objectId: recordId, tableId: this.props.id};
+            let params: any = {
+                objectId: recordId,
+                tableId: this.props.id,
+                dbId: SchemaDatabase.classInfo.recordIdPrefix + ":" + CoreConst.Schema_DatabaseId
+            };
+
             if (formId)
                 params.formId = formId;
 
@@ -133,9 +139,9 @@ export class SchemaTable extends SchemaObject<ISchemaTableProps> implements ISch
 
     }
 
-    async getRow(recordId: any): Promise<SchemaTableRow<any>> {
-        let rowProps = (await tableGetRowApiRequest({tableId: this.props.id, recordId: recordId})).row;
-        return new SchemaTableRow(this, rowProps);
+    async getRow(dbId: string, recordId: any): Promise<SchemaTableRow<any>> {
+        let rowProps = (await tableGetRowApiRequest({dbId: dbId, tableId: this.props.id, recordId: recordId})).row;
+        return new SchemaTableRow(dbId, this, rowProps);
     }
 
 }

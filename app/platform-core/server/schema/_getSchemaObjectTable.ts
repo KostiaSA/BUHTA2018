@@ -1,13 +1,10 @@
 import {_ISqlTable} from "./database/_SqlTable";
 import {_loadSchemaObject} from "./_loadSchemaObject";
 import {CoreConst} from "../../CoreConst";
-import {SchemaTable} from "../../schema/table/SchemaTable";
 import {_SchemaTable} from "./table/_SchemaTable";
 import {ISchemaTableProps} from "../../schema/table/ISchemaTableProps";
 import {StringSqlDataType} from "../../schema/table/datatypes/StringSqlDataType";
 import {IStringSqlDataTypeProps} from "../../schema/table/datatypes/IStringSqlDataTypeProps";
-import {IFkSqlDataTypeProps} from "../../schema/table/datatypes/IFkSqlDataTypeProps";
-import {FkSqlDataType} from "../../schema/table/datatypes/FkSqlDataType";
 
 export async function _getSchemaObjectTable(): Promise<_ISqlTable> {
     // let schemaObjectTable = await _loadSchemaObject<_SchemaTable>(SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaTable_TableId);

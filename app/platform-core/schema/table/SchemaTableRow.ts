@@ -15,7 +15,7 @@ export interface ISchemaTableRowClassInfo extends IClassInfo<typeof SchemaTableR
 
 export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTableRow {
 
-    constructor(public table: SchemaTable, public props: T) {
+    constructor(public dbId:string, public table: SchemaTable, public props: T) {
 
     }
 
@@ -45,7 +45,7 @@ export class SchemaTableRow<T extends ISchemaTableRowProps> implements ISchemaTa
         }
 
 
-        return saveTableRowApiRequest({tableId: this.table.props.id, row: propsToSave})
+        return saveTableRowApiRequest({dbId: this.dbId, tableId: this.table.props.id, row: propsToSave})
 
         // let msg = "save not yet implemented";
         // console.error(msg, propsToSave);

@@ -1,5 +1,4 @@
 import {ISchemaObjectProps} from "../../schema/ISchemaObject";
-import {_saveSchemaObjectApiResponse} from "../../schema/api/_saveSchemaObjectApiResponse";
 import {ISchemaObjectClassInfo} from "../../schema/SchemaObject";
 
 export class _SchemaObject<T extends ISchemaObjectProps> {
@@ -31,6 +30,7 @@ export class _SchemaObject<T extends ISchemaObjectProps> {
         }
         this.props.className = classInfo.className;
 
+        const _saveSchemaObjectApiResponse = require("../../schema/api/_saveSchemaObjectApiResponse");
         let result = await _saveSchemaObjectApiResponse({object: this.props});
         if (result.error) {
             let msg = result.error;
