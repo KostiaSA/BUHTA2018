@@ -18,7 +18,7 @@ export class SchemaQuery extends SchemaObject<ISchemaQueryProps> implements ISch
 
     static classInfo: ISchemaQueryClassInfo = {
         title: "Запрос",
-        description:"Sql - запрос, построенный на основании таблицы",
+        description: "Sql - запрос, построенный на основании таблицы",
         className: "platform-core:SchemaQuery",
         constructor: SchemaQuery,
         //designerUrl: "+++++++++++++++admin/schema-query-designer",
@@ -56,8 +56,8 @@ export class SchemaQuery extends SchemaObject<ISchemaQueryProps> implements ISch
     }
 
 
-    async loadData(): Promise<any[]> {
-        return (await executeSchemaQueryApiRequest({queryId: this.props.id})).rows;
+    async loadData(dbId: string): Promise<any[]> {
+        return (await executeSchemaQueryApiRequest({queryId: this.props.id, dbId: dbId})).rows;
     }
 
     async getRootTable(): Promise<SchemaTable> {

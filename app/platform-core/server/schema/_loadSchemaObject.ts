@@ -96,15 +96,10 @@ export async function _loadSchemaObject<T extends _SchemaObject<ISchemaObjectPro
             return table as any;
         }
         else {
-            console.log("load 1",id);
-
             let table = await _getSchemaObjectTable();
-            console.log("load 1.5",id);
             let db = await _getSchemaDatabase();
-            console.log("load 2");
 
             let row = await db.selectTableRow(table, id, ["jsonData"]);
-            console.log("load 3");
 
             if (row) {
                 let props = parse(row.jsonData) as ISchemaObjectProps;

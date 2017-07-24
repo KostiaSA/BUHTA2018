@@ -4,6 +4,7 @@ import {_SchemaQuery} from "../../server/schema/query/_SchemaQuery";
 
 export interface _IExecuteSchemaQueryApiRequest {
     queryId: string;
+    dbId: string;
 }
 
 export interface _IExecuteSchemaQueryApiResponse {
@@ -14,7 +15,7 @@ export interface _IExecuteSchemaQueryApiResponse {
 export async function _executeSchemaQueryApiResponse(req: _IExecuteSchemaQueryApiRequest): Promise<_IExecuteSchemaQueryApiResponse> {
     try {
         let query = await _loadSchemaObject<_SchemaQuery>(req.queryId);
-        let rows = await query.execute();
+        let rows = await query.execute(req.dbId);
         return Promise.resolve({rows: rows})
     }
     catch (e) {

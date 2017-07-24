@@ -4,6 +4,7 @@ import {parse} from "ejson";
 
 export interface IExecuteSchemaQueryApiRequest {
     queryId: string;
+    dbId: string;
 }
 
 export interface IExecuteSchemaQueryApiResponse {

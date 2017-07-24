@@ -14,6 +14,7 @@ import {CSSProperties} from "react";
 
 export interface IQueryGridProps {
     queryId: string;
+    dbId: string;
     random?: string;
     showRefreshButton?: boolean;
     showAddButton?: boolean;
@@ -44,7 +45,7 @@ export class QueryGrid extends React.Component<IQueryGridProps, any> {
                 this.random = this.props.random;
                 this.query = await SchemaHelper.createSchemaObject<SchemaQuery>(this.props.queryId);
                 await this.createColumns();
-                this.dataSource = await this.query.loadData();
+                this.dataSource = await this.query.loadData(this.props.dbId);
                 delete this.loadDataError;
                 this.loading=false;
             }

@@ -23,6 +23,8 @@ import {SchemaHelper} from "../../platform-core/schema/SchemaHelper";
 import {QueryGrid} from "../../platform-core/components/QueryGrid";
 import {AdminConst} from "../AdminConst";
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
+import {SchemaDatabase} from "../../platform-core/schema/database/SchemaDatabase";
+import {CoreConst} from "../../platform-core/CoreConst";
 
 export interface ISchemaObjectListPageTemplateProps {
 
@@ -46,6 +48,7 @@ export class SchemaObjectListPageTemplate extends AdminMainPageTemplate {
                 <h2>Список объектов конфигурации</h2>
                 <QueryGrid
                     queryId={SchemaQuery.classInfo.recordIdPrefix+":"+ AdminConst.SchemaObjectListQueryId}
+                    dbId={SchemaDatabase.classInfo.recordIdPrefix+":"+ CoreConst.Schema_DatabaseId}
                     showRefreshButton
                     showAddButton
                 />

@@ -49,6 +49,8 @@ import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 import {QueryGrid} from "../../platform-core/components/QueryGrid";
 import {SchemaObject} from "../../platform-core/schema/SchemaObject";
 import {findSchemaObjectsForLookupApiRequest} from "../../platform-core/schema/api/findSchemaObjectsForLookupApiRequest";
+import {SchemaDatabase} from "../../platform-core/schema/database/SchemaDatabase";
+import {CoreConst} from "../../platform-core/CoreConst";
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -455,6 +457,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
 
                             <QueryGrid
                                 queryId={this.testQueryId}
+                                dbId={SchemaDatabase.classInfo.recordIdPrefix+":"+ CoreConst.Schema_DatabaseId}
                                 random={this.testQueryRandom}
                             />
 

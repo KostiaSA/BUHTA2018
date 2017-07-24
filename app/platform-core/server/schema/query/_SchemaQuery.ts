@@ -4,6 +4,8 @@ import {SchemaQuery} from "../../../schema/query/SchemaQuery";
 import {_SchemaQueryHelper, _SchemaQueryHelperColumn} from "./_SchemaQueryHelper";
 import {SqlDialect} from "../../../schema/table/datatypes/SqlDataType";
 import {_SqlSelectEmitter} from "../../sql-emitter/_SqlSelectEmitter";
+import {_loadSchemaObject} from "../_loadSchemaObject";
+import {_SchemaDatabase} from "../database/_SchemaDatabase";
 
 
 export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
@@ -25,8 +27,8 @@ export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
             // добавляем __recordId__
             emitter.fields.push(
                 "    " +
-                emitter.identifierToSql(column.joinTableAlias) + "." + emitter.identifierToSql(column.joinTable.getPrimaryKeyColumn().name)+
-                " AS "+emitter.identifierToSql("__recordId__"));
+                emitter.identifierToSql(column.joinTableAlias) + "." + emitter.identifierToSql(column.joinTable.getPrimaryKeyColumn().name) +
+                " AS " + emitter.identifierToSql("__recordId__"));
 
         }
         else if (column.joinTable) {
@@ -66,11 +68,13 @@ export class _SchemaQuery extends _SchemaObject<ISchemaQueryProps> {
         return emitter.toSql();
     }
 
-    async execute(): Promise<any[]> {
-        throw  "не реализовано";
-        // let sql = await this.emitSql(_sequelize.getDialect() as any);
-        // let result = await _sequelize.query(sql);
-        // return result[0];
+    async execute(dbId: string): Promise<any[]> {
+        let db = await _loadSchemaObject<_SchemaDatabase>(dbId);
+        let sql = await this.emitSql(db.props.sqlDialect);
+        let result = await db.executeSqlBatch([sql]);
+        console.log(sql,result[0]);
+
+        return result[0];
     }
 
 }
