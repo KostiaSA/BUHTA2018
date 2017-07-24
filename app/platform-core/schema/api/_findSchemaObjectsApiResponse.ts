@@ -1,11 +1,10 @@
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
-import {WhereOptions} from "sequelize";  // emit-to-request-code
 
-import {schemaObjectModel} from "../_schemaObjectModel";
+
 import {parse} from "ejson";
 
 export interface _IFindSchemaObjectsApiRequest {
-    where: WhereOptions;
+    where: any;
 }
 
 export interface _IFindSchemaObjectsApiResponse {
@@ -14,15 +13,16 @@ export interface _IFindSchemaObjectsApiResponse {
 }
 
 export async function _findSchemaObjectsApiResponse(req: _IFindSchemaObjectsApiRequest): Promise<_IFindSchemaObjectsApiResponse> {
-    try {
-        let instance = await schemaObjectModel.findAll({where:req.where});
-        if (instance) {
-            return Promise.resolve({objects: instance.map((item)=>parse(item.get().jsonData)) as any})
-        }
-        else
-            return Promise.resolve({error: "internal error"} as any);
-    }
-    catch (e) {
-        return Promise.resolve({error: "Ошибка _findSchemaObjectsApiResponse(): " + e.toString()} as any);
-    }
+    throw  "не реализовано";
+    // try {
+    //     let instance = await schemaObjectModel.findAll({where:req.where});
+    //     if (instance) {
+    //         return Promise.resolve({objects: instance.map((item)=>parse(item.get().jsonData)) as any})
+    //     }
+    //     else
+    //         return Promise.resolve({error: "internal error"} as any);
+    // }
+    // catch (e) {
+    //     return Promise.resolve({error: "Ошибка _findSchemaObjectsApiResponse(): " + e.toString()} as any);
+    // }
 }

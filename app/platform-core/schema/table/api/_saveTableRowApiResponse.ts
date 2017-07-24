@@ -12,15 +12,15 @@ export interface _ISaveTableRowApiResponse {
 }
 
 export async function _saveTableRowApiResponse(req: _ISaveTableRowApiRequest): Promise<_ISaveTableRowApiResponse> {
-
-    try {
-        let table=await _loadSchemaObject<_SchemaTable>(req.tableId);
-        let model= await table.getSequelizeModel();
-        await model.upsert(req.row)
-        return Promise.resolve({})
-    }
-    catch (e) {
-        return Promise.resolve({error: "Ошибка сохранения tableRow: " + e.toString()});
-    }
+    throw  "не реализовано";
+    // try {
+    //     let table=await _loadSchemaObject<_SchemaTable>(req.tableId);
+    //     let model= await table.getSequelizeModel();
+    //     await model.upsert(req.row)
+    //     return Promise.resolve({})
+    // }
+    // catch (e) {
+    //     return Promise.resolve({error: "Ошибка сохранения tableRow: " + e.toString()});
+    // }
 
 }

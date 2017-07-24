@@ -4,9 +4,17 @@ import {SchemaDatabase} from "../../schema/database/SchemaDatabase";
 import {CoreConst} from "../../CoreConst";
 import {_SchemaDatabase} from "./database/_SchemaDatabase";
 import {_config} from "../../../../_config";
-import {schemaObjectModel} from "../../schema/_schemaObjectModel";
 import {parse} from "ejson";
 import {serverState} from "../ServerState";
+import {SchemaTable} from "../../schema/table/SchemaTable";
+import {_SchemaTable} from "./table/_SchemaTable";
+import {ISchemaTableProps} from "../../schema/table/ISchemaTableProps";
+import {IStringSqlDataTypeProps} from "../../schema/table/datatypes/IStringSqlDataTypeProps";
+import {StringSqlDataType} from "../../schema/table/datatypes/StringSqlDataType";
+import {FkSqlDataType} from "../../schema/table/datatypes/FkSqlDataType";
+import {IFkSqlDataTypeProps} from "../../schema/table/datatypes/IFkSqlDataTypeProps";
+import {_getSchemaObjectTable} from "./_getSchemaObjectTable";
+import {_getSchemaDatabase} from "./_getSchemaDatabase";
 
 export async function _loadSchemaObject<T extends _SchemaObject<ISchemaObjectProps>>(id: string): Promise<T> {
 
@@ -30,17 +38,79 @@ export async function _loadSchemaObject<T extends _SchemaObject<ISchemaObjectPro
         return obj as any;
     }
     else {
-        let instance = await schemaObjectModel.findByPrimary(id);
-        if (instance) {
-            let row = instance.get();
-            let props = parse(row.jsonData) as ISchemaObjectProps;
-            let objectClass = serverState.getRegisteredClassInfo(props.className).constructor;
-            let obj = new objectClass();
-            obj.props = props;
-            return obj;
-        }
-        else
-            throw "Ошибка загрузки _SchemaObject (id:" + id + "): запись не найдена";
-    }
-}
+        if (id === SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaTable_TableId) {
 
+            let tableProps: ISchemaTableProps = {
+                id: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaTable_TableId,
+                className: _SchemaTable.classInfo.className,
+                name: "__SchemaObject__",
+                description: "объекты конфигурации",
+                columns: [
+                    {
+                        name: "id",
+                        primaryKey: true,
+                        dataType: {
+                            className: StringSqlDataType.classInfo.className,
+                            maxLen: 127
+                        } as IStringSqlDataTypeProps
+
+                    },
+                    {
+                        name: "name",
+                        dataType: {
+                            className: StringSqlDataType.classInfo.className,
+                            maxLen: 127
+                        } as IStringSqlDataTypeProps
+
+                    },
+                    {
+                        name: "description",
+                        dataType: {
+                            className: StringSqlDataType.classInfo.className,
+                            maxLen: 1000
+                        } as IStringSqlDataTypeProps
+
+                    },
+                    {
+                        name: "className",
+                        dataType: {
+                            className: FkSqlDataType.classInfo.className,
+                            fkTableId: _SchemaTable.classInfo.recordIdPrefix + ":" + CoreConst.SchemaObjectTypeTableObjectId
+                        } as IFkSqlDataTypeProps
+
+                    },
+                    {
+                        name: "jsonData",
+                        dataType: {
+                            className: StringSqlDataType.classInfo.className,
+                            maxLen: 0
+                        } as IStringSqlDataTypeProps
+
+                    },
+                ]
+            };
+
+            let table = new _SchemaTable(tableProps);
+
+            // todo странное any ???
+            return table as any;
+        }
+        else {
+            let table = await _getSchemaObjectTable();
+            let db = await _getSchemaDatabase();
+
+            let row = await db.selectTableRow(table, id, ["jsonData"]);
+
+            if (row) {
+                let props = parse(row.jsonData) as ISchemaObjectProps;
+                let objectClass = serverState.getRegisteredClassInfo(props.className).constructor;
+                let obj = new objectClass();
+                obj.props = props;
+                return obj;
+            }
+            else
+                throw "Ошибка загрузки _SchemaObject (id:" + id + "): запись не найдена";
+        }
+    }
+
+}

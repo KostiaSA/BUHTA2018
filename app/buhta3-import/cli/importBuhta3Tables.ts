@@ -1,5 +1,3 @@
-import {_buhta3Sequelize, _buhta3SequelizeInit} from "../_buhta3Sequelize";
-import {_sequelizeInit} from "../../platform-core/server/_sequelize";
 import {ISchemaTableProps} from "../../platform-core/schema/table/ISchemaTableProps";
 import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 import {ISchemaTableColumnProps} from "../../platform-core/schema/table/ISchemaTableColumnProps";
@@ -15,8 +13,8 @@ import {_getSHA256base64Id} from "../../platform-core/utils/_getSHA256base64Id";
 import {SchemaForm} from "../../platform-core/schema/form/SchemaForm";
 
 export async function importBuhta3Tables() {
-    await _sequelizeInit();
-    await _buhta3SequelizeInit();
+    //await _sequelizeInit();
+    //await _buhta3SequelizeInit();
 
     let getIdFromTableName = (name: string): string => {
         return _getSHA256base64Id("imported-from-buhta3-" + name);

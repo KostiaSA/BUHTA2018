@@ -1,6 +1,5 @@
 import {ISchemaPageProps} from "../app/platform-core/schema/ISchemaPage";
 import {_saveSchemaObjectApiResponse} from "../app/platform-core/schema/api/_saveSchemaObjectApiResponse";
-import {_sequelizeInit} from "../app/platform-core/server/_sequelize";
 import {ISchemaAppProps} from "../app/platform-core/schema/ISchemaApp";
 import {ISchemaMenuProps, ISchemaMenuItem} from "../app/platform-core/schema/ISchemaMenu";
 import {IOpenSchemaPageAction} from "../app/platform-core/actions/IOpenSchemaPageAction";
@@ -26,7 +25,7 @@ import {_SchemaPage} from "../app/platform-core/server/schema/page/_SchemaPage";
 import {SchemaAppDesignerPageTemplate} from "../app/platform-admin/pages/SchemaAppDesignerPageTemplate";
 
 export async function create_Организация_query() {
-    await _sequelizeInit();
+    //await _sequelizeInit();
 
     // ------------------ SchemaQuery организация ------------------
     let query1: ISchemaQueryProps = {

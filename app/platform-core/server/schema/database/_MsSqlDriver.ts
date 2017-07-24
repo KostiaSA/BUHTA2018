@@ -55,6 +55,9 @@ export class _MsSqlDriver implements _ISqlDriver {
         if (!this.pool) {
             this.pool = await ((mssql as any).connect(this.config));
         }
+        if (!this.pool.connected) {
+            await this.pool.connect();
+        }
     }
 
     // поля BigInt приходят в виде строк, превращаем в Number
@@ -72,20 +75,27 @@ export class _MsSqlDriver implements _ISqlDriver {
     }
 
     async executeSqlBatch(sql: string[]): Promise<any[][]> {
-        if (!this.pool.connected) {
-            await this.pool.connect();
-        }
+        await this.connect();
+
         let result = await this.pool.request().query(sql.join(";\n"));
 
         this.postProcessResultRecordsets(result.recordsets);
         return result.recordsets;
     }
 
-    async createTable(table: _ISqlTable): Promise<void> {
-
-        let emitter = new _SqlCreateTableEmitter("mssql", table);
-        let sql = emitter.toSql();
-        let result = await this.pool.request().query(sql);
-
-    }
+    // async createTable(table: _ISqlTable): Promise<void> {
+    //
+    //     let emitter = new _SqlCreateTableEmitter("mssql", table);
+    //     let sql = emitter.toSql();
+    //     let result = await this.executeSqlBatch([sql]);
+    //
+    // }
+    //
+    // async selectTableRow(table: _ISqlTable, rowId: any): Promise<any>{
+    //     if (!this.pool.connected) {
+    //         await this.pool.connect();
+    //     }
+    //
+    //
+    // }
 }

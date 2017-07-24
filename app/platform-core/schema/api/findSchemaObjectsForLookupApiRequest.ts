@@ -1,11 +1,10 @@
 
-import {isString} from "util"; 
+import {isString} from "util";
 import {parse} from "ejson";
 
 import {ISchemaObjectProps} from "../ISchemaObject"; // emit-to-request-code
-import {WhereOptions} from "sequelize";  // emit-to-request-code
 export interface IFindSchemaObjectsForLookupApiRequest {
-    where: WhereOptions;
+    where: any;
 }
 
 export interface IFindSchemaObjectsForLookupApiResponse {
@@ -46,4 +45,4 @@ export function findSchemaObjectsForLookupApiRequest(req: IFindSchemaObjectsForL
 
         });
 
-}        
+}

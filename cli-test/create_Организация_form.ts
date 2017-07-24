@@ -1,10 +1,10 @@
-import {_sequelizeInit} from "../app/platform-core/server/_sequelize";
+
 import {ISchemaFormProps} from "../app/platform-core/schema/form/ISchemaFormProps";
 import {SchemaForm} from "../app/platform-core/schema/form/SchemaForm";
 import {_SchemaForm} from "../app/platform-core/server/schema/form/_SchemaForm";
 
 export async function create_Организация_form() {
-    await _sequelizeInit();
+  //  await _sequelizeInit();
 
     // ------------------ SchemaQuery организация ------------------
     let form1: ISchemaFormProps = {

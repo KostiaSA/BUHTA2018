@@ -1,9 +1,6 @@
 import * as React from "react";
 import {Icon, Input, Button, Form, Row, Col, LocaleProvider, DatePicker} from 'antd';
 import {IPageTemplateClassInfo, IPageTemplateProps, PageTemplate} from "../../platform-core/components/PageTemplate";
-import {PropTypes} from "react";
-import {appState} from "../../platform-core/AppState";
-import isDivisibleBy = require("validator/lib/isDivisibleBy");
 
 export interface IAdminMainPageTemplateProps extends IPageTemplateProps {
 

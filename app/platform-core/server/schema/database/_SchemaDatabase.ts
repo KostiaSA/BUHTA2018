@@ -6,6 +6,9 @@ import {config} from "mssql";
 import {_ISqlDriver} from "./_ISqlDriver";
 import {_MsSqlDriver} from "./_MsSqlDriver";
 import {_ISqlTable} from "./_SqlTable";
+import {_SqlCreateTableEmitter} from "../../sql-emitter/_SqlCreateTableEmitter";
+import {_SqlSelectTableRowEmitter} from "../../sql-emitter/_SqlSelectTableRowEmitter";
+import {_SqlEmitter} from "../../sql-emitter/_SqlEmitter";
 
 export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     static classInfo = {...SchemaDatabase.classInfo, constructor: _SchemaDatabase};
@@ -16,7 +19,7 @@ export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     async initDriver() {
         if (!this.driver) {
             if (this.props.sqlDialect === "mssql")
-                return  this.driver=new _MsSqlDriver(this.props);
+                return this.driver = new _MsSqlDriver(this.props);
             else {
                 let msg = "initDriver(): invalid sql dialect " + this.props.sqlDialect;
                 console.error(msg);
@@ -27,15 +30,29 @@ export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     }
 
 
+    createSqlEmitter(): _SqlEmitter {
+        return new _SqlEmitter(this.props.sqlDialect);
+    }
+
     async executeSqlBatch(sql: string[]): Promise<any[][]> {
         await this.initDriver();
         return this.driver.executeSqlBatch(sql);
     }
 
-    async createTable(table: _ISqlTable): Promise<void>{
+    async createTable(table: _ISqlTable): Promise<void> {
         await this.initDriver();
-        return this.driver.createTable(table);
+        let emitter = new _SqlCreateTableEmitter(this.props.sqlDialect, table);
+        let result = await this.driver.executeSqlBatch([emitter.toSql()]);
+    }
 
+    async selectTableRow(table: _ISqlTable, rowId: any, columns?: string[], skipColumns?: string[]): Promise<any> {
+        await this.initDriver();
+
+        let emitter = new _SqlSelectTableRowEmitter(this.props.sqlDialect, table, rowId, columns, skipColumns);
+        let result = await this.driver.executeSqlBatch([emitter.toSql()]);
+        let row = result[0][0];
+
+        return row;
     }
 
 

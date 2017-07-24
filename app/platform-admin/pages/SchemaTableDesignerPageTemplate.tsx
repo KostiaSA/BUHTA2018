@@ -38,8 +38,6 @@ import {syncSchemaTableApiRequest} from "../../platform-core/schema/table/api/sy
 import {TableDataSourceHelper} from "../../platform-core/utils/TableDataSourceHelper";
 import {IPageTemplateClassInfo} from "../../platform-core/components/PageTemplate";
 import {AdminTheme} from "../adminTheme";
-import isDivisibleBy = require("validator/lib/isDivisibleBy");
-import {arrayExchangeItems} from "../../platform-core/utils/arrayExchangeItems";
 import {SchemaObject} from "../../platform-core/schema/SchemaObject";
 import {SchemaTable} from "../../platform-core/schema/table/SchemaTable";
 import {getRandomString} from "../../platform-core/utils/getRandomString";

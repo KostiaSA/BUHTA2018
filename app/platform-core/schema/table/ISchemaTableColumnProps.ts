@@ -11,6 +11,7 @@ export interface ISchemaTableColumnProps {
     primaryKey?: boolean;
     description?: string;
     position?: number;
+    notNull?:boolean,
     formInputOptions?: IFormInputOptions;
 }
 
