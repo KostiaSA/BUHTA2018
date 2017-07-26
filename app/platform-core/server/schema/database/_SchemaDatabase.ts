@@ -13,6 +13,7 @@ import {_SqlUpsertTableRowEmitter} from "../../sql-emitter/_SqlUpsertTableRowEmi
 import {_SqlUpdateTableRowEmitter} from "../../sql-emitter/_SqlUpdateTableRowEmitter";
 import {_SqlInsertTableRowEmitter} from "../../sql-emitter/_SqlInsertTableRowEmitter";
 import {_SqlDeleteTableRowEmitter} from "../../sql-emitter/_SqlDeleteTableRowEmitter";
+import {_SqlFindTableRowsEmitter} from "../../sql-emitter/_SqlFindTableRowsEmitter";
 
 export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
     static classInfo = {...SchemaDatabase.classInfo, constructor: _SchemaDatabase};
@@ -55,8 +56,16 @@ export class _SchemaDatabase extends _SchemaObject<ISchemaDatabaseProps> {
         let emitter = new _SqlSelectTableRowEmitter(this.props.sqlDialect, table, rowId, columns, skipColumns);
         let result = await this.driver.executeSqlBatch([emitter.toSql()]);
         let row = result[0][0];
-
         return row;
+    }
+
+    async findTableRows(table: _ISqlTable, where: string, columns?: string[], skipColumns?: string[]): Promise<any[]> {
+        await this.initDriver();
+
+        let emitter = new _SqlFindTableRowsEmitter(this.props.sqlDialect, table, where, columns, skipColumns);
+        let result = await this.driver.executeSqlBatch([emitter.toSql()]);
+        let rows = result[0];
+        return rows;
     }
 
     async insertTableRow(table: _ISqlTable, row: any): Promise<void> {

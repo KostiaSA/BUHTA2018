@@ -11,6 +11,7 @@ import {LazyRender} from "../../../components/LazyRender";
 import {findSchemaObjectsApiRequest} from "../../api/findSchemaObjectsApiRequest";
 import {findSchemaObjectsForLookupApiRequest} from "../../api/findSchemaObjectsForLookupApiRequest";
 import {SchemaHelper} from "../../SchemaHelper";
+import {findSchemaObjectsByClassNamesApiRequest} from "../../api/findSchemaObjectsByClassNamesApiRequest";
 
 export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
 
@@ -18,13 +19,14 @@ export class FkSqlDataType extends SqlDataType<IFkSqlDataTypeProps> {
         className: "platform-core:FkSqlDataType",
         constructor: FkSqlDataType,
         title: "ссылка",
-        renderEditor:(columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
+        renderEditor: (columnProps: ISchemaTableColumnProps, attrs?: any): JSX.Element | JSX.Element[] => {
             return [
                 <LazyRender
                     params={{}}
                     render={async () => {
 
-                        let ans = await findSchemaObjectsForLookupApiRequest({where: {className: SchemaTable.classInfo.className}});
+                        let ans = await findSchemaObjectsByClassNamesApiRequest({classNames: [SchemaTable.classInfo.className]});
+
                         let values = ans.objects.map((table: any) => {
                             return {value: table.id, text: table.name}
                         });
