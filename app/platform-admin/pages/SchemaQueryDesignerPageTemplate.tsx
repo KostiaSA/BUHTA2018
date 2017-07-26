@@ -48,9 +48,10 @@ import {reassignObject} from "../../platform-core/utils/reassignObject";
 import {SchemaQuery} from "../../platform-core/schema/query/SchemaQuery";
 import {QueryGrid} from "../../platform-core/components/QueryGrid";
 import {SchemaObject} from "../../platform-core/schema/SchemaObject";
-import {findSchemaObjectsForLookupApiRequest} from "../../platform-core/schema/api/findSchemaObjectsForLookupApiRequest";
 import {SchemaDatabase} from "../../platform-core/schema/database/SchemaDatabase";
 import {CoreConst} from "../../platform-core/CoreConst";
+import {findSchemaObjectsByClassNamesApiRequest} from "../../platform-core/schema/api/findSchemaObjectsByClassNamesApiRequest";
+
 let Highlighter = require("react-highlight-words");
 
 const {Column, ColumnGroup} = Table;
@@ -65,7 +66,9 @@ interface IAddColumnsModal {
     childrenForAdd?: ISchemaQueryColumnProps[];
     columnSearchValue: string;
     selection: TableRowSelection<ISchemaTableColumnProps>;
+
     getFilteredColumnList(): ISchemaTableColumnProps[];
+
     selectedCols: ISchemaTableColumnProps[];
     handleOk: () => void;
     handleCancel: () => void;
@@ -96,8 +99,8 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
         tableSearchValue: "",
         async getFilteredTableList(): Promise<{ tableId: string, tableName: string }[]> {
 
-            let ans = await findSchemaObjectsForLookupApiRequest({where: {className: SchemaTable.classInfo.className}});
-            let values = ans.objects.map((table: any) => {
+            let ans = await findSchemaObjectsByClassNamesApiRequest({classNames: [SchemaTable.classInfo.className]});
+            let values = ans.objects.map((table: ISchemaTableProps) => {
                 return {tableId: table.id, tableName: table.name}
             });
 
@@ -122,7 +125,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
             }
         },
         selectedCols: [],
-        handleOk(this: QueryFormPanel){
+        handleOk(this: QueryFormPanel) {
             console.log("ok");
             for (let col of this.addColumnsModal.selectedCols) {
                 console.log("col.dataType.className", col.dataType.className);
@@ -149,7 +152,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
             this.addColumnsModal.visible = false;
             this.forceUpdate();
         },
-        handleCancel(this: QueryFormPanel){
+        handleCancel(this: QueryFormPanel) {
             this.addColumnsModal.visible = false;
             this.forceUpdate();
         }
@@ -309,7 +312,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                     <Column
                                         title="Таблица/Колонка"
                                         dataIndex="name"
-                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
+                                        render={(text: any, record: ISchemaQueryColumnProps) => {
                                             if (record.tableId) {
                                                 return (
                                                     <LazyRender
@@ -352,7 +355,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                     <Column
                                         title="Заголовок колонки"
                                         dataIndex="dataType"
-                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
+                                        render={(text: any, record: ISchemaQueryColumnProps) => {
                                             if (record.tableId) {
                                                 return null;
                                             }
@@ -368,7 +371,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                     <Column
                                         title="Аттрибуты"
                                         dataIndex="isHidden"
-                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
+                                        render={(text: any, record: ISchemaQueryColumnProps) => {
                                             if (record.tableId) {
                                                 return null;
                                             }
@@ -389,7 +392,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                     <Column
                                         title="Действие"
                                         key="action"
-                                        render={ (text: any, record: ISchemaQueryColumnProps) => {
+                                        render={(text: any, record: ISchemaQueryColumnProps) => {
 
                                             let deleteTitle =
                                                 <span>Удалить колонку: <strong>{record.fieldSource}</strong>?</span>;
@@ -457,7 +460,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
 
                             <QueryGrid
                                 queryId={this.testQueryId}
-                                dbId={SchemaDatabase.classInfo.recordIdPrefix+":"+ CoreConst.Schema_DatabaseId}
+                                dbId={SchemaDatabase.classInfo.recordIdPrefix + ":" + CoreConst.Schema_DatabaseId}
                                 random={this.testQueryRandom}
                             />
 
@@ -548,7 +551,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                             title="Колонка"
                             dataIndex="name"
                             width={300}
-                            render={ (text: any, record: ISchemaTableColumnProps) => {
+                            render={(text: any, record: ISchemaTableColumnProps) => {
                                 return (
                                     <span>
                                          {record.name}
@@ -560,7 +563,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                             title="Тип данных"
                             dataIndex="dataType"
                             width={200}
-                            render={ (text: any, record: ISchemaTableColumnProps) => {
+                            render={(text: any, record: ISchemaTableColumnProps) => {
                                 let dataTypeInstance = createSqlDataTypeObject(record.dataType);
                                 return (
                                     <span>
@@ -571,7 +574,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
 
                         />
                     </Table>
-                    <Row >
+                    <Row>
                         <span>выбрано {this.addColumnsModal.selection.selectedRowKeys ? this.addColumnsModal.selection.selectedRowKeys!.length : "0"}
                             кол.</span>
                     </Row>
@@ -602,8 +605,9 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                         params={{}}
                         render={async () => {
 
-                            let ans = await findSchemaObjectsForLookupApiRequest({where: {className: SchemaTable.classInfo.className}});
-                            let values = ans.objects.map((table: any) => {
+
+                            let ans = await findSchemaObjectsByClassNamesApiRequest({classNames: [SchemaTable.classInfo.className]});
+                            let values = ans.objects.map((table: ISchemaTableProps) => {
                                 return {value: table.id, text: table.name}
                             });
 

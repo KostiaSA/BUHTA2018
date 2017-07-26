@@ -9,7 +9,7 @@ import {SchemaTable} from "../SchemaTable";
 import {sleep} from "../../../utils/sleep";
 import {LazyRender} from "../../../components/LazyRender";
 import {findSchemaObjectsApiRequest} from "../../api/findSchemaObjectsApiRequest";
-import {findSchemaObjectsForLookupApiRequest} from "../../api/findSchemaObjectsForLookupApiRequest";
+
 import {SchemaHelper} from "../../SchemaHelper";
 import {findSchemaObjectsByClassNamesApiRequest} from "../../api/findSchemaObjectsByClassNamesApiRequest";
 
