@@ -48,6 +48,7 @@ export class SchemaQuery extends SchemaObject<ISchemaQueryProps> implements ISch
         return parent!;
     }
 
+
     deleteColumn(node: ISchemaQueryColumnProps) {
         let parent = this.getParentNode(node);
         if (parent) {

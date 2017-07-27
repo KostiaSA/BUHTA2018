@@ -114,7 +114,7 @@ class TableFormPanel extends BaseFormPanel<IFormPanelProps> {
         let container = ReactDOM.findDOMNode(this);
         let tbody = $(container).find("tbody")[0];
         if (tbody) {
-            let sortable = Sortable.create($(container).find("tbody")[0], {
+            this.columnsSortable = Sortable.create($(container).find("tbody")[0], {
                 animation: 125,
                 handle: ".fa-bars",
                 onEnd: (evt: any) => {

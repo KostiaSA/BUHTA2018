@@ -1,5 +1,7 @@
 import * as React from "react";
 
+const Sortable = require("sortablejs");
+
 let ReactDOM = require('react-dom');
 import {
     message,
@@ -94,6 +96,62 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
     testQueryRandom: string;
 
     sqlCodeMirrorSource: string = "";
+
+    columnsSortable: any;
+
+    initColumnsSorter() {
+        let container = ReactDOM.findDOMNode(this);
+        let tbody = $(container).find("tbody")[0];
+        if (tbody) {
+            this.columnsSortable = Sortable.create($(container).find("tbody")[0], {
+                animation: 125,
+                handle: ".fa-bars",
+                onMove: (evt: any) => {
+                    //console.log("evt.to", evt.dragged.queryNode, evt.related.queryNode);
+                    let query = new SchemaQuery();
+                    query.props = this.editedQuery;
+                    if (query.getParentNode(evt.dragged.queryNode) !== query.getParentNode(evt.related.queryNode))
+                        return false;
+                },
+                onEnd: (evt: any) => {
+                    console.log(evt.oldIndex, evt.newIndex);
+                    // let a = this.editedTable.columns;
+                    // let _old = evt.oldIndex;
+                    // let _new = evt.newIndex;
+                    // if (_new > _old)
+                    //     this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
+                    // else
+                    //     this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new, _old), ...a.slice(_old + 1)];
+
+                    this.forceUpdate();
+                },
+
+            });
+        }
+
+    }
+
+    destroyColumnsSorter() {
+        if (this.columnsSortable) {
+            this.columnsSortable.destroy();
+            this.columnsSortable = null;
+        }
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        this.initColumnsSorter();
+    }
+
+    componentDidUpdate() {
+        super.componentDidUpdate();
+        this.initColumnsSorter();
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+        this.destroyColumnsSorter();
+    }
 
     getRootTableModal = {
         tableSearchValue: "",
@@ -352,6 +410,30 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                             }
                                         }}
                                     />
+                                    <Column
+                                        title={(
+                                            <div style={{textAlign: "center", minWidth: 25}}>
+                                                <i className="fa fa-long-arrow-down" aria-hidden="true"></i>
+                                                <i className="fa fa-long-arrow-up" aria-hidden="true"></i>
+                                            </div>
+                                        )}
+                                        key="move"
+                                        render={(text: any, record: ISchemaQueryColumnProps) => (
+                                            <div
+                                                style={{textAlign: "center", cursor: "move"}}
+                                                ref={(e) => {
+                                                    let td = $(e).parents("tr").first();
+                                                    if (td.length === 1) {
+                                                        (td[0] as any).queryNode = record;
+                                                        // $(e).parents("tr").first().addClass("key-" + record.key)
+                                                    }
+                                                }}
+                                            >
+                                                <i className="fa fa-bars" aria-hidden="true"></i>
+                                            </div>
+                                        )}
+                                    />
+
                                     <Column
                                         title="Заголовок колонки"
                                         dataIndex="dataType"
