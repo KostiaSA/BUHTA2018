@@ -435,12 +435,11 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                                     if (td.length === 1) {
                                                         (td[0] as any).queryNode = record;
                                                         this.nodeFlatIndex[tbody.children("tr").index(td)] = record;
-                                                        console.log("index-", tbody.children("tr").index(td));
-                                                        // $(e).parents("tr").first().addClass("key-" + record.key)
                                                     }
                                                 }}
                                             >
-                                                <i className="fa fa-bars" aria-hidden="true"></i>
+                                                {(!(record as any).id)?<i className="fa fa-bars" aria-hidden="true"></i>:null}
+
                                             </div>
                                         )}
                                     />
