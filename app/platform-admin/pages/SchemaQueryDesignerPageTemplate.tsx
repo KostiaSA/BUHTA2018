@@ -98,6 +98,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
     sqlCodeMirrorSource: string = "";
 
     columnsSortable: any;
+    nodeFlatIndex: ISchemaQueryColumnProps[];
 
     initColumnsSorter() {
         let container = ReactDOM.findDOMNode(this);
@@ -107,21 +108,27 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                 animation: 125,
                 handle: ".fa-bars",
                 onMove: (evt: any) => {
-                    //console.log("evt.to", evt.dragged.queryNode, evt.related.queryNode);
                     let query = new SchemaQuery();
                     query.props = this.editedQuery;
                     if (query.getParentNode(evt.dragged.queryNode) !== query.getParentNode(evt.related.queryNode))
                         return false;
                 },
                 onEnd: (evt: any) => {
-                    console.log(evt.oldIndex, evt.newIndex);
-                    // let a = this.editedTable.columns;
-                    // let _old = evt.oldIndex;
-                    // let _new = evt.newIndex;
-                    // if (_new > _old)
-                    //     this.editedTable.columns = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
-                    // else
-                    //     this.editedTable.columns = [...a.slice(0, _new), a[_old], ...a.slice(_new, _old), ...a.slice(_old + 1)];
+                    let query = new SchemaQuery();
+                    query.props = this.editedQuery;
+
+                    let oldNode=this.nodeFlatIndex[evt.oldIndex];
+                    let newNode=this.nodeFlatIndex[evt.newIndex];
+                    let parent=query.getParentNode(oldNode);
+
+                    let _old = parent!.children!.indexOf(oldNode);
+                    let _new = parent!.children!.indexOf(newNode);
+
+                    let a = parent!.children!;
+                    if (_new > _old)
+                        parent!.children = [...a.slice(0, _old), ...a.slice(_old + 1, _new + 1), a[_old], ...a.slice(_new + 1)];
+                    else
+                        parent!.children = [...a.slice(0, _new), a[_old], ...a.slice(_new, _old), ...a.slice(_old + 1)];
 
                     this.forceUpdate();
                 },
@@ -303,6 +310,7 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
     };
 
     render(): JSX.Element {
+        this.nodeFlatIndex = [];
         let layout = {
             labelCol: this.labelCol,
             wrapperCol: this.wrapperCol,
@@ -423,8 +431,11 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                                 style={{textAlign: "center", cursor: "move"}}
                                                 ref={(e) => {
                                                     let td = $(e).parents("tr").first();
+                                                    let tbody = $(e).parents("tbody").first();
                                                     if (td.length === 1) {
                                                         (td[0] as any).queryNode = record;
+                                                        this.nodeFlatIndex[tbody.children("tr").index(td)] = record;
+                                                        console.log("index-", tbody.children("tr").index(td));
                                                         // $(e).parents("tr").first().addClass("key-" + record.key)
                                                     }
                                                 }}
