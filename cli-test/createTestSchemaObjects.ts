@@ -69,19 +69,20 @@ export async function createTestSchemaObjects() {
     //     } as IOpenSchemaObjectDesignerActionProps
     // };
 
-    let mainmenu: ISchemaMenuProps = {
-        id: "EC69BFBB1D35",
-        key:"1",
-        path:"test-main-menu",
-        className: SchemaMenu.classInfo.className,
-        name: "тестовое главное меню",
-        description: "---",
-     //   template: MainMenuTemplate.classInfo.className,// "platform-core/templates/MainMenuTemplate",
-        children: [menuItem1, menuItem2]
-    };
-
-    let result = await _saveSchemaObjectApiResponse({object: mainmenu});
-    console.log(result.error || "создана '" + mainmenu.name + "'");
+    // let mainmenu: ISchemaMenuProps = {
+    //     id: "EC69BFBB1D35",
+    //     title:"глав",
+    //     key:"1",
+    //     path:"test-main-menu",
+    //     className: SchemaMenu.classInfo.className,
+    //     name: "тестовое главное меню",
+    //     description: "---",
+    //  //   template: MainMenuTemplate.classInfo.className,// "platform-core/templates/MainMenuTemplate",
+    //     children: [menuItem1, menuItem2]
+    // };
+    //
+    // let result = await _saveSchemaObjectApiResponse({object: mainmenu});
+    // console.log(result.error || "создана '" + mainmenu.name + "'");
 
     // ------------------ startPage ------------------
     let startPage: ISchemaPageProps = {

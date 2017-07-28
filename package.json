@@ -53,6 +53,7 @@
     "react-dom": "^15.3.2",
     "react-highlight-words": "^0.8.0",
     "recursive-readdir": "^2.2.1",
+    "sequelize": "^4.4.2",
     "serve-favicon": "^2.3.0",
     "sortablejs": "^1.6.0",
     "sqlite3": "^3.1.8",
