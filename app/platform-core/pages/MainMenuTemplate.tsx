@@ -3,9 +3,7 @@ import * as ReactDOM from "react-dom";
 import {pingApiRequest} from "../rest-api/pingApiRequest";
 import {superPingApiRequest} from "../rest-api/superPingApiRequest";
 import {IMenuTemplateClassInfo, MenuTemplate} from "../components/MenuTemplate";
-import {ISchemaMenuItem} from "../schema/ISchemaMenu";
 import {Action, createAction} from "../actions/Action";
-
 
 
 export class MainMenuTemplate extends MenuTemplate {
@@ -26,21 +24,21 @@ export class MainMenuTemplate extends MenuTemplate {
     };
 
 
-    handleClick(item: ISchemaMenuItem) {
-        createAction(item.action).doAction();
-        console.log("click")
-    };
+    // handleClick(item: ISchemaMenuItem) {
+    //     createAction(item.action).doAction();
+    //     console.log("click")
+    // };
 
     render() {
 
         return (
             <div>
-                это главное меню {this.props.schemaMenu.props.items.length}
-                {this.props.schemaMenu.props.items.map((item: ISchemaMenuItem) => {
-                    return <button onClick={() => {
-                        this.handleClick(item)
-                    }}> {item.label}</button>
-                })}
+                это главное меню {this.props.schemaMenu.length}
+                {/*{this.props.schemaMenu.props.items.map((item: ISchemaMenuItem) => {*/}
+                {/*return <button onClick={() => {*/}
+                {/*this.handleClick(item)*/}
+                {/*}}> {item.label}</button>*/}
+                {/*})}*/}
             </div>
         );
     }

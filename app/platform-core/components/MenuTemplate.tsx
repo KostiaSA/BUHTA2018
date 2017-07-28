@@ -1,13 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {pingApiRequest} from "../rest-api/pingApiRequest";
-import {superPingApiRequest} from "../rest-api/superPingApiRequest";
-import {SchemaMenu} from "../schema/SchemaMenu";
 import {IClassInfo} from "../IClassInfo";
+import {ISchemaMenuProps} from "../schema/menu/ISchemaMenuProps";
 
 
 export interface IMenuTemplateProps {
-    schemaMenu: SchemaMenu;
+    schemaMenu: ISchemaMenuProps[];
 }
 
 export interface IMenuTemplateClassInfo extends IClassInfo<typeof MenuTemplate> {

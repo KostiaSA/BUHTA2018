@@ -13,6 +13,7 @@ import {SchemaQuery} from "../platform-core/schema/query/SchemaQuery";
 import {SchemaAddNewObjectPageTemplate} from "./pages/SchemaAddNewObjectPageTemplate";
 
 export async function clientStartup() {
+    const packageName = "platform-admin";
 
     SchemaTable.classInfo.editOptions = {
         ...SchemaTable.classInfo.editOptions,
@@ -34,6 +35,9 @@ export async function clientStartup() {
     appState.registerClassInfo(SchemaAddNewObjectPageTemplate.classInfo);
 
     appState.registerClassInfo(OpenSchemaObjectDesignerAction.classInfo);
+
+
+    appState.registerAccessRole({package: packageName, id: AdminConst.AdminAccessRoleId, title: "админ"});
 
     console.log("platform-admin startup ok")
 

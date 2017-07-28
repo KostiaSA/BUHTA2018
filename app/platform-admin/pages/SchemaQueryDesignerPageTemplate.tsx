@@ -439,7 +439,6 @@ class QueryFormPanel extends BaseFormPanel<IFormPanelProps> {
                                                 }}
                                             >
                                                 {(!(record as any).id)?<i className="fa fa-bars" aria-hidden="true"></i>:null}
-
                                             </div>
                                         )}
                                     />

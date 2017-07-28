@@ -4,8 +4,7 @@ import {OpenSchemaPageAction} from "./actions/OpenSchemaPageAction";
 import {MainMenuTemplate} from "./pages/MainMenuTemplate";
 import {PageTemplate} from "./components/PageTemplate";
 import {SchemaPage} from "./schema/SchemaPage";
-import {SchemaApp} from "./schema/SchemaApp";
-import {SchemaMenu} from "./schema/SchemaMenu";
+import {SchemaApp} from "./schema/app/SchemaApp";
 import {SchemaTable} from "./schema/table/SchemaTable";
 import {StringSqlDataType} from "./schema/table/datatypes/StringSqlDataType";
 import {IntegerSqlDataType} from "./schema/table/datatypes/IntegerSqlDataType";
@@ -15,9 +14,15 @@ import {getSHA256base64Id} from "./utils/getSHA256base64Id";
 import {SchemaForm} from "./schema/form/SchemaForm";
 import {SchemaFormPageTemplate} from "./pages/SchemaFormPageTemplate";
 import {SchemaDatabase} from "./schema/database/SchemaDatabase";
+import {CoreConst} from "./CoreConst";
+import {SchemaUserRole} from "./schema/user-role/SchemaUserRole";
+import {SchemaMenu} from "./schema/menu/SchemaMenu";
 
 export async function clientStartup() {
-    let fake= getSHA256base64Id(""); // не убирать
+
+    const packageName = "platform-core";
+
+    let fake = getSHA256base64Id(""); // не убирать
 
     appState.registerClassInfo(PageTemplate.classInfo);
     appState.registerClassInfo(MainPageTemplate.classInfo);
@@ -33,10 +38,14 @@ export async function clientStartup() {
     appState.registerClassInfo(SchemaQuery.classInfo);
     appState.registerClassInfo(SchemaForm.classInfo);
     appState.registerClassInfo(SchemaDatabase.classInfo);
+    appState.registerClassInfo(SchemaUserRole.classInfo);
 
     appState.registerClassInfo(StringSqlDataType.classInfo);
     appState.registerClassInfo(IntegerSqlDataType.classInfo);
     appState.registerClassInfo(FkSqlDataType.classInfo);
+
+    appState.registerAccessRole({package: packageName, id: CoreConst.GuestAccessRoleId, title: "гость"});
+
 
     console.log("platform-core startup ok");
 }

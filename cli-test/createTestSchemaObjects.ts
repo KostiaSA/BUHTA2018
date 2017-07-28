@@ -1,11 +1,9 @@
 import {ISchemaPageProps} from "../app/platform-core/schema/ISchemaPage";
 import {_saveSchemaObjectApiResponse} from "../app/platform-core/schema/api/_saveSchemaObjectApiResponse";
-import {ISchemaAppProps} from "../app/platform-core/schema/ISchemaApp";
-import {ISchemaMenuProps, ISchemaMenuItem} from "../app/platform-core/schema/ISchemaMenu";
+import {ISchemaAppProps} from "../app/platform-core/schema/app/ISchemaApp";
 import {IOpenSchemaPageAction} from "../app/platform-core/actions/IOpenSchemaPageAction";
-import {SchemaMenu} from "../app/platform-core/schema/SchemaMenu";
 import {SchemaPage} from "../app/platform-core/schema/SchemaPage";
-import {SchemaApp} from "../app/platform-core/schema/SchemaApp";
+import {SchemaApp} from "../app/platform-core/schema/app/SchemaApp";
 import {
     IOpenSchemaObjectDesignerActionProps,
     OpenSchemaObjectDesignerAction
@@ -23,54 +21,63 @@ import {SchemaQueryDesignerPageTemplate} from "../app/platform-admin/pages/Schem
 import {_SchemaQuery} from "../app/platform-core/server/schema/query/_SchemaQuery";
 import {_SchemaPage} from "../app/platform-core/server/schema/page/_SchemaPage";
 import {SchemaAppDesignerPageTemplate} from "../app/platform-admin/pages/SchemaAppDesignerPageTemplate";
+import {SchemaMenu} from "../app/platform-core/schema/menu/SchemaMenu";
+import {ISchemaMenuProps} from "../app/platform-core/schema/menu/ISchemaMenuProps";
+import {ISchemaMenuItemProps} from "../app/platform-core/schema/menu/ISchemaMenuItemProps";
 
 export async function createTestSchemaObjects() {
     //await _sequelizeInit();
 
     // ------------------ mainmenu ------------------
-    let menuItem1: ISchemaMenuItem = {
-        label: "Открой 2A2B0CFFC047",
+    let menuItem1: ISchemaMenuItemProps = {
+        title: "Открой 2A2B0CFFC047",
+        path:"open",
+        key :"1",
         action: {
             actionClassName: OpenSchemaPageAction.classInfo.className,
             pageId: "2A2B0CFFC047"
         } as IOpenSchemaPageAction
     };
-    let menuItem2: ISchemaMenuItem = {
-        label: "Закрой 31CA8AEB0552",
+    let menuItem2: ISchemaMenuItemProps = {
+        title: "Закрой 31CA8AEB0552",
+        path:"close",
+        key :"1",
         action: {
             actionClassName: OpenSchemaPageAction.classInfo.className,
             pageId: "31CA8AEB0552"
         } as IOpenSchemaPageAction
     };
-    let menuItem3: ISchemaMenuItem = {
-        label: "дизайнер APP да",
-        action: {
-            actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
-            objectId: "4FD8AF410DDE"
-        } as IOpenSchemaObjectDesignerActionProps
-    };
-    let menuItem4: ISchemaMenuItem = {
-        label: "дизайнер ТАБЛИЦЫ",
-        action: {
-            actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
-            objectId: "WG9lq9AjR9Erxw33AElM"
-        } as IOpenSchemaObjectDesignerActionProps
-    };
-    let menuItem5: ISchemaMenuItem = {
-        label: "дизайнер ЗАПРОСА",
-        action: {
-            actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
-            objectId: "7788AF517DDE"
-        } as IOpenSchemaObjectDesignerActionProps
-    };
+    // let menuItem3: ISchemaMenuItemProps = {
+    //     label: "дизайнер APP да",
+    //     action: {
+    //         actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
+    //         objectId: "4FD8AF410DDE"
+    //     } as IOpenSchemaObjectDesignerActionProps
+    // };
+    // let menuItem4: ISchemaMenuItemProps = {
+    //     label: "дизайнер ТАБЛИЦЫ",
+    //     action: {
+    //         actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
+    //         objectId: "WG9lq9AjR9Erxw33AElM"
+    //     } as IOpenSchemaObjectDesignerActionProps
+    // };
+    // let menuItem5: ISchemaMenuItemProps = {
+    //     label: "дизайнер ЗАПРОСА",
+    //     action: {
+    //         actionClassName: OpenSchemaObjectDesignerAction.classInfo.className,
+    //         objectId: "7788AF517DDE"
+    //     } as IOpenSchemaObjectDesignerActionProps
+    // };
 
     let mainmenu: ISchemaMenuProps = {
         id: "EC69BFBB1D35",
+        key:"1",
+        path:"test-main-menu",
         className: SchemaMenu.classInfo.className,
         name: "тестовое главное меню",
         description: "---",
-        template: MainMenuTemplate.classInfo.className,// "platform-core/templates/MainMenuTemplate",
-        items: [menuItem1, menuItem2, menuItem3, menuItem4, menuItem5]
+     //   template: MainMenuTemplate.classInfo.className,// "platform-core/templates/MainMenuTemplate",
+        children: [menuItem1, menuItem2]
     };
 
     let result = await _saveSchemaObjectApiResponse({object: mainmenu});

@@ -1,8 +1,8 @@
 import * as React from "react";
 import {appState} from "../AppState";
 import {IMenuTemplateProps} from "../components/MenuTemplate";
-import {SchemaMenu} from "../schema/SchemaMenu";
 import {SchemaHelper} from "../schema/SchemaHelper";
+import {SchemaMenu} from "../schema/menu/SchemaMenu";
 
 
 export interface IMenuWidgetProps {
@@ -41,8 +41,9 @@ export class MenuWidget extends React.Component<IMenuWidgetProps, any> {
             return <div style={{color: "red"}}>ОШИБКА MenuWidget: {this.loadDataError}</div>;
         }
         else if (this.schemaMenu) {
-            let menuTemplate = appState.getRegisteredClassInfo(this.schemaMenu.props.template).constructor;
-            return React.createElement(menuTemplate, {schemaMenu:this.schemaMenu} as IMenuTemplateProps);
+            //let menuTemplate = appState.getRegisteredClassInfo(this.schemaMenu.props.template).constructor;
+            //return React.createElement(menuTemplate, {schemaMenu:this.schemaMenu} as IMenuTemplateProps);
+            return <div>menu widget...</div>;
         }
         else {
             return <div>загрузка...</div>;

@@ -1,11 +1,23 @@
 import {ISqlDataTypeClassInfo, SqlDataType} from "./schema/table/datatypes/SqlDataType";
 import {IClassInfo} from "./IClassInfo";
 import {ISchemaObjectClassInfo, SchemaObject} from "./schema/SchemaObject";
+import {AccessRole} from "./access-role/AccessRole";
 
 export class AppState {
 
     registeredPrefixes: { [prefix: string]: IClassInfo<any> } = {};
     registeredClassInfos: { [className: string]: IClassInfo<any> } = {};
+    registeredAccessRoles: { [roleId: string]: AccessRole } = {};
+
+    registerAccessRole(role: AccessRole) {
+        if (this.registeredAccessRoles[role.id]) {
+            let msg = "уже зарегистрирована роль '" + role.id + ":" + role.title + "'";
+            console.error(msg);
+            throw msg + ", " + __filename;
+        }
+        this.registeredAccessRoles[role.id] = role;
+
+    }
 
     registerClassInfo(regInfo: IClassInfo<any>) {
         if (this.registeredClassInfos[regInfo.className]) {

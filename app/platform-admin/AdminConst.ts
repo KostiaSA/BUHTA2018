@@ -14,4 +14,7 @@ export class AdminConst {
     static SchemaAddNewObjectPageId = "ZTA5MTBkZDFlMmIwNzQy";
     static SchemaAddNewObjectPageUrl = "/admin/add-new-schema-object";
 
+    static AdminAccessRoleId = "mQ3MjNmOGU0NjVmOTBjN";
+
+
 }

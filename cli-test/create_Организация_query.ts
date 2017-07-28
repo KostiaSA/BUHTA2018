@@ -1,11 +1,11 @@
 import {ISchemaPageProps} from "../app/platform-core/schema/ISchemaPage";
 import {_saveSchemaObjectApiResponse} from "../app/platform-core/schema/api/_saveSchemaObjectApiResponse";
-import {ISchemaAppProps} from "../app/platform-core/schema/ISchemaApp";
+import {ISchemaAppProps} from "../app/platform-core/schema/app/ISchemaApp";
 import {ISchemaMenuProps, ISchemaMenuItem} from "../app/platform-core/schema/ISchemaMenu";
 import {IOpenSchemaPageAction} from "../app/platform-core/actions/IOpenSchemaPageAction";
 import {SchemaMenu} from "../app/platform-core/schema/SchemaMenu";
 import {SchemaPage} from "../app/platform-core/schema/SchemaPage";
-import {SchemaApp} from "../app/platform-core/schema/SchemaApp";
+import {SchemaApp} from "../app/platform-core/schema/app/SchemaApp";
 import {
     IOpenSchemaObjectDesignerActionProps,
     OpenSchemaObjectDesignerAction

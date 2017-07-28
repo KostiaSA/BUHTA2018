@@ -1,6 +1,6 @@
 import * as  React from "react";
 import * as  ReactDOM from "react-dom";
-import {ISchemaObjectClassInfo, SchemaObject} from "./SchemaObject";
+import {ISchemaObjectClassInfo, SchemaObject} from "../SchemaObject";
 import {ISchemaAppProps} from "./ISchemaApp";
 
 export interface ISchemaAppClassInfo extends ISchemaObjectClassInfo<typeof SchemaApp> {
